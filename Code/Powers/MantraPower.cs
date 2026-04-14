@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Commands;
 using Watcher.Code.Extensions;
-using Watcher.Code.Stances;
+using Watcher.Code.Stances.Vfx;
 
 namespace Watcher.Code.Powers;
 

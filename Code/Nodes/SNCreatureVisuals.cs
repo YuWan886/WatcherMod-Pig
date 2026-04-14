@@ -1,7 +1,6 @@
 using Godot;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using Watcher.Code.Stances;
 
 namespace Watcher.Code.Nodes;
 
@@ -24,6 +23,6 @@ public partial class SNCreatureVisuals : NCreatureVisuals
         else
             Body.Material = premultMat;
 
-        StancePower.EnsureEyeSetup(Body);
+        //StancePower.EnsureEyeSetup(Body);
     }
 }
