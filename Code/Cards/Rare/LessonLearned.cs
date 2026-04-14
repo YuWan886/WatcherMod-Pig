@@ -2,6 +2,7 @@
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
@@ -52,12 +53,14 @@ public sealed class LessonLearned() : CustomCardModel(2, CardType.Attack, CardRa
             await Cmd.Wait(0.5f);
             var cardModel = card.Owner.RunState.Rng.Niche.NextItem(upgradableCards);
             if (cardModel == null) return;
+
             card.Owner.RunState.CurrentMapPointHistoryEntry?.GetEntry(card.Owner.NetId).UpgradedCards.Add(cardModel.Id);
             cardModel.UpgradeInternal();
             cardModel.FinalizeUpgradeInternal();
-            NRun.Instance?.GlobalUi.CardPreviewContainer.AddChildSafely(NCardSmithVfx.Create([
-                cardModel
-            ])!);
+            if (LocalContext.IsMe(card.Owner))
+                NRun.Instance?.GlobalUi.CardPreviewContainer.AddChildSafely(NCardSmithVfx.Create([
+                    cardModel
+                ])!);
         }
     }
 

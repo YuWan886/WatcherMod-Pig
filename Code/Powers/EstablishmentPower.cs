@@ -16,6 +16,7 @@ public sealed class EstablishmentPower : CustomPowerModel
 
     public override async Task AfterCardRetained(CardModel card)
     {
+        if (card.Owner.Creature != Owner) return;
         card.EnergyCost.AddThisCombat(-Amount);
         await Task.CompletedTask;
     }

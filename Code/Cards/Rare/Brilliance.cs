@@ -9,7 +9,6 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Character;
@@ -24,7 +23,9 @@ public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarit
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(12m, ValueProp.Move)
+        new CalculationBaseVar(12m),
+        new ExtraDamageVar(1m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(MantraGainedThisCombat)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -36,33 +37,21 @@ public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarit
     public override bool ShouldReceiveCombatHooks => true;
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
-
-    public override decimal ModifyDamageAdditive(
-        Creature? target,
-        decimal amount,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource)
-    {
-        Log.Info("test");
-        return cardSource == this ? MantraGainedThisCombat() : 0m;
-    }
-
-    private int MantraGainedThisCombat()
+    private static decimal MantraGainedThisCombat(CardModel card, Creature? creature)
     {
         var mantraGained = 0;
         foreach (var e in CombatManager.Instance.History.Entries.OfType<PowerReceivedEntry>())
-            if (e is { Power: MantraPower, Applier: not null } && e.Applier.Player == Owner)
+            if (e is { Power: MantraPower, Applier: not null } && e.Applier.Player == card.Owner)
                 mantraGained += (int)e.Amount;
-
         return mantraGained;
     }
+
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {
         if (play.Target == null) return;
 
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+        await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this)
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash")

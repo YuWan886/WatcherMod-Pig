@@ -129,7 +129,7 @@
   "WATCHER-FORESIGHT.title": "Foresight",
   "WATCHER-FORESIGHT.description": "At the start of your turn, [gold]Scry[/gold] {ForesightPower:diff()}.",
   "WATCHER-BRILLIANCE.title": "Brilliance",
-  "WATCHER-BRILLIANCE.description": "Deal {Damage:diff()} damage.\nDeals additional damage equal to [gold]Mantra[/gold] gained this combat.",
+  "WATCHER-BRILLIANCE.description": "Deal {CalculatedDamage:diff()} damage.\nDeals additional damage equal to [gold]Mantra[/gold] gained this combat.",
   "WATCHER-LESSON_LEARNED.title": "Lesson Learned",
   "WATCHER-LESSON_LEARNED.description": "Deal {Damage:diff()} damage.\nIf [gold]Fatal[/gold], [gold]Upgrade[/gold] a random card in your deck.",
   "WATCHER-SANDS_OF_TIME.title": "Sands of Time",

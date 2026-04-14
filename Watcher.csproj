@@ -93,6 +93,7 @@
         <None Include="Watcher.json"/>
         <None Include="project.godot"/>
         <None Include="Watcher/**"/>
+        <None Include="cardloc-presets.json"/>
     </ItemGroup>
 
     <ItemGroup>

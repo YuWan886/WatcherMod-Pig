@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Character;
 using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
@@ -17,7 +18,11 @@ public sealed class PressurePoints() : CustomCardModel(1, CardType.Skill, CardRa
 {
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new PowerVar<MarkPower>(8m)
+        new PowerVar<MarkPower>(8m),
+        new CalculationBaseVar(8m),
+        new ExtraDamageVar(1m),
+        new CalculatedDamageVar(ValueProp.Unpowered | ValueProp.Unblockable)
+            .WithMultiplier(static (_, target) => target?.GetPowerAmount<MarkPower>() ?? 0m)
     ];
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -25,29 +30,31 @@ public sealed class PressurePoints() : CustomCardModel(1, CardType.Skill, CardRa
         HoverTipFactory.FromPower<MarkPower>()
     ];
 
+
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        // Apply Mark power
+
         await PowerCmd.Apply<MarkPower>(
             cardPlay.Target,
             DynamicVars["MarkPower"].IntValue,
             Owner.Creature,
             this
         );
-        var combatState = cardPlay.Target.CombatState;
-        var enemies = combatState!.Enemies.ToList();
+
+        var enemies = cardPlay.Target.CombatState!.Enemies.ToList();
         foreach (var enemy in enemies)
         {
-            var markPower = enemy.GetPower<MarkPower>();
-            if (markPower is { Amount: > 0 })
-                await DamageCmd.Attack(markPower.Amount)
-                    .FromCard(this)
-                    .Targeting(enemy)
-                    .Unpowered()
-                    .Execute(choiceContext);
+            var damage = ((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(enemy) - 8;
+            if (damage <= 0) continue;
+            await CreatureCmd.Damage(
+                choiceContext,
+                enemy,
+                damage,
+                ValueProp.Unpowered | ValueProp.Unblockable,
+                this);
         }
     }
 

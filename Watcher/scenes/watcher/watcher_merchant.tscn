@@ -10,7 +10,7 @@ script = ExtResource("1_b7tdn")
 [node name="SpineSprite" parent="." instance=ExtResource("2_50di6")]
 preview_animation = "Idle"
 unique_name_in_owner = true
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.9317073, 1.9317073)
 
 [node name="Eye" parent="SpineSprite" instance=ExtResource("3_it3wk")]
 show_behind_parent = true
