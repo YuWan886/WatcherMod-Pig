@@ -16,45 +16,19 @@ public sealed class MantraPower : CustomPowerModel
     public override PowerStackType StackType => PowerStackType.Counter;
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
     public override string CustomBigIconPath => CustomPackedIconPath;
-    
-    
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
-    {
-        // Subscribe to the Owner's PowerIncreased event
-        Owner.PowerIncreased += OnPowerIncreased;
 
-        // Check immediately in case we start with 10+
-        await CheckForDivinity();
-    }
 
-    public override Task AfterRemoved(Creature oldOwner)
+    public override async Task AfterPowerAmountChanged(
+        PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        // Unsubscribe when removed
-        oldOwner.PowerIncreased -= OnPowerIncreased;
-        return Task.CompletedTask;
-    }
+        var player = Owner.Player;
+        if (power is not MantraPower || amount <= 0 || applier != Owner || player == null)
+            return;
 
-    private async void OnPowerIncreased(PowerModel power, int change, bool silent)
-    {
-        // Only react to our own increases
-        if (power == this && change > 0) await CheckForDivinity();
-    }
-
-    private async Task CheckForDivinity()
-    {
-        // Check if we have 10 or more Mantra
         while (Amount >= 10)
         {
-            var player = Owner.Player;
-            if (player != null)
-            {
-                await StanceCmd.EnterDivinity(player.Creature, null);
-                await PowerCmd.ModifyAmount(this, -10m, null, null);
-            }
-            else
-            {
-                break;
-            }
+            await StanceCmd.EnterDivinity(player.Creature, cardSource);
+            await PowerCmd.ModifyAmount(this, -10m, Owner, cardSource);
         }
     }
 }

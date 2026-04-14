@@ -31,7 +31,7 @@ public sealed class Vigilance() : CustomCardModel(2, CardType.Skill, CardRarity.
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-        await StanceCmd.EnterCalm(Owner.Creature, choiceContext);
+        await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

@@ -32,7 +32,7 @@ public sealed class Eruption() : CustomCardModel(2, CardType.Attack, CardRarity.
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await StanceCmd.EnterWrath(Owner.Creature, choiceContext);
+        await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

@@ -19,7 +19,7 @@ public sealed class Tranquility() : CustomCardModel(1, CardType.Skill, CardRarit
         CardKeyword.Retain,
         CardKeyword.Exhaust
     ];
-    
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromPower<CalmStance>()
@@ -29,7 +29,7 @@ public sealed class Tranquility() : CustomCardModel(1, CardType.Skill, CardRarit
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await StanceCmd.EnterCalm(Owner.Creature, choiceContext);
+        await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

@@ -35,7 +35,7 @@ public sealed class InnerPeace() : CustomCardModel(1, CardType.Skill, CardRarity
         if (isInCalm)
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
         else
-            await StanceCmd.EnterCalm(Owner.Creature, choiceContext);
+            await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

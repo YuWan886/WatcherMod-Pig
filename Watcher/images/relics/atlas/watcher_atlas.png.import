@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3dbxiaresbgg"
-path="res://.godot/imported/teardrop_locket.png-9d4c2ffef05bd852009fa085268a7d77.ctex"
+uid="uid://b3aeqkcphwvr7"
+path="res://.godot/imported/watcher_atlas.png-aba58ff170e972fe5772ea3d8c2b9de8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/teardrop_locket.png"
-dest_files=["res://.godot/imported/teardrop_locket.png-9d4c2ffef05bd852009fa085268a7d77.ctex"]
+source_file="res://Watcher/images/relics/atlas/watcher_atlas.png"
+dest_files=["res://.godot/imported/watcher_atlas.png-aba58ff170e972fe5772ea3d8c2b9de8.ctex"]
 
 [params]
 

@@ -28,6 +28,7 @@ public static class StringExtensions
         return Path.Join(MainFile.ModId, "images", "powers", "big", path);
     }
 
+
     public static string RelicImagePath(this string path)
     {
         return Path.Join(MainFile.ModId, "images", "relics", path);
@@ -36,6 +37,11 @@ public static class StringExtensions
     public static string BigRelicImagePath(this string path)
     {
         return Path.Join(MainFile.ModId, "images", "relics", "big", path);
+    }
+
+    public static string TresRelicImagePath(this string path)
+    {
+        return Path.Join(MainFile.ModId, "images", "relics", "tres", path);
     }
 
     public static string CharacterUiPath(this string path)

@@ -22,10 +22,12 @@ public sealed class Tantrum() : CustomCardModel(1, CardType.Attack, CardRarity.U
         new DamageVar(3m, ValueProp.Move),
         new RepeatVar(3)
     ];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromPower<WrathStance>()
     ];
+
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -36,7 +38,7 @@ public sealed class Tantrum() : CustomCardModel(1, CardType.Attack, CardRarity.U
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
 
-        await StanceCmd.EnterWrath(Owner.Creature, choiceContext);
+        await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
         await CardPileCmd.Add(this, PileType.Draw, CardPilePosition.Random);
     }
 

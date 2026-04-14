@@ -27,7 +27,7 @@ public sealed class Blasphemy() : CustomCardModel(1, CardType.Skill, CardRarity.
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<BlasphemerPower>(Owner.Creature, 1, Owner.Creature, this);
-        await StanceCmd.EnterDivinity(Owner.Creature, choiceContext);
+        await StanceCmd.EnterDivinity(Owner.Creature, cardPlay.Card);
     }
 
 

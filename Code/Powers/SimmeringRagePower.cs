@@ -5,6 +5,8 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using Watcher.Code.Cards.Uncommon;
 using Watcher.Code.Commands;
 using Watcher.Code.Extensions;
 
@@ -22,7 +24,7 @@ public sealed class SimmeringRagePower : CustomPowerModel
     {
         if (!player.Creature.HasPower<SimmeringRagePower>())
             return;
-        await StanceCmd.EnterWrath(player.Creature, choiceContext);
+        await StanceCmd.EnterWrath(player.Creature, ModelDb.Card<SimmeringFury>());
         await PowerCmd.TickDownDuration(this);
     }
 }

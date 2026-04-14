@@ -24,7 +24,7 @@ public sealed class EmptyFist() : CustomCardModel(1, CardType.Attack, CardRarity
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await StanceCmd.ExitStance(Owner.Creature, choiceContext);
+        await StanceCmd.ExitStance(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

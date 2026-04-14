@@ -43,7 +43,7 @@ public sealed class Indignation() : CustomCardModel(1, CardType.Skill, CardRarit
             );
         else
             // Enter Wrath
-            await StanceCmd.EnterWrath(Owner.Creature, choiceContext);
+            await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhp8bvx7twyd3"
-path="res://.godot/imported/duality.png-1d7d339b7bd2fb7b293db44edfaf08de.ctex"
+uid="uid://dcm2y0xwatgto"
+path="res://.godot/imported/teardrop_locket.png-b60fee41b56f498a6436c336d95c4c52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/duality.png"
-dest_files=["res://.godot/imported/duality.png-1d7d339b7bd2fb7b293db44edfaf08de.ctex"]
+source_file="res://Watcher/images/relics/big/teardrop_locket.png"
+dest_files=["res://.godot/imported/teardrop_locket.png-b60fee41b56f498a6436c336d95c4c52.ctex"]
 
 [params]
 

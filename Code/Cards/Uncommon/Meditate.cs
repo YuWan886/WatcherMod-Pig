@@ -66,7 +66,7 @@ public sealed class Meditate() : CustomCardModel(1, CardType.Skill, CardRarity.U
         }
 
         // Enter Calm
-        await StanceCmd.EnterCalm(Owner.Creature, choiceContext);
+        await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
 
         // End turn
         PlayerCmd.EndTurn(Owner, false);

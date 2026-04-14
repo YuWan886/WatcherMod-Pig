@@ -11,5 +11,9 @@ namespace Watcher.Code.Relics;
 public sealed class VioletLotus : CustomRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;
-    public override string PackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".RelicImagePath();
+    protected override string BigIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigRelicImagePath();
+    public override string PackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".TresRelicImagePath();
+
+    protected override string PackedIconOutlinePath =>
+        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.tres".TresRelicImagePath();
 }

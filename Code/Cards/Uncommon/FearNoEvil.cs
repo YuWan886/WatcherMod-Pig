@@ -22,10 +22,12 @@ public sealed class FearNoEvil() : CustomCardModel(1, CardType.Attack, CardRarit
     [
         new DamageVar(8m, ValueProp.Move)
     ];
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromPower<CalmStance>()
     ];
+
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -47,7 +49,7 @@ public sealed class FearNoEvil() : CustomCardModel(1, CardType.Attack, CardRarit
 
 
         // Enter Calm stance
-        if (hasAttackIntent) await StanceCmd.EnterCalm(Owner.Creature, choiceContext);
+        if (hasAttackIntent) await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

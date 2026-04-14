@@ -37,7 +37,7 @@ public class DivinityStance : StancePower
     {
         if (side != Owner.Side) return;
 
-        await StanceCmd.ExitStance(Owner, choiceContext);
+        await StanceCmd.ExitStance(Owner, null);
 
         await base.BeforeSideTurnStart(choiceContext, side, combatState);
     }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8o0fngpltyi6"
-path="res://.godot/imported/pure_water.png-72a855387f0c906093b8ca5831d5bcc8.ctex"
+uid="uid://dmv2nfxopb3e3"
+path="res://.godot/imported/damaru.png-94848655b3a094d5ccaf04794c737b72.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/pure_water.png"
-dest_files=["res://.godot/imported/pure_water.png-72a855387f0c906093b8ca5831d5bcc8.ctex"]
+source_file="res://Watcher/images/relics/big/damaru.png"
+dest_files=["res://.godot/imported/damaru.png-94848655b3a094d5ccaf04794c737b72.ctex"]
 
 [params]
 

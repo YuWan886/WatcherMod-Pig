@@ -1,12 +1,11 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
-using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Rooms;
-using Watcher.Code.Commands;
+using MegaCrit.Sts2.Core.Runs;
+using Watcher.Code.Actions;
 using Watcher.Code.Extensions;
 using Watcher.Code.Stances;
 
@@ -20,42 +19,16 @@ public sealed class RushdownPower : CustomPowerModel
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
     public override string CustomBigIconPath => CustomPackedIconPath;
 
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    public override Task AfterPowerAmountChanged(
+        PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
-        await base.AfterApplied(applier, cardSource);
-        StanceCmd.StanceChanged += OnStanceChanged;
-    }
+        if (power is not WrathStance || amount <= 0 || applier != Owner || Owner.Player == null ||
+            !LocalContext.IsMe(Owner.Player))
+            return Task.CompletedTask;
 
-    public override async Task AfterRemoved(Creature owner)
-    {
-        await base.AfterRemoved(owner);
-        StanceCmd.StanceChanged -= OnStanceChanged;
-    }
-
-    public override async Task AfterCombatEnd(CombatRoom room)
-    {
-        await base.AfterCombatEnd(room);
-        StanceCmd.StanceChanged -= OnStanceChanged;
-    }
-
-    private async Task OnStanceChanged(Creature creature, PlayerChoiceContext? context)
-    {
-        if (creature != Owner)
-            return;
-
-        // Check if we entered Wrath
-        var isInWrath = Owner.Powers.OfType<WrathStance>().Any();
-        if (!isInWrath)
-            return;
-
-
-        var player = Owner.Player;
-        if (player == null || context == null)
-            return;
-
-
-        // Draw Amount cards using proper context!
-        await CardPileCmd.Draw(context, Amount, player);
+        RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(
+            new DrawCardsAction(Owner.Player, (uint)Amount));
         Flash();
+        return Task.CompletedTask;
     }
 }

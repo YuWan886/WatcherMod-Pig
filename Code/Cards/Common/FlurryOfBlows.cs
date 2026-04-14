@@ -5,10 +5,13 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Logging;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Extensions;
+using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Common;
 
@@ -26,10 +29,19 @@ public sealed class FlurryOfBlows() : WatcherCardModel(0, CardType.Attack, CardR
             .Execute(choiceContext);
     }
 
-    public override async Task OnStanceChanged(Creature creature)
+    public override async Task AfterPowerAmountChanged(
+        PowerModel power,
+        decimal amount,
+        Creature? applier,
+        CardModel? cardSource)
     {
-        if (Pile?.Type == PileType.Discard && Owner == creature.Player) await CardPileCmd.Add(this, PileType.Hand);
+        Log.Info($"AfterPowerAmountChanged: {power.GetType().Name} {amount} {applier} {cardSource}");
+        if (power is StancePower &&
+            power.Owner == Owner.Creature &&
+            Pile?.Type == PileType.Discard)
+            await CardPileCmd.Add(this, PileType.Hand);
     }
+
 
     protected override void OnUpgrade()
     {

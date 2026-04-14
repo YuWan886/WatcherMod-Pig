@@ -14,8 +14,11 @@ namespace Watcher.Code.Relics;
 public sealed class Duality : CustomRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Uncommon;
-    public override string PackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".RelicImagePath();
+    protected override string BigIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigRelicImagePath();
+    public override string PackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".TresRelicImagePath();
 
+    protected override string PackedIconOutlinePath =>
+        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.tres".TresRelicImagePath();
 
     public override async Task AfterAttack(AttackCommand command)
     {

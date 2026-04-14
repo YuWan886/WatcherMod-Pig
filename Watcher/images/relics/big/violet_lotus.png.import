@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3hu05ffmfr7k"
-path="res://.godot/imported/golden_eye.png-dba61f87a4f5401a987421a55204aa84.ctex"
+uid="uid://cp35e0f2ffk8e"
+path="res://.godot/imported/violet_lotus.png-6e09ad4b7a7d423724bf82d93a8401e9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/golden_eye.png"
-dest_files=["res://.godot/imported/golden_eye.png-dba61f87a4f5401a987421a55204aa84.ctex"]
+source_file="res://Watcher/images/relics/big/violet_lotus.png"
+dest_files=["res://.godot/imported/violet_lotus.png-6e09ad4b7a7d423724bf82d93a8401e9.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bj7ljimw2oicc"
-path="res://.godot/imported/melange.png-18e73276ad1f6f029a66b876a70d4b92.ctex"
+uid="uid://b5f6jylybpbbd"
+path="res://.godot/imported/watcher_outline_atlas.png-094d13993840a9c672274d42284f1a16.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/melange.png"
-dest_files=["res://.godot/imported/melange.png-18e73276ad1f6f029a66b876a70d4b92.ctex"]
+source_file="res://Watcher/images/relics/atlas/watcher_outline_atlas.png"
+dest_files=["res://.godot/imported/watcher_outline_atlas.png-094d13993840a9c672274d42284f1a16.ctex"]
 
 [params]
 

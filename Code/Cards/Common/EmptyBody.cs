@@ -24,7 +24,7 @@ public sealed class EmptyBody() : CustomCardModel(1, CardType.Skill, CardRarity.
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await StanceCmd.ExitStance(Owner.Creature, choiceContext);
+        await StanceCmd.ExitStance(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

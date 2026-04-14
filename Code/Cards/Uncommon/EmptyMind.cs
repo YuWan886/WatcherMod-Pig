@@ -20,7 +20,7 @@ public sealed class EmptyMind() : CustomCardModel(1, CardType.Skill, CardRarity.
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-        await StanceCmd.ExitStance(Owner.Creature, choiceContext);
+        await StanceCmd.ExitStance(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

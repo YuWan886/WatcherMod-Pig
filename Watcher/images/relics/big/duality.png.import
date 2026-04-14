@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doo6mbgyfxknj"
-path="res://.godot/imported/holy_water.png-48e7f02f4224fd07b20ba936938c2be4.ctex"
+uid="uid://dtgye1a0r4gq5"
+path="res://.godot/imported/duality.png-f9d876a5dd6c960e0e0135fa2e55c58b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/holy_water.png"
-dest_files=["res://.godot/imported/holy_water.png-48e7f02f4224fd07b20ba936938c2be4.ctex"]
+source_file="res://Watcher/images/relics/big/duality.png"
+dest_files=["res://.godot/imported/duality.png-f9d876a5dd6c960e0e0135fa2e55c58b.ctex"]
 
 [params]
 

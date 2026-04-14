@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://htuq5g4gbnrs"
-path="res://.godot/imported/damaru.png-978d3105958c9104aabd5a4eb2621998.ctex"
+uid="uid://nngk17u3eytt"
+path="res://.godot/imported/golden_eye.png-d766b22fc1ba0346454663208b42914b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Watcher/images/relics/damaru.png"
-dest_files=["res://.godot/imported/damaru.png-978d3105958c9104aabd5a4eb2621998.ctex"]
+source_file="res://Watcher/images/relics/big/golden_eye.png"
+dest_files=["res://.godot/imported/golden_eye.png-d766b22fc1ba0346454663208b42914b.ctex"]
 
 [params]
 

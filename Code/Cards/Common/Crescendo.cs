@@ -19,7 +19,7 @@ public sealed class Crescendo() : CustomCardModel(1, CardType.Skill, CardRarity.
         CardKeyword.Retain,
         CardKeyword.Exhaust
     ];
-    
+
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
         HoverTipFactory.FromPower<WrathStance>()
@@ -29,7 +29,7 @@ public sealed class Crescendo() : CustomCardModel(1, CardType.Skill, CardRarity.
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await StanceCmd.EnterWrath(Owner.Creature, choiceContext);
+        await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()
