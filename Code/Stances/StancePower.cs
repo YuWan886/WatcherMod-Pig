@@ -23,6 +23,7 @@ public abstract class StancePower : CustomPowerModel
     protected virtual string? AuraScenePath => null;
 
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+    public override string CustomBigIconPath => CustomPackedIconPath;
 
     // Called when entering a stance
     public virtual async Task OnEnterStance(Creature owner)

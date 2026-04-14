@@ -20,7 +20,7 @@ public sealed class Omega() : CustomCardModel(3, CardType.Power, CardRarity.Toke
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(50m, ValueProp.Move)
+        new DamageVar(50m, ValueProp.Unpowered)
     ];
 
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();

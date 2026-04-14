@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hdlbbrdsnmwt"
-path="res://.godot/imported/watcher_ui_atlas_0.png-d0741c7eef2c743787d10497bf7f9153.ctex"
+uid="uid://blk82frqyx5ap"
+path="res://.godot/imported/text_watcher_energy_icon.png-f4ab90da8523059a779fc9053f39279c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/atlases/watcher_ui_atlas_0.png"
-dest_files=["res://.godot/imported/watcher_ui_atlas_0.png-d0741c7eef2c743787d10497bf7f9153.ctex"]
+source_file="res://Watcher/images/ui/combat/text_watcher_energy_icon.png"
+dest_files=["res://.godot/imported/text_watcher_energy_icon.png-f4ab90da8523059a779fc9053f39279c.ctex"]
 
 [params]
 

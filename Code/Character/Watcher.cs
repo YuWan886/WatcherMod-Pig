@@ -5,6 +5,14 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Cards.Basic;
 using Watcher.Code.Relics;
+using MegaCrit.Sts2.Core.Entities.Players;
+using System.Reflection;
+using MegaCrit.Sts2.Core.Assets;
+using BaseLib.Utils.Patching;
+using System.Reflection.Emit;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using Watcher.Code.Patches;
 
 namespace Watcher.Code.Character;
 
@@ -13,7 +21,7 @@ public class Watcher : CustomCharacterModel
     public const string CharacterId = "Watcher";
 
     public static readonly Color Color = StsColors.purple;
-
+    public virtual CustomEnergyCounter? CustomEnergyCounter => null;
     public override string CustomIconTexturePath => "res://Watcher/images/watcher/character_icon_watcher.png";
     public override string CustomCharacterSelectIconPath => "res://Watcher/images/watcher/char_select_watcher.png";
 
@@ -89,5 +97,64 @@ public class Watcher : CustomCharacterModel
             "vfx/vfx_attack_blunt", "vfx/vfx_heavy_blunt", "vfx/vfx_attack_slash", "vfx/vfx_bloody_impact",
             "vfx/vfx_rock_shatter"
         ];
+    }
+    
+}
+
+public readonly struct CustomEnergyCounter(Func<int, string> pathFunc, Color outlineColor, Color burstColor) {
+    private readonly Func<int, string> _getPath = pathFunc;
+    public readonly Color OutlineColor = outlineColor;
+    public readonly Color BurstColor = burstColor;
+
+    public string LayerImagePath(int layer) => _getPath(layer);
+} 
+
+[HarmonyPatch(typeof(NEnergyCounter), "OutlineColor", MethodType.Getter)]
+public class EnergyCounterOutlineColorPatch {
+    private static readonly FieldInfo? PlayerProp = typeof(NEnergyCounter).GetField("_player", BindingFlags.NonPublic | BindingFlags.Instance);
+
+    static bool Prefix(NEnergyCounter __instance, ref Color __result) {
+        if (PlayerProp?.GetValue(__instance) is not Player
+            {
+                Character: Watcher
+                {
+                    CustomEnergyCounter: { } counter
+                }
+            }) return true;
+        __result = counter.OutlineColor;
+        return false;
+    }
+}
+
+[HarmonyPatch(typeof(NEnergyCounter), nameof(NEnergyCounter.Create))]
+class EnergyCounterPatch {
+    static List<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+        return new InstructionPatcher(instructions)
+            .Match(new MyInstructionMatcher()
+                .opcode(OpCodes.Ldc_I4_0)
+                .opcode(OpCodes.Conv_I8)
+                .callvirt(null)
+                .stloc_0()
+            )
+            .Insert([
+                CodeInstruction.LoadLocal(0),
+                CodeInstruction.LoadArgument(0),
+                CodeInstruction.Call(typeof(EnergyCounterPatch), nameof(ChangeIroncladEnergy)),
+                CodeInstruction.StoreLocal(0),
+            ]);
+    }
+
+    static NEnergyCounter ChangeIroncladEnergy(NEnergyCounter defaultCounter, Player player) {
+        if (player.Character is not Watcher { CustomEnergyCounter: { } counter })
+            return defaultCounter;
+        var energyCounter = PreloadManager.Cache.GetScene(SceneHelper.GetScenePath(string.Concat("combat/energy_counters/ironclad_energy_counter"))).Instantiate<NEnergyCounter>();
+        energyCounter.GetNode<TextureRect>("%Layers/Layer1").Texture = ResourceLoader.Load<Texture2D>(counter.LayerImagePath(1));
+        energyCounter.GetNode<TextureRect>("%RotationLayers/Layer2").Texture = ResourceLoader.Load<Texture2D>(counter.LayerImagePath(2));
+        energyCounter.GetNode<TextureRect>("%RotationLayers/Layer3").Texture = ResourceLoader.Load<Texture2D>(counter.LayerImagePath(3));
+        energyCounter.GetNode<TextureRect>("%Layers/Layer4").Texture = ResourceLoader.Load<Texture2D>(counter.LayerImagePath(4));
+        energyCounter.GetNode<TextureRect>("%Layers/Layer5").Texture = ResourceLoader.Load<Texture2D>(counter.LayerImagePath(5));
+        energyCounter.GetNode<CpuParticles2D>("%BurstBack").Color = counter.BurstColor;
+        energyCounter.GetNode<CpuParticles2D>("%BurstFront").Color = counter.BurstColor;
+        return energyCounter;
     }
 }

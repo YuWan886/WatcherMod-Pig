@@ -17,7 +17,6 @@ namespace Watcher.Code.Cards.Rare;
 [Pool(typeof(WatcherCardPool))]
 public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
 {
-    private int _totalMantraThisCombat;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -26,17 +25,7 @@ public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarit
 
     public override bool ShouldReceiveCombatHooks => true;
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
-
-    public override async Task AfterPowerAmountChanged(
-        PowerModel power,
-        decimal amount,
-        Creature? applier,
-        CardModel? cardSource)
-    {
-        if (power is MantraPower && amount > 0) _totalMantraThisCombat += (int)amount;
-
-        await Task.CompletedTask;
-    }
+    
 
     public override decimal ModifyDamageAdditive(
         Creature? target,
@@ -45,7 +34,7 @@ public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarit
         Creature? dealer,
         CardModel? cardSource)
     {
-        return cardSource == this ? _totalMantraThisCombat : 0m;
+        return cardSource == this ? Owner.Creature.GetPowerAmount<BrilliancePower>() : 0m;
     }
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
@@ -57,12 +46,6 @@ public sealed class Brilliance() : CustomCardModel(1, CardType.Attack, CardRarit
             .Targeting(play.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(context);
-    }
-
-    public override Task BeforeCombatStart()
-    {
-        _totalMantraThisCombat = 0;
-        return Task.CompletedTask;
     }
 
     protected override void OnUpgrade()

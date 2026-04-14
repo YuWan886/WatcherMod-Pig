@@ -24,7 +24,8 @@ public sealed class Indignation() : CustomCardModel(1, CardType.Skill, CardRarit
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<WrathStance>()
+        HoverTipFactory.FromPower<WrathStance>(),
+        HoverTipFactory.FromPower<VulnerablePower>()
     ];
 
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();

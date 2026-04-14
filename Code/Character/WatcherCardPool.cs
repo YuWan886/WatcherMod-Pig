@@ -1,13 +1,13 @@
 ﻿using BaseLib.Abstracts;
 using Godot;
+using Watcher.Code.Abstracts;
+using Watcher.Code.Patches;
 
 namespace Watcher.Code.Character;
 
-public sealed class WatcherCardPool : CustomCardPoolModel
+public sealed class WatcherCardPool : CustomCardPoolModel, ICustomEnergyIconPool
 {
     public override string Title => Watcher.CharacterId;
-
-    public override string EnergyColorName => Watcher.CharacterId;
 
     public override float H => 0.75f; //Hue; changes the color.
     public override float S => 1f; //Saturation
@@ -16,4 +16,8 @@ public sealed class WatcherCardPool : CustomCardPoolModel
     public override Color DeckEntryCardColor => new("ffffff");
 
     public override bool IsColorless => false;
+    
+    public override string EnergyColorName => CustomEnergyIconPatches.GetEnergyColorName(Id);
+    public string? BigEnergyIconPath => "res://Watcher/images/ui/combat/watcher_energy_icon.png";
+    public string? TextEnergyIconPath => "res://Watcher/images/ui/combat/text_watcher_energy_icon.png";
 }

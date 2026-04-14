@@ -18,6 +18,7 @@ public sealed class BattleHymnPower : CustomPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+    public override string CustomBigIconPath => CustomPackedIconPath;
 
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {

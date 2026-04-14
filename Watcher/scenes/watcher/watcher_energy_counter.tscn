@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cu3gc3ixqawep" path="res://Watcher/images/ui/combat/energy_counters/watcher/watcher_orb_layer_4.png" id="5_8dn3e"]
 [ext_resource type="Texture2D" uid="uid://mpaio5lpsfmp" path="res://Watcher/images/ui/combat/energy_counters/watcher/watcher_orb_layer_5.png" id="6_nmf6f"]
 [ext_resource type="Texture2D" uid="uid://grebkhabi7os" path="res://Watcher/images/ui/combat/energy_counters/energy_burst/energy_orb_burst.png" id="9_ysogj"]
-[ext_resource type="CanvasItemMaterial" uid="uid://c4ycqv0gdxvmr" path="res://Watcher/themes/canvas_item_material_additive_shared.tres" id="shared_additive_mat"]
+[ext_resource type="Material" uid="uid://c4ycqv0gdxvmr" path="res://Watcher/themes/canvas_item_material_additive_shared.tres" id="shared_additive_mat"]
 
 [sub_resource type="Curve" id="Curve_umldk"]
 _data = [Vector2(0.00596422, 0.0309963), 0.0, 4.46389, 0, 0, Vector2(0.298211, 0.736162), 0.832039, 0.832039, 0, 0, Vector2(0.99006, 0.932841), -0.247478, 0.0, 0, 0]
@@ -45,9 +45,9 @@ material = ExtResource("shared_additive_mat")
 position = Vector2(65, 62)
 emitting = false
 amount = 1
+texture = ExtResource("3_v1ltr")
 one_shot = true
 local_coords = true
-texture = ExtResource("3_v1ltr")
 gravity = Vector2(0, 0)
 angular_velocity_min = 30.0
 angular_velocity_max = 30.0
@@ -152,10 +152,10 @@ material = ExtResource("shared_additive_mat")
 position = Vector2(65, 62)
 emitting = false
 amount = 1
+texture = ExtResource("9_ysogj")
 lifetime = 0.5
 one_shot = true
 local_coords = true
-texture = ExtResource("9_ysogj")
 gravity = Vector2(0, 0)
 angular_velocity_min = 30.0
 angular_velocity_max = 30.0
@@ -191,5 +191,3 @@ text = "3/3"
 horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("3_qdbwl")
-MinFontSize = 32
-MaxFontSize = 36

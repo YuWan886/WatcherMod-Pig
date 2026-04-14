@@ -16,9 +16,12 @@ public sealed class SimmeringRagePower : CustomPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+    public override string CustomBigIconPath => CustomPackedIconPath;
 
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
+        if (!player.Creature.HasPower<SimmeringRagePower>())
+            return;
         await StanceCmd.EnterWrath(player.Creature, choiceContext);
         await PowerCmd.TickDownDuration(this);
     }

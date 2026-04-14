@@ -71,8 +71,12 @@
             <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
             <Private>false</Private>
         </Reference>
-
-        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All"/>
+        <Reference Include="SmartFormat">
+            <HintPath>$(Sts2DataDir)/SmartFormat.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="0.0.5" PrivateAssets="All" />
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*"/>
         <AdditionalFiles Include="Watcher/localization/**/*.json"/>
     </ItemGroup>
@@ -86,10 +90,6 @@
 
     <ItemGroup>
         <None Include=".gitignore"/>
-        <None Include="images\atlases\ui_atlas.sprites\card\energy_watcher.tres"/>
-        <None Include="images\atlases\watcher_ui_atlas_0.png"/>
-        <None Include="images\atlases\watcher_ui_atlas_0.png.import"/>
-        <None Include="images\packed\sprite_fonts\Watcher_energy_icon.png" />
         <None Include="Watcher.json"/>
         <None Include="project.godot"/>
         <None Include="Watcher/**"/>
@@ -100,14 +100,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="Code\Nodes\SMegaLabel.cs.uid"/>
-        <Content Include="Code\Nodes\SNCardTrail.cs.uid"/>
-        <Content Include="Code\Nodes\SNCardTrailVfx.cs.uid"/>
-        <Content Include="Code\Nodes\SNCreatureVisuals.cs.uid"/>
-        <Content Include="Code\Nodes\SNEnergyCounter.cs.uid"/>
-        <Content Include="Code\Nodes\SNMerchantCharacter.cs.uid"/>
-        <Content Include="Code\Nodes\SNRestSiteCharacter.cs.uid"/>
-        <Content Include="Code\Nodes\SNSelectionReticle.cs.uid"/>
         <Content Include="images\ui\top_panel\character_icon_watcher-watcher_outline.png" />
         <Content Include="images\ui\top_panel\character_icon_watcher-watcher_outline.png.import" />
     </ItemGroup>
@@ -126,6 +118,7 @@
 
     <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
         <Message Text="Exporting Godot .pck to mods folder" Importance="high"/>
+        
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
               ContinueOnError="WarnAndContinue"/>

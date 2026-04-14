@@ -13,6 +13,7 @@ public sealed class MasterRealityPower : CustomPowerModel
 
     public override PowerStackType StackType => PowerStackType.Single;
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+    public override string CustomBigIconPath => CustomPackedIconPath;
 
     public override Task AfterCardGeneratedForCombat(CardModel card, bool addedByPlayer)
     {

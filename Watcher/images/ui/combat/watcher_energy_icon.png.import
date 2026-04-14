@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c6llxhrngdefj"
-path="res://.godot/imported/Watcher_energy_icon.png-f3c5772a9e1113fb8a65027acc334723.ctex"
+path="res://.godot/imported/watcher_energy_icon.png-bcfb078a8df313566736ca0f7dd34579.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://images/packed/sprite_fonts/Watcher_energy_icon.png"
-dest_files=["res://.godot/imported/Watcher_energy_icon.png-f3c5772a9e1113fb8a65027acc334723.ctex"]
+source_file="res://Watcher/images/ui/combat/watcher_energy_icon.png"
+dest_files=["res://.godot/imported/watcher_energy_icon.png-bcfb078a8df313566736ca0f7dd34579.ctex"]
 
 [params]
 

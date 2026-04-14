@@ -17,6 +17,7 @@ public sealed class WaveOfTheHandPower : CustomPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
+    public override string CustomBigIconPath => CustomPackedIconPath;
 
     public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props,
         CardModel? cardSource)

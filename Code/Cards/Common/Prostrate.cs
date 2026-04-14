@@ -4,11 +4,13 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Character;
 using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
+using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Common;
 
@@ -22,6 +24,11 @@ public sealed class Prostrate() : CustomCardModel(0, CardType.Skill, CardRarity.
     [
         new BlockVar(4m, ValueProp.Move),
         new PowerVar<MantraPower>(2m)
+    ];
+    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromPower<MantraPower>()
     ];
 
     public override string PortraitPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
