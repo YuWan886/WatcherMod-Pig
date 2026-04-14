@@ -5,11 +5,11 @@
         "res_base": "res://Watcher/images"
     },
     "globals": {
-        "inset": -60
+        "inset": -47
     },
     "per_image": {
         "watcher_cookie.png": {
-            "inset": 17
+            "inset": 21
         }
     }
 }
