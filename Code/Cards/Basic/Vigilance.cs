@@ -1,6 +1,8 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -14,12 +16,12 @@ public sealed class Vigilance : WatcherCardModel
     public Vigilance() : base(2, CardType.Skill, CardRarity.Basic, TargetType.Self)
     {
         WithBlock(8, 4);
-        WithTip(typeof(CalmStance));
+        WithStanceTip<CalmStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
+        await StanceCmd.EnterCalm(ctx, Owner, cardPlay.Card);
     }
 }

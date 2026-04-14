@@ -1,7 +1,9 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Powers;
@@ -16,7 +18,7 @@ public sealed class SimmeringFury : WatcherCardModel
     {
         WithPower<DrawCardsNextTurnPower>(2, 1);
         WithPower<SimmeringRagePower>(1);
-        WithTip(typeof(WrathStance));
+        WithStanceTip<WrathStance>();
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

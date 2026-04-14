@@ -1,6 +1,9 @@
-﻿using BaseLib.Utils;
+﻿using System;
+using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -14,15 +17,15 @@ public sealed class Eruption : WatcherCardModel
     public Eruption() : base(2, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
     {
         WithDamage(9);
-        WithTip(typeof(WrathStance));
+        WithStanceTip<WrathStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
-        await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
+            .Execute(ctx);
+        await StanceCmd.EnterWrath(ctx, Owner, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

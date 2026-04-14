@@ -1,6 +1,8 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -14,12 +16,12 @@ public sealed class Tranquility : WatcherCardModel
     public Tranquility() : base(1, CardType.Skill, CardRarity.Common, TargetType.None)
     {
         WithKeywords(CardKeyword.Retain, CardKeyword.Exhaust);
-        WithTip(typeof(CalmStance));
+        WithStanceTip<CalmStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await StanceCmd.EnterCalm(Owner.Creature, cardPlay.Card);
+        await StanceCmd.EnterCalm(ctx, Owner, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

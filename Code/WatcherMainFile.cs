@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Reflection;
 using Godot;
 using Godot.Bridge;
@@ -5,6 +6,8 @@ using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models;
+using Watcher.Code.Core;
+using Watcher.Code.Events;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Watcher.Code;
@@ -19,6 +22,7 @@ public partial class WatcherMainFile : Node
 
     public static void Initialize()
     {
+        WatcherSubscriber.Subscribe();
         Harmony harmony = new(ModId);
         var assembly = Assembly.GetExecutingAssembly();
         ScriptManagerBridge.LookupScriptsInAssembly(assembly);

@@ -1,4 +1,6 @@
-﻿using BaseLib.Utils;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Potions;
@@ -7,6 +9,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
+using Watcher.Code.Core;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Potions;
@@ -20,12 +23,12 @@ public class CalmPotion : WatcherPotionModel
 
     public override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        HoverTipFactory.FromPower<CalmStance>()
+        WatcherHoverTipFactory.FromStance<CalmStance>(),
     ];
 
-    protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
+    protected override async Task OnUse(PlayerChoiceContext ctx, Creature? target)
     {
-        if (target == null) return;
-        await StanceCmd.EnterCalm(target, null);
+        if (target?.Player == null) return;
+        await StanceCmd.EnterCalm(ctx, target.Player, null);
     }
 }

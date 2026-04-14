@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Threading.Tasks;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -19,11 +20,11 @@ public sealed class SimmeringRagePower : WatcherPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
     {
         if (!player.Creature.HasPower<SimmeringRagePower>())
             return;
-        await StanceCmd.EnterWrath(player.Creature, ModelDb.Card<SimmeringFury>());
+        await StanceCmd.EnterWrath(ctx, player, ModelDb.Card<SimmeringFury>());
         await PowerCmd.TickDownDuration(this);
     }
 }

@@ -1,6 +1,8 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Powers;
@@ -14,7 +16,7 @@ public sealed class Worship : WatcherCardModel
     public Worship() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
         WithPower<MantraPower>(5);
-        WithTip(typeof(DivinityStance));
+        WithStanceTip<DivinityStance>();
     }
 
 

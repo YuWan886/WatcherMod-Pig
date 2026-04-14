@@ -1,6 +1,8 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Powers;
@@ -14,7 +16,7 @@ public sealed class Rushdown : WatcherCardModel
     public Rushdown() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
     {
         WithPower<RushdownPower>(2);
-        WithTip(typeof(WrathStance));
+        WithStanceTip<WrathStance>();
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

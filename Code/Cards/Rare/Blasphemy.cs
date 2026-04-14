@@ -1,6 +1,8 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -16,13 +18,13 @@ public sealed class Blasphemy : WatcherCardModel
     {
         WithPower<BlasphemerPower>(1);
         WithKeywords(CardKeyword.Exhaust);
-        WithTip(typeof(DivinityStance));
+        WithStanceTip<DivinityStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CommonActions.ApplySelf<BlasphemerPower>(this);
-        await StanceCmd.EnterDivinity(Owner.Creature, cardPlay.Card);
+        await StanceCmd.EnterDivinity(ctx, Owner, cardPlay.Card);
     }
 
     protected override void OnUpgrade()

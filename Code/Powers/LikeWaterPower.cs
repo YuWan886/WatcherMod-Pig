@@ -1,4 +1,6 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -19,10 +21,8 @@ public class LikeWaterPower : WatcherPowerModel
 
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
-    if (Owner.Player?.Creature.Side != side) return;
-
-        var isInCalm = Owner.Powers.OfType<CalmStance>().Any();
-
+        if (Owner.Player?.Creature.Side != side) return;
+        var isInCalm = Owner.Player.IsInWatcherStance<CalmStance>();
         if (isInCalm)
         {
             await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);

@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Collections.Generic;
+using BaseLib.Abstracts;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Animation;
@@ -7,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using Watcher.Code.Cards.Basic;
+using Watcher.Code.Core;
 using Watcher.Code.Relics;
 using Watcher.Code.Stances;
 
@@ -86,9 +88,9 @@ public class Watcher : CustomCharacterModel
         "res://Watcher/scenes/watcher_mod/vfx/calm_aura.tscn",
         "res://Watcher/scenes/watcher_mod/vfx/wrath_aura.tscn",
         "res://Watcher/scenes/watcher_mod/vfx/divinity_aura.tscn",
-        .. ModelDb.Power<CalmStance>().AssetPaths,
-        .. ModelDb.Power<WrathStance>().AssetPaths,
-        .. ModelDb.Power<DivinityStance>().AssetPaths,
+        .. WatcherModelDb.WatcherStance<CalmStance>().AssetPaths,
+        .. WatcherModelDb.WatcherStance<WrathStance>().AssetPaths,
+        .. WatcherModelDb.WatcherStance<DivinityStance>().AssetPaths,
         "res://Watcher/images/vfx/screenflash.png",
         "res://Watcher/images/vfx/eye_anim.png",
         "res://Watcher/images/vfx/frost_streak.png",

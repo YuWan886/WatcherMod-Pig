@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Threading.Tasks;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;

@@ -1,17 +1,21 @@
-﻿using BaseLib.Utils;
+﻿using System.Threading.Tasks;
+using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
+using Watcher.Code.Events;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class FlurryOfBlows : WatcherCardModel
+public sealed class FlurryOfBlows : WatcherCardModel, IOnStanceChange
 {
     public FlurryOfBlows() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
@@ -25,15 +29,9 @@ public sealed class FlurryOfBlows : WatcherCardModel
             .Execute(choiceContext);
     }
 
-    public override async Task AfterPowerAmountChanged(
-        PowerModel power,
-        decimal amount,
-        Creature? applier,
-        CardModel? cardSource)
+    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
     {
-        if (power is StancePower &&
-            power.Owner == Owner.Creature &&
-            Pile?.Type == PileType.Discard)
-            await CardPileCmd.Add(this, PileType.Hand);
+        if (newStance.Owner != Owner && Pile?.Type != PileType.Discard) return;
+        await CardPileCmd.Add(this, PileType.Hand);
     }
 }

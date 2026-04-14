@@ -1,8 +1,11 @@
-﻿using BaseLib.Abstracts;
+﻿using System.Threading.Tasks;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -14,14 +17,11 @@ namespace Watcher.Code.Relics;
 public sealed class TeardropLocket : WatcherRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Uncommon;
-    
-    public override async Task AfterSideTurnStart(CombatSide side, CombatState combatState)
-    {
-        var locket = this;
-        if (side != locket.Owner.Creature.Side || combatState.RoundNumber > 1)
-            return;
 
-        await StanceCmd.EnterCalm(Owner.Creature, null);
-        locket.Flash();
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
+    {
+        if (player != Owner || combatState.RoundNumber > 1) return; 
+        await StanceCmd.EnterCalm(ctx, Owner, null);
+        Flash();
     }
 }
