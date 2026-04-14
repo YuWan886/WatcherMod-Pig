@@ -1,54 +1,30 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Pray() : WatcherCardModel(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class Pray : WatcherCardModel
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<MantraPower>(),
-        HoverTipFactory.FromPower<DivinityStance>(),
-        HoverTipFactory.FromCard<Insight>()
-    ];
-
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<MantraPower>(3m)
-    ];
-
-    
+    public Pray() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+    {
+        WithPower<MantraPower>(3, 1);
+        WithTip(typeof(DivinityStance));
+        WithTip(typeof(Insight));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<MantraPower>(
-            Owner.Creature,
-            DynamicVars["MantraPower"].IntValue,
-            Owner.Creature,
-            this
-        );
-
-        // Create Insight card
+        await CommonActions.ApplySelf<MantraPower>(this);
         if (CombatState == null) return;
         var insightCard = CombatState.CreateCard<Insight>(Owner);
-
-        // Shuffle it into draw pile (Random position)
         CardCmd.PreviewCardPileAdd(
             await CardPileCmd.AddGeneratedCardToCombat(
                 insightCard,
@@ -57,10 +33,5 @@ public sealed class Pray() : WatcherCardModel(1, CardType.Skill, CardRarity.Unco
                 CardPilePosition.Random
             )
         );
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars["MantraPower"].UpgradeValueBy(1m);
     }
 }

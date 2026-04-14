@@ -1,25 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class FollowUp() : WatcherCardModel(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class FollowUp : WatcherCardModel
 {
+    public FollowUp() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    {
+        WithDamage(7, 4);
+    }
+
     protected override bool ShouldGlowGoldInternal => WasLastCardPlayedAttack;
 
     private bool WasLastCardPlayedAttack
@@ -37,33 +32,17 @@ public sealed class FollowUp() : WatcherCardModel(1, CardType.Attack, CardRarity
         }
     }
 
-
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(7m, ValueProp.Move)];
-    
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+        await CommonActions.CardAttack(this, cardPlay)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-
         if (WasLastCardPlayedAttack) Owner.PlayerCombatState!.GainEnergy(1);
     }
 
-
     public override Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner != Owner)
-        {
-            EnergyCost.AddThisTurn(-1);
-        }
+        if (cardPlay.Card.Owner != Owner) EnergyCost.AddThisTurn(-1);
         return Task.CompletedTask;
-    }
-
-    protected override void OnUpgrade()
-    {
-      
-        DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }

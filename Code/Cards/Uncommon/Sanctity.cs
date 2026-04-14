@@ -1,30 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Sanctity() : WatcherCardModel(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class Sanctity : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new BlockVar(6m, ValueProp.Move)
-    ];
+    public Sanctity() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+    {
+        WithBlock(6, 3);
+        WithCards(2);
+    }
 
-    // Optional: Glow gold wenn letzte Karte ein Skill war
     protected override bool ShouldGlowGoldInternal => WasLastCardPlayedSkill;
 
     private bool WasLastCardPlayedSkill
@@ -42,14 +33,11 @@ public sealed class Sanctity() : WatcherCardModel(1, CardType.Skill, CardRarity.
         }
     }
 
-    
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-
-        // Check if last card was Skill
-        if (WasLastCardPlayedSkill) await CardPileCmd.Draw(choiceContext, 2, Owner);
+        await CommonActions.CardBlock(this, cardPlay);
+        if (WasLastCardPlayedSkill) await CommonActions.Draw(this, ctx);
     }
 
     protected override void OnUpgrade()

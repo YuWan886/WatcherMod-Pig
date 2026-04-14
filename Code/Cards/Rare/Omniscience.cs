@@ -1,28 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Rare;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Omniscience() : WatcherCardModel(4, CardType.Skill, CardRarity.Rare, TargetType.Self)
+public sealed class Omniscience : WatcherCardModel
 {
-    public override HashSet<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Exhaust
-    ];
+    public Omniscience() : base(4, CardType.Skill, CardRarity.Rare, TargetType.Self)
+    {
+        WithKeywords(CardKeyword.Exhaust);
+    }
 
-    
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

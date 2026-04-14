@@ -96,7 +96,7 @@
   "WATCHER-EVALUATE.title": "Evaluate",
   "WATCHER-EVALUATE.description": "Gain {Block:diff()} [gold]Block[/gold].\nShuffle an [gold]Insight[/gold] into your draw pile.",
   "WATCHER-FASTING.title": "Fasting",
-  "WATCHER-FASTING.description": "Gain {StrengthPower:diff()} [gold]Strength[/gold].\nGain {DexterityPower:diff()} [gold]Dexterity[/gold].\nGain 1 less {Energy:energyIcons()} at the start of each turn.",
+  "WATCHER-FASTING.description": "Gain {StrengthPower:diff()} [gold]Strength[/gold].\nGain {DexterityPower:diff()} [gold]Dexterity[/gold].\nGain 1 less {energyPrefix:energyIcons(1)} at the start of each turn.",
   "WATCHER-INDIGNATION.title": "Indignation",
   "WATCHER-INDIGNATION.description": "If you are in [gold]Wrath[/gold], apply {VulnerablePower:diff()} [gold]Vulnerable[/gold] to ALL enemies. Otherwise, enter [gold]Wrath[/gold].",
   "WATCHER-LIKE_WATER.title": "Like Water",
@@ -152,7 +152,7 @@
   "WATCHER-OMNISCIENCE.description": "Choose a card in your draw pile. Play the chosen card twice and [gold]Exhaust[/gold] it.",
   "WATCHER-OMNISCIENCE.selectionScreenPrompt": "Select a card to play twice and [gold]Exhaust[/gold].",
   "WATCHER-SPIRIT_SHIELD.title": "Spirit Shield",
-  "WATCHER-SPIRIT_SHIELD.description": "Gain {Block:diff()} [gold]Block[/gold] for each card in your hand.",
+  "WATCHER-SPIRIT_SHIELD.description": "Gain {CalculatedBlock:diff()} [gold]Block[/gold] for each card in your hand.",
   "WATCHER-MASTER_REALITY.title": "Master Reality",
   "WATCHER-MASTER_REALITY.description": "Whenever a card is created during combat, [gold]Upgrade[/gold] it.",
   "WATCHER-WREATH_OF_FLAME.title": "Wreath of Flames",
@@ -179,5 +179,7 @@
   "WATCHER-WISH_WATCHER.description": "Choose one:\nGain {PlatedArmorPower:diff()} [gold]Plated Armor[/gold],\n{StrengthPower:diff()} [gold]Strength[/gold], or {Gold:diff()} [gold]Gold[/gold].",
   "WATCHER-WISH_WATCHER.selectionScreenPrompt": "Choose a Card to play.",
   "WATCHER-WATCHER_CARD_MODEL.title": "",
-  "WATCHER-WATCHER_CARD_MODEL.description": ""
+  "WATCHER-WATCHER_CARD_MODEL.description": "",
+  "WATCHER-CONSTRUCTED_CARD_MODEL.title": "",
+  "WATCHER-CONSTRUCTED_CARD_MODEL.description": ""
 }

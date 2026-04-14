@@ -1,14 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Keywords;
@@ -16,32 +10,14 @@ using Watcher.Code.Keywords;
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Weave() : WatcherCardModel(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy), IScryable
+public sealed class Weave : WatcherCardModel, IScryable
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4m, ValueProp.Move)];
-    
-
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromKeyword(WatcherKeywords.Scry)
-    ];
-
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public Weave() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
-        if (cardPlay.Target == null) return;
-
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
+        WithDamage(4, 2);
+        WithTip(WatcherKeywords.Scry);
     }
 
-    /// <summary>
-    ///     Called whenever the player scrys.
-    ///     Returns this card from discard pile to hand if it's still there.
-    /// </summary>
     public async Task OnScryed(Player player, int amount)
     {
         if (player != Owner)
@@ -52,8 +28,9 @@ public sealed class Weave() : WatcherCardModel(0, CardType.Attack, CardRarity.Un
         if (discardPile.Cards.Contains(this)) await CardPileCmd.Add(this, PileType.Hand);
     }
 
-    protected override void OnUpgrade()
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        DynamicVars.Damage.UpgradeValueBy(2);
+        if (cardPlay.Target == null) return;
+        await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
     }
 }

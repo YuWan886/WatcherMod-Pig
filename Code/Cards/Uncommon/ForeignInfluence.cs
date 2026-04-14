@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
@@ -11,15 +6,17 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class ForeignInfluence() : WatcherCardModel(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class ForeignInfluence : WatcherCardModel
 {
-    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-    
+    public ForeignInfluence() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+    {
+        WithKeywords(CardKeyword.Exhaust);
+    }
+
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -68,11 +65,5 @@ public sealed class ForeignInfluence() : WatcherCardModel(0, CardType.Skill, Car
                 true
             );
         }
-    }
-
-    protected override void OnUpgrade()
-    {
-        // Upgrade effect: chosen card costs 0 this turn
-        // (handled in OnPlay via SetToFreeThisTurn)
     }
 }

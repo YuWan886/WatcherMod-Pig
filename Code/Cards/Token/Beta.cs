@@ -1,53 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using Watcher.Code.Cards.CardModels;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Token;
 
 [Pool(typeof(TokenCardPool))]
-public sealed class Beta() : WatcherCardModel(2, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class Beta : WatcherCardModel
 {
-    public override CardPoolModel Pool => ModelDb.CardPool<TokenCardPool>();
-
-
-    public override HashSet<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Exhaust
-    ];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromCard<Omega>()
-    ];
-
-    
+    public Beta() : base(2, CardType.Skill, CardRarity.Token, TargetType.Self)
+    {
+        WithKeywords(CardKeyword.Exhaust);
+        WithTip(typeof(Omega));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // Create Insight card
-        if (CombatState != null)
-        {
-            var insightCard = CombatState.CreateCard<Omega>(Owner);
-
-            // Shuffle it into draw pile (Random position)
-            CardCmd.PreviewCardPileAdd(
-                await CardPileCmd.AddGeneratedCardToCombat(
-                    insightCard,
-                    PileType.Draw,
-                    true,
-                    CardPilePosition.Random
-                )
-            );
-        }
+        if (CombatState == null) return;
+        var insightCard = CombatState.CreateCard<Omega>(Owner);
+        var card = await CardPileCmd.AddGeneratedCardToCombat(
+            insightCard,
+            PileType.Draw,
+            true,
+            CardPilePosition.Random
+        );
+        CardCmd.PreviewCardPileAdd(card);
     }
 }

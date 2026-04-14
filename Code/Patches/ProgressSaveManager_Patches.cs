@@ -7,7 +7,6 @@ namespace Watcher.Code.Patches;
 [HarmonyPatch]
 internal class ProgressSaveManager_Patches
 {
-
     [HarmonyPatch(typeof(ProgressSaveManager))]
     [HarmonyPatch("ObtainCharUnlockEpoch")]
     [HarmonyPatch([typeof(Player), typeof(int)])]
@@ -17,6 +16,5 @@ internal class ProgressSaveManager_Patches
         {
             return localPlayer.Character is not Character.Watcher;
         }
-        
     }
 }

@@ -1,38 +1,26 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Worship() : WatcherCardModel(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+public sealed class Worship : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<MantraPower>(5)];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<MantraPower>(),
-        HoverTipFactory.FromPower<DivinityStance>()
-    ];
-
-    
+    public Worship() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+    {
+        WithPower<MantraPower>(5);
+        WithTip(typeof(DivinityStance));
+    }
 
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<MantraPower>(Owner.Creature, DynamicVars["MantraPower"].IntValue, Owner.Creature, this);
+        await CommonActions.ApplySelf<MantraPower>(this);
     }
 
     protected override void OnUpgrade()

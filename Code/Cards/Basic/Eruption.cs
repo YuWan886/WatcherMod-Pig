@@ -1,46 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
-using Watcher.Code.Extensions;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Basic;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Eruption() : WatcherCardModel(2, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
+public sealed class Eruption : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(9m, ValueProp.Move)];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<WrathStance>()
-    ];
-
-    
+    public Eruption() : base(2, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
+    {
+        WithDamage(9);
+        WithTip(typeof(WrathStance));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+        await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1); // Reduces cost from 2 to 1
+        EnergyCost.UpgradeBy(-1);
     }
 }

@@ -1,40 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class FlyingSleeves() : WatcherCardModel(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class FlyingSleeves : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars => [new DamageVar(4m, ValueProp.Move)];
-
-    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Retain];
-    
-
+    public FlyingSleeves() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    {
+        WithDamage(4, 2);
+        WithKeywords(CardKeyword.Retain);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+        await CommonActions.CardAttack(this, cardPlay)
             .WithHitFx("vfx/vfx_attack_slash")
-            .WithHitCount(2)
-            .Execute(choiceContext);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+            .WithHitCount(2).Execute(choiceContext);
     }
 }

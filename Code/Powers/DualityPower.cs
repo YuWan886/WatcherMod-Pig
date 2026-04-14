@@ -11,7 +11,9 @@ namespace Watcher.Code.Powers;
 
 public class DualityPower : CustomTemporaryPowerModel
 {
-    protected override Func<Creature, decimal, Creature?, CardModel?, bool, Task> ApplyPowerFunc => PowerCmd.Apply<DexterityPower>;
+    protected override Func<Creature, decimal, Creature?, CardModel?, bool, Task> ApplyPowerFunc =>
+        PowerCmd.Apply<DexterityPower>;
+
     public override PowerModel InternallyAppliedPower => ModelDb.Power<DexterityPower>();
     public override AbstractModel OriginModel => ModelDb.Relic<Duality>();
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();

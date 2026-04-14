@@ -1,58 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class PressurePoints() : WatcherCardModel(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class PressurePoints : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<MarkPower>(8m),
-        new CalculationBaseVar(8m),
-        new ExtraDamageVar(1m),
-        new CalculatedDamageVar(ValueProp.Unpowered | ValueProp.Unblockable)
-            .WithMultiplier(static (_, target) => target?.GetPowerAmount<MarkPower>() ?? 0m)
-    ];
+    public PressurePoints() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+    {
+        WithPower<MarkPower>(8, 3);
+    }
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<MarkPower>()
-    ];
-
-
-    
+    private static decimal Calc(Creature? target)
+    {
+        return target?.GetPowerAmount<MarkPower>() ?? 0m;
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-
-        await PowerCmd.Apply<MarkPower>(
-            cardPlay.Target,
-            DynamicVars["MarkPower"].IntValue,
-            Owner.Creature,
-            this
-        );
-
+        await CommonActions.Apply<MarkPower>(cardPlay.Target, this);
         var enemies = cardPlay.Target.CombatState!.Enemies.ToList();
         foreach (var enemy in enemies)
         {
-            var damage = ((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(enemy) - 8;
+            var damage = Calc(enemy);
             if (damage <= 0) continue;
             await CreatureCmd.Damage(
                 choiceContext,
@@ -61,10 +39,5 @@ public sealed class PressurePoints() : WatcherCardModel(1, CardType.Skill, CardR
                 ValueProp.Unpowered | ValueProp.Unblockable,
                 this);
         }
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars["MarkPower"].UpgradeValueBy(3m);
     }
 }

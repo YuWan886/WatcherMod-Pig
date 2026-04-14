@@ -1,46 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Nodes;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Rare;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class LessonLearned() : WatcherCardModel(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+public sealed class LessonLearned : WatcherCardModel
 {
-    // Base damage
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(10m, ValueProp.Move)
-    ];
-
-    public override HashSet<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Exhaust
-    ];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.Static(StaticHoverTip.Fatal)
-    ];
-
-    
+    public LessonLearned() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+    {
+        WithDamage(10, 3);
+        WithKeywords(CardKeyword.Exhaust);
+        WithTip(StaticHoverTip.Fatal);
+    }
 
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -48,8 +28,8 @@ public sealed class LessonLearned() : WatcherCardModel(2, CardType.Attack, CardR
         var card = this;
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         var shouldTriggerFatal = cardPlay.Target.Powers.All(p => p.ShouldOwnerDeathTriggerFatal());
-        var attackCommand = await DamageCmd.Attack(card.DynamicVars.Damage.BaseValue).FromCard(card)
-            .Targeting(cardPlay.Target).WithHitFx("vfx/vfx_attack_slash").Execute(choiceContext);
+        var attackCommand = await CommonActions.CardAttack(card, cardPlay).WithHitFx("vfx/vfx_attack_slash")
+            .Execute(choiceContext);
         if (!shouldTriggerFatal || !attackCommand.Results.Any(r => r.WasTargetKilled))
             return;
         var upgradableCards = PileType.Deck.GetPile(card.Owner).Cards.Where(c => c.IsUpgradable).ToList();
@@ -67,10 +47,5 @@ public sealed class LessonLearned() : WatcherCardModel(2, CardType.Attack, CardR
                     cardModel
                 ])!);
         }
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(3m); // 10 -> 13
     }
 }

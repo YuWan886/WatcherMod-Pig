@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using BaseLib.Abstracts;
+﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
@@ -26,7 +25,7 @@ public sealed class HolyWater : CustomRelicModel
 
     protected override string PackedIconOutlinePath =>
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.tres".TresRelicImagePath();
-    
+
     public override async Task BeforeHandDraw(
         Player player,
         PlayerChoiceContext choiceContext,

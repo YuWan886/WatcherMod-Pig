@@ -1,45 +1,23 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
-using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Rare;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Devotion() : WatcherCardModel(1, CardType.Power, CardRarity.Rare, TargetType.None)
+public sealed class Devotion : WatcherCardModel
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<MantraPower>(),
-        HoverTipFactory.FromPower<DivinityStance>()
-    ];
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new PowerVar<DevotionPower>(2)
-    ];
-
-    
+    public Devotion() : base(1, CardType.Power, CardRarity.Rare, TargetType.None)
+    {
+        WithPower<DevotionPower>(2, 1);
+        WithTip(typeof(MantraPower));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<DevotionPower>(Owner.Creature, DynamicVars["DevotionPower"].IntValue, Owner.Creature,
-            this);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars["DevotionPower"].UpgradeValueBy(1);
+        await CommonActions.ApplySelf<DevotionPower>(this);
     }
 }

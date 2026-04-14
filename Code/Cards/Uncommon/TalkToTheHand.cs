@@ -1,52 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class TalkToTheHand() : WatcherCardModel(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+public sealed class TalkToTheHand : WatcherCardModel
 {
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(5m, ValueProp.Move),
-        new PowerVar<BlockReturnPower>(2)
-    ];
+    public TalkToTheHand() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+    {
+        WithDamage(5, 2);
+        WithPower<BlockReturnPower>(2, 1);
+        WithKeywords(CardKeyword.Exhaust);
+    }
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<BlockReturnPower>()
-    ];
-
-    public override HashSet<CardKeyword> CanonicalKeywords => [CardKeyword.Exhaust];
-    
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
-        await PowerCmd.Apply<BlockReturnPower>(cardPlay.Target, DynamicVars["BlockReturnPower"].IntValue,
-            Owner.Creature, this);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2);
-        DynamicVars["BlockReturnPower"].UpgradeValueBy(1);
+        await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
+        await CommonActions.Apply<BlockReturnPower>(cardPlay.Target, this);
     }
 }

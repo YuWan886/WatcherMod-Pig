@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using BaseLib.Abstracts;
+﻿using BaseLib.Abstracts;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Animation;
@@ -8,7 +6,6 @@ using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Vfx.Utilities;
 using Watcher.Code.Cards.Basic;
 using Watcher.Code.Relics;
 using Watcher.Code.Stances;
@@ -25,7 +22,7 @@ public class Watcher : CustomCharacterModel
     public override string CustomCharacterSelectIconPath => "res://Watcher/images/watcher/char_select_watcher.png";
 
 
-    public override CustomEnergyCounter? CustomEnergyCounter => 
+    public override CustomEnergyCounter? CustomEnergyCounter =>
         new CustomEnergyCounter(EnergyCounterPaths, new Color(0.4f, 0.1f, 0.9f), new Color(0.7f, 0.1f, 0.9f));
 
     //public override string CustomEnergyCounterPath => "res://Watcher/scenes/watcher/watcher_energy_counter_empty.tscn";
@@ -57,7 +54,9 @@ public class Watcher : CustomCharacterModel
         "res://Watcher/images/watcher/transitions/watcher_transition_mat.tres";
 
     public override string CustomMapMarkerPath => "res://Watcher/images/watcher/map_marker_watcher.png";
+
     public override string CustomAttackSfx => "event:/sfx/characters/ironclad/ironclad_attack";
+
     //public override string CustomCastSfx => "res://";
     //public override string CustomDeathSfx => "res://";
     public override string CharacterSelectSfx => "res://Watcher/audio/watcher_select.ogg";
@@ -127,24 +126,23 @@ public class Watcher : CustomCharacterModel
     }
 
 
-    public override CreatureAnimator? SetupCustomAnimationStates(MegaSprite controller)
+    public override CreatureAnimator SetupCustomAnimationStates(MegaSprite controller)
     {
         return SetupAnimationState(controller, "Idle", hitName: "Hit");
     }
 }
 
-
 [HarmonyPatch(typeof(NEnergyCounter), nameof(NEnergyCounter._Ready))]
 internal static class NEnergyCounterReadyPatch
 {
     [HarmonyPrefix]
-    static void SafeReady(NEnergyCounter __instance)
+    private static void SafeReady(NEnergyCounter __instance)
     {
         if (!__instance.HasNode("%BurstBack"))
         {
             var node = new CpuParticles2D
             {
-                Name = (StringName)"BurstBack", Emitting = false, Amount = 0,Visible = false,
+                Name = (StringName)"BurstBack", Emitting = false, Amount = 0, Visible = false
             };
             __instance.AddChild(node);
             node.Owner = __instance;
@@ -155,7 +153,7 @@ internal static class NEnergyCounterReadyPatch
         {
             var node = new CpuParticles2D
             {
-                Name = (StringName)"BurstFront", Emitting = false, Amount = 0,Visible = false,
+                Name = (StringName)"BurstFront", Emitting = false, Amount = 0, Visible = false
             };
             __instance.AddChild(node);
             node.Owner = __instance;

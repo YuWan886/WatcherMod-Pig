@@ -1,46 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Token;
 
 [Pool(typeof(TokenCardPool))]
-public sealed class Safety() : WatcherCardModel(1, CardType.Skill, CardRarity.Token, TargetType.Self)
+public sealed class Safety : WatcherCardModel
 {
-    public override CardPoolModel Pool => ModelDb.CardPool<TokenCardPool>();
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new BlockVar(12m, ValueProp.Move)
-    ];
-
-
-    public override HashSet<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Retain,
-        CardKeyword.Exhaust
-    ];
-
-    
+    public Safety() : base(1, CardType.Skill, CardRarity.Token, TargetType.Self)
+    {
+        WithBlock(12, 4);
+        WithKeywords(CardKeyword.Retain, CardKeyword.Exhaust);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Block.UpgradeValueBy(4m);
+        await CommonActions.CardBlock(this, cardPlay);
     }
 }

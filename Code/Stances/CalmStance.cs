@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Godot;
+﻿using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using Watcher.Code.Relics;
 

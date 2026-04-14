@@ -1,39 +1,24 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Rare;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class ScrawlWatcher() : WatcherCardModel(1, CardType.Skill, CardRarity.Rare, TargetType.None)
+public sealed class ScrawlWatcher : WatcherCardModel
 {
-    public override HashSet<CardKeyword> CanonicalKeywords =>
-    [
-        CardKeyword.Exhaust
-    ];
-
-    
-
+    public ScrawlWatcher() : base(1, CardType.Skill, CardRarity.Rare, TargetType.None)
+    {
+        WithKeywords(CardKeyword.Exhaust);
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var hand = PileType.Hand.GetPile(Owner);
-        while (hand.Cards.Count < CardPile.maxCardsInHand)
-        {
-            await CardPileCmd.Draw(choiceContext, 1, Owner);
-
-
-            if (PileType.Draw.GetPile(Owner).IsEmpty && PileType.Discard.GetPile(Owner).IsEmpty)
-                break;
-        }
+        if (Owner.PlayerCombatState == null) return;
+        await CardPileCmd.Draw(choiceContext, 10 - Owner.PlayerCombatState.Hand.Cards.Count, Owner);
     }
 
     protected override void OnUpgrade()

@@ -1,50 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Halt() : WatcherCardModel(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+public sealed class Halt : WatcherCardModel
 {
-    public override bool GainsBlock => true;
-
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new BlockVar("Block", 3m, ValueProp.Move), new BlockVar("WrathBlock", 9m, ValueProp.Move)
-    ];
-
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<WrathStance>()
-    ];
-    
-    
+    public Halt() : base(0, CardType.Skill, CardRarity.Common, TargetType.Self)
+    {
+        WithBlock(3, 1);
+        WithVar("WrathBlock", 9, 5);
+        WithTip(typeof(WrathStance));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+        await CommonActions.CardBlock(this, cardPlay);
         var isInWrath = Owner.Creature.Powers.OfType<WrathStance>().Any();
-        if (isInWrath) await CreatureCmd.GainBlock(Owner.Creature, (BlockVar)DynamicVars["WrathBlock"], cardPlay);
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars["Block"].UpgradeValueBy(1m);
-        DynamicVars["WrathBlock"].UpgradeValueBy(5m);
+        if (isInWrath)
+            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars["WrathBlock"].BaseValue, ValueProp.Move, cardPlay);
     }
 }

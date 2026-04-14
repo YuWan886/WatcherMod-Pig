@@ -1,33 +1,25 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 using Watcher.Code.Powers;
 
 namespace Watcher.Code.Cards.Uncommon;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class BattleHymn() : WatcherCardModel(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
+public sealed class BattleHymn : WatcherCardModel
 {
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromCard<Smite>()
-    ];
-
-    
+    public BattleHymn() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.None)
+    {
+        WithPower<BattleHymnPower>(1);
+        WithTip(typeof(Smite));
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<BattleHymnPower>(Owner.Creature, 1, Owner.Creature, this);
+        await CommonActions.ApplySelf<BattleHymnPower>(this);
     }
 
     protected override void OnUpgrade()

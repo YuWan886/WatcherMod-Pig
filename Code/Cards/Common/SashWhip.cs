@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
-using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Common;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class SashWhip() : WatcherCardModel(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+public sealed class SashWhip : WatcherCardModel
 {
+    public SashWhip() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+    {
+        WithDamage(8, 2);
+        WithPower<WeakPower>(1, 1);
+    }
+
     protected override bool ShouldGlowGoldInternal => WasLastCardPlayedAttack;
 
     private bool WasLastCardPlayedAttack
@@ -39,39 +34,10 @@ public sealed class SashWhip() : WatcherCardModel(1, CardType.Attack, CardRarity
         }
     }
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromPower<WeakPower>()
-    ];
-
-
-    protected override IEnumerable<DynamicVar> CanonicalVars =>
-    [
-        new DamageVar(8m, ValueProp.Move),
-        new PowerVar<WeakPower>(1)
-    ];
-
-    
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
-
-        if (WasLastCardPlayedAttack)
-            await PowerCmd.Apply<WeakPower>(
-                cardPlay.Target,
-                DynamicVars.Weak.BaseValue,
-                Owner.Creature,
-                this
-            );
-    }
-
-    protected override void OnUpgrade()
-    {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars.Weak.UpgradeValueBy(1);
+        await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash").Execute(choiceContext);
+        if (!WasLastCardPlayedAttack || cardPlay.Target == null) return;
+        await CommonActions.Apply<WeakPower>(cardPlay.Target, this);
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using BaseLib.Abstracts;
+﻿using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -19,7 +18,8 @@ public class PlatedArmorPower : CustomPowerModel
     public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
     public override string CustomBigIconPath => CustomPackedIconPath;
 
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
+    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
+        DamageResult result, ValueProp props,
         Creature? dealer, CardModel? cardSource)
     {
         if (target != Owner || result.UnblockedDamage == 0) return;
@@ -33,5 +33,4 @@ public class PlatedArmorPower : CustomPowerModel
         Flash();
         await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered, null);
     }
-    
 }
