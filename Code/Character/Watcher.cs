@@ -111,7 +111,7 @@ public class Watcher : CustomCharacterModel
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<WatcherRelicPool>();
     public override PotionPoolModel PotionPool => ModelDb.PotionPool<WatcherPotionPool>();
 
-    private string EnergyCounterPaths(int i)
+    private static string EnergyCounterPaths(int i)
     {
         return "res://Watcher/images/ui/combat/energy_counters/watcher/watcher_orb_layer_" + i + ".png";
     }
@@ -133,32 +133,3 @@ public class Watcher : CustomCharacterModel
     }
 }
 
-[HarmonyPatch(typeof(NEnergyCounter), nameof(NEnergyCounter._Ready))]
-internal static class NEnergyCounterReadyPatch
-{
-    [HarmonyPrefix]
-    private static void SafeReady(NEnergyCounter __instance)
-    {
-        if (!__instance.HasNode("%BurstBack"))
-        {
-            var node = new CpuParticles2D
-            {
-                Name = (StringName)"BurstBack", Emitting = false, Amount = 1, Visible = false
-            };
-            __instance.AddChild(node);
-            node.Owner = __instance;
-            node.UniqueNameInOwner = true;
-        }
-
-        if (__instance.HasNode("%BurstFront")) return;
-        {
-            var node = new CpuParticles2D
-            {
-                Name = (StringName)"BurstFront", Emitting = false, Amount = 1, Visible = false
-            };
-            __instance.AddChild(node);
-            node.Owner = __instance;
-            node.UniqueNameInOwner = true;
-        }
-    }
-}

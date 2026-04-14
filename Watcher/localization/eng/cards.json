@@ -173,13 +173,19 @@
   "WATCHER-LIVE_FOREVER.description": "Gain {PlatedArmorPower:diff()} [gold]Plated Armor[/gold].",
   "WATCHER-ANCIENT_CARD.title": "Discipline",
   "WATCHER-ANCIENT_CARD.description": "If you end your turn with unused {energyPrefix:energyIcons(1)}, draw that many additional cards next turn.",
-  "WATCHER-ANCIENT_CARD2.title": "Combustion",
-  "WATCHER-ANCIENT_CARD2.description": "Enter [gold]Divinity[/gold].\nDeal {Damage:diff()} damage.",
+  "WATCHER-ANCIENT_CARD2.title": "Revelation ",
+  "WATCHER-ANCIENT_CARD2.description": "Deal {Damage:diff()} damage.\nEnter [gold]Divinity[/gold].",
   "WATCHER-WISH_WATCHER.title": "Wish",
   "WATCHER-WISH_WATCHER.description": "Choose one:\nGain {PlatedArmorPower:diff()} [gold]Plated Armor[/gold],\n{StrengthPower:diff()} [gold]Strength[/gold], or {Gold:diff()} [gold]Gold[/gold].",
   "WATCHER-WISH_WATCHER.selectionScreenPrompt": "Choose a Card to play.",
   "WATCHER-WATCHER_CARD_MODEL.title": "",
   "WATCHER-WATCHER_CARD_MODEL.description": "",
   "WATCHER-CONSTRUCTED_CARD_MODEL.title": "",
-  "WATCHER-CONSTRUCTED_CARD_MODEL.description": ""
+  "WATCHER-CONSTRUCTED_CARD_MODEL.description": "",
+  "WATCHER-MULTIPLAYER_CARD_UNCOMMON.title": "",
+  "WATCHER-MULTIPLAYER_CARD_UNCOMMON.description": "",
+  "WATCHER-MULTIPLAYER_CARD_RARE.title": "Shared Wisdom",
+  "WATCHER-MULTIPLAYER_CARD_RARE.description": "Another player enters [gold]Divinity[/gold].",
+  "WATCHER-MULTI_PLAYER_CARD_RARE.title": "Shared Wisdom",
+  "WATCHER-MULTI_PLAYER_CARD_RARE.description": "Another player enters [gold]Divinity[/gold]."
 }

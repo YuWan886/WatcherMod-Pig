@@ -17,7 +17,7 @@ public sealed class BattleHymnPower : WatcherPowerModel
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
         if (Owner.Player != player) return;
-        await WatcherCmd.GiveCards<Smite>(Owner.Player, Amount, PileType.Hand, CardPilePosition.Top);
+        await WatcherCmd.GiveCards<Smite>(Owner.Player, Amount, PileType.Hand, CardPilePosition.Top, skipAnimation: true);
         Flash();
     }
 }

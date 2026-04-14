@@ -7,30 +7,23 @@ namespace Watcher.Code.Events;
 
 public class WatcherHook
 {
-    public static async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
-        WatcherStanceModel newStance)
+    private static async Task Dispatch<T>(PlayerChoiceContext ctx, Player player, Func<T, Task> invoke)
+        where T : class
     {
         var combatState = player.Creature.CombatState;
         if (combatState == null) return;
-        foreach (var model in combatState.IterateHookListeners().OfType<IOnStanceChange>())
+        foreach (var model in combatState.IterateHookListeners().OfType<T>())
         {
-            var abstractModel = (AbstractModel)model;
+            var abstractModel = (AbstractModel)(object)model;
             ctx.PushModel(abstractModel);
-            await model.OnStanceChange(ctx, player, oldStance, newStance);
+            await invoke(model);
             ctx.PopModel(abstractModel);
         }
     }
-    
-    public static async Task OnScryed(PlayerChoiceContext ctx, Player player, int amount)
-    {
-        var combatState = player.Creature.CombatState;
-        if (combatState == null) return;
-        foreach (var model in combatState.IterateHookListeners().OfType<IOnScryed>())
-        {
-            var abstractModel = (AbstractModel)model;
-            ctx.PushModel(abstractModel);
-            await model.OnScryed(ctx, player, amount);
-            ctx.PopModel(abstractModel);
-        }
-    }
+
+    public static Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
+        => Dispatch<IOnStanceChange>(ctx, player, m => m.OnStanceChange(ctx, player, oldStance, newStance));
+
+    public static Task OnScryed(PlayerChoiceContext ctx, Player player, int amount)
+        => Dispatch<IOnScryed>(ctx, player, m => m.OnScryed(ctx, player, amount));
 }

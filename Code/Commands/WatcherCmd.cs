@@ -13,7 +13,8 @@ public class WatcherCmd
         CardPilePosition pos = CardPilePosition.Bottom,
         float animationTime = 0.6f,
         CardPreviewStyle animationStyle = CardPreviewStyle.HorizontalLayout,
-        bool upgraded = false) where T : CardModel
+        bool upgraded = false,
+        bool skipAnimation = false) where T : CardModel
     {
         var combatState = player.Creature.CombatState;
         if (combatState == null) return null;
@@ -21,6 +22,7 @@ public class WatcherCmd
         if (upgraded)
             CardCmd.Upgrade(card);
         var result = await CardPileCmd.AddGeneratedCardToCombat(card, pileType, true, pos);
+        if (skipAnimation) return card;
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
         return card;
     }
@@ -30,7 +32,9 @@ public class WatcherCmd
         PileType pileType,
         CardPilePosition pos = CardPilePosition.Bottom,
         float animationTime = 0.6f,
-        CardPreviewStyle animationStyle = CardPreviewStyle.HorizontalLayout) where T : CardModel
+        CardPreviewStyle animationStyle = CardPreviewStyle.HorizontalLayout,
+        bool upgraded = false,
+        bool skipAnimation = false) where T : CardModel
     {
         var cardsToGive = new List<CardModel>();
         var combatState = player.Creature.CombatState;
@@ -38,10 +42,13 @@ public class WatcherCmd
         for (var i = 0; i < amount; i++)
         {
             var card = combatState.CreateCard(ModelDb.Card<T>(), player);
+            if (upgraded)
+                CardCmd.Upgrade(card);
             cardsToGive.Add(card);
         }
 
         var result = await CardPileCmd.AddGeneratedCardsToCombat(cardsToGive, pileType, true, pos);
+        if (skipAnimation) return;
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
     }
 }

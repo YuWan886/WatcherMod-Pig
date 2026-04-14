@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://16gvv31kjeb7"]
 
-[ext_resource type="Shader" path="res://shaders/hsv.gdshader" id="1_4rywm"]
+[ext_resource type="Shader" path="res://Watcher/shaders/hsv.gdshader" id="1_4rywm"]
 
 [resource]
 resource_local_to_scene = true

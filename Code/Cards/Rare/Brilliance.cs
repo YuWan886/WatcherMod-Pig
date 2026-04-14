@@ -20,7 +20,6 @@ public sealed class Brilliance : WatcherCardModel
     public Brilliance() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
         WithCalculatedDamage(12, MantraGainedThisCombat, ValueProp.Move, 4);
-        WithVars(new ExtraDamageVar(1m));
         WithTip(typeof(MantraPower));
         WithStanceTip<DivinityStance>();
     }
