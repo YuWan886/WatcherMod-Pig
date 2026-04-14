@@ -75,7 +75,7 @@ Build the project using your IDE or the .NET CLI.
 After building, mod is placed into your Slay the Spire 2 mods folder.
 
 ```xml
-...\Steam\steamapps\common\Slay the Spire 2\mods\WatcherMod
+...\Steam\steamapps\common\Slay the Spire 2\mods\Watcher
 ```
 
 
