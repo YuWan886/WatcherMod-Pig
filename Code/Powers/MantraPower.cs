@@ -32,10 +32,13 @@ public sealed class MantraPower : WatcherPowerModel
 
         StanceVfx.PlayStanceSfx("res://Watcher/audio/mantra_gain.ogg");
 
-        while (Amount >= 10)
-        {
-            await StanceCmd.EnterDivinity(player.Creature, cardSource);
-            await PowerCmd.ModifyAmount(this, -10m, Owner, cardSource);
-        }
+
+        var triggers = Amount / 10;
+        if (triggers <= 0) return;
+
+        var totalCost = triggers * 10m;
+        await PowerCmd.ModifyAmount(this, -totalCost, Owner, cardSource);
+        var ctx = new ThrowingPlayerChoiceContext();
+        await StanceCmd.EnterDivinity(ctx, player, cardSource);
     }
 }
