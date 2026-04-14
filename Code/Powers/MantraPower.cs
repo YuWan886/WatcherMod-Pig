@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Commands;
