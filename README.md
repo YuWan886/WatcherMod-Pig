@@ -1,15 +1,12 @@
-# The Watcher - Slay the Spire II - Beta Branch  for Slay the Spire 2 v0.99
+# The Watcher — Slay the Spire 2 (Beta Branch) | v0.99
 
-For better future mod support now has [BaseLib-StS2](https://github.com/Alchyr/BaseLib-StS2/releases/tag/v0.1.0) as an dependency.
+This mod ports **The Watcher** from Slay the Spire into Slay the Spire 2, recreating her full gameplay experience including cards, relics, and stances. It is one of the first character mods for Slay the Spire 2.
 
+# Dependency
+This mod requires BaseLib-StS2 for better mod compatibility and future update support.
 
-The mod ports **The Watcher** from **Slay the Spire** into **Slay the Spire 2**.
-
-
-
-It is (one of?) the **first character mod for Slay the Spire 2**, recreating the Watcher's gameplay systems including cards, relics, and stances.
-
-
+# NexusMods Release
+The mod will be uploaded to NexusMods once BaseLib is available on the main Steam branch, not just public beta. All future updates will be published here in the meantime.
 
 ## Features
 
