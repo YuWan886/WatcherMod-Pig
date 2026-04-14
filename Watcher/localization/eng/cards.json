@@ -141,7 +141,7 @@
   "WATCHER-BLASPHEMY.title": "Blasphemy",
   "WATCHER-BLASPHEMY.description": "Enter [gold]Divinity[/gold].\nDie next turn.",
   "WATCHER-CONJURE_BLADE.title": "Conjure Blade",
-  "WATCHER-CONJURE_BLADE.description": "Shuffle an [gold]Expunger[/gold] into your draw pile.",
+  "WATCHER-CONJURE_BLADE.description": "Shuffle an [gold]Expunger[/gold] {IfUpgraded:show:with X+1 |}into your draw pile.",
   "WATCHER-EXPUNGER.title": "Expunger",
   "WATCHER-EXPUNGER.description": "Deal {Damage:diff()} damage {Repeat:cond:<0?X|{Repeat:diff()}} times",
   "WATCHER-DEUS_EX_MACHINA.title": "Deus Ex Machina",

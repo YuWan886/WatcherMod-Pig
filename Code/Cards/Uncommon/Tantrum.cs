@@ -39,6 +39,7 @@ public sealed class Tantrum() : CustomCardModel(1, CardType.Attack, CardRarity.U
             .Execute(choiceContext);
 
         await StanceCmd.EnterWrath(Owner.Creature, cardPlay.Card);
+        await Cmd.Wait(0.25f);
         await CardPileCmd.Add(this, PileType.Draw, CardPilePosition.Random);
     }
 

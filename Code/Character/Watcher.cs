@@ -5,7 +5,6 @@ using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Cards.Basic;
-using Watcher.Code.Nodes;
 using Watcher.Code.Relics;
 using Watcher.Code.Stances;
 
@@ -20,10 +19,11 @@ public class Watcher : CustomCharacterModel
     public override string CustomIconTexturePath => "res://Watcher/images/watcher/character_icon_watcher.png";
     public override string CustomCharacterSelectIconPath => "res://Watcher/images/watcher/char_select_watcher.png";
 
+
     public override CustomEnergyCounter? CustomEnergyCounter =>
         new CustomEnergyCounter(EnergyCounterPaths, new Color(0.4f, 0.1f, 0.9f), new Color(0.7f, 0.1f, 0.9f));
 
-    public override string CustomEnergyCounterPath => "res://Watcher/scenes/watcher/watcher_energy_counter_empty.tscn";
+    //public override string CustomEnergyCounterPath => "res://Watcher/scenes/watcher/watcher_energy_counter_empty.tscn";
 
     public override string CustomCharacterSelectLockedIconPath =>
         "res://Watcher/images/watcher/char_select_watcher_locked.png";
@@ -52,9 +52,10 @@ public class Watcher : CustomCharacterModel
         "res://Watcher/images/watcher/transitions/watcher_transition_mat.tres";
 
     public override string CustomMapMarkerPath => "res://Watcher/images/watcher/map_marker_watcher.png";
-    public override string CustomAttackSfx => "res://";
-    public override string CustomCastSfx => "res://";
-    public override string CustomDeathSfx => "res://";
+    //public override string CustomAttackSfx => "res://";
+    //public override string CustomCastSfx => "res://";
+    //public override string CustomDeathSfx => "res://";
+    public override string CharacterSelectSfx => "res://Watcher/audio/watcher_select.ogg";
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;
@@ -120,32 +121,9 @@ public class Watcher : CustomCharacterModel
         ];
     }
 
-    public override CreatureAnimator GenerateAnimator(MegaSprite controller)
+
+    public override CreatureAnimator? SetupCustomAnimationStates(MegaSprite controller)
     {
-        GD.Print("[Watcher] GenerateAnimator called");
-
-        var animState = new AnimState("Idle", true);
-        var state1 = new AnimState("Idle");
-        var state2 = new AnimState("Idle");
-        var state3 = new AnimState("Hit");
-        var state4 = new AnimState("Idle");
-        var state5 = new AnimState("Idle");
-        state1.NextState = animState;
-        state2.NextState = animState;
-        state3.NextState = animState;
-        state5.NextState = animState;
-        state5.AddBranch("Idle", animState);
-        var animator = new CreatureAnimator(animState, controller);
-        animator.AddAnyState("Idle", animState);
-        animator.AddAnyState("Dead", state4);
-        animator.AddAnyState("Hit", state3);
-        animator.AddAnyState("Attack", state2);
-        animator.AddAnyState("Cast", state1);
-        animator.AddAnyState("Relaxed", state5);
-
-        var sn = (SNCreatureVisuals)((Node)controller.BoundObject).GetParent();
-        sn.InitEye(controller);
-
-        return animator;
+        return SetupAnimationState(controller, "Idle", hitName: "Hit");
     }
 }
