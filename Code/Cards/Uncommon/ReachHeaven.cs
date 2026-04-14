@@ -8,6 +8,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Uncommon;
 
@@ -22,17 +23,7 @@ public sealed class ReachHeaven : WatcherCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target);
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
-        if (CombatState == null) return;
-        var insightCard = CombatState.CreateCard<ThroughViolence>(Owner);
-        CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.AddGeneratedCardToCombat(
-                insightCard,
-                PileType.Draw,
-                true,
-                CardPilePosition.Random
-            )
-        );
+        await WatcherCmd.GiveCard<ThroughViolence>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 }

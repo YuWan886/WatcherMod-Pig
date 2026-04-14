@@ -26,7 +26,7 @@ public sealed class RushdownPower : WatcherPowerModel, IOnStanceChange
     public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
     {
         if (player.Creature != Owner || newStance is not WrathStance) return;
-        await CardPileCmd.Draw(ctx, player);
+        await CardPileCmd.Draw(ctx, Amount, player);
         Flash();
     }
 }

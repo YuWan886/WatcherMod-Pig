@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Abstract;
 using Watcher.Code.Cards.Token;
+using Watcher.Code.Commands;
 using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Powers;
@@ -23,19 +24,7 @@ public sealed class BattleHymnPower : WatcherPowerModel
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
         if (Owner.Player != player) return;
-
-        var insightCards = new List<CardModel>();
-        // Add Amount Insight cards to hand
-        for (var i = 0; i < Amount; i++) insightCards.Add(CombatState.CreateCard<Smite>(player));
-        // Add to hand at top position
-        CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.AddGeneratedCardsToCombat(
-                insightCards,
-                PileType.Hand,
-                true,
-                CardPilePosition.Top
-            )
-        );
+        await WatcherCmd.GiveCards<Smite>(Owner.Player, Amount, PileType.Hand, CardPilePosition.Top);
         Flash();
     }
 }

@@ -7,6 +7,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Common;
 
@@ -22,14 +23,6 @@ public sealed class Evaluate : WatcherCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        var insightCard = CombatState?.CreateCard<Insight>(Owner);
-        if (insightCard == null) return;
-        var card = await CardPileCmd.AddGeneratedCardToCombat(
-            insightCard,
-            PileType.Draw,
-            true,
-            CardPilePosition.Random
-        );
-        CardCmd.PreviewCardPileAdd(card);
+        await WatcherCmd.GiveCard<Insight>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 }

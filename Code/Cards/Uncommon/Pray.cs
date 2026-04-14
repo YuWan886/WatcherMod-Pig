@@ -7,6 +7,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 using Watcher.Code.Powers;
 using Watcher.Code.Stances;
 
@@ -25,15 +26,6 @@ public sealed class Pray : WatcherCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.ApplySelf<MantraPower>(this);
-        if (CombatState == null) return;
-        var insightCard = CombatState.CreateCard<Insight>(Owner);
-        CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.AddGeneratedCardToCombat(
-                insightCard,
-                PileType.Draw,
-                true,
-                CardPilePosition.Random
-            )
-        );
+        await WatcherCmd.GiveCard<Insight>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 }

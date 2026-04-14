@@ -32,6 +32,6 @@ public class BottledMiracle : WatcherPotionModel
     {
         if (target?.Player == null) return;
         var amount = DynamicVars.Cards.IntValue;
-        await WatcherCmd.GiveCard<Miracle>(target.Player, PileType.Hand, amount);
+        await WatcherCmd.GiveCards<Miracle>(target.Player, amount, PileType.Hand);
     }
 }

@@ -10,9 +10,27 @@ namespace Watcher.Code.Commands;
 
 public class WatcherCmd
 {
-    public static async Task GiveCard<T>(Player player,
+    public static async Task<CardModel?> GiveCard<T>(Player player,
         PileType pileType,
-        int amount = 1,
+        CardPilePosition pos = CardPilePosition.Bottom,
+        float animationTime = 0.6f,
+        CardPreviewStyle animationStyle = CardPreviewStyle.HorizontalLayout,
+        bool upgraded = false) where T : CardModel
+    {
+        var combatState = player.Creature.CombatState;
+        if (combatState == null) return null;
+        var card = combatState.CreateCard(ModelDb.Card<T>(), player);
+        if (upgraded)
+            CardCmd.Upgrade(card);
+        var result = await CardPileCmd.AddGeneratedCardToCombat(card, pileType, true, pos);
+        CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
+        return card;
+    }
+    
+    public static async Task GiveCards<T>(Player player,
+        int amount,
+        PileType pileType,
+        CardPilePosition pos = CardPilePosition.Bottom,
         float animationTime = 0.6f,
         CardPreviewStyle animationStyle = CardPreviewStyle.HorizontalLayout) where T : CardModel
     {
@@ -25,7 +43,7 @@ public class WatcherCmd
             cardsToGive.Add(card);
         }
 
-        var result = await CardPileCmd.AddGeneratedCardsToCombat(cardsToGive, pileType, true);
+        var result = await CardPileCmd.AddGeneratedCardsToCombat(cardsToGive, pileType, true, pos);
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
     }
 }

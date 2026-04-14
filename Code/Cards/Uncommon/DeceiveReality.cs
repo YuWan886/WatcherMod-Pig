@@ -7,6 +7,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Uncommon;
 
@@ -23,15 +24,6 @@ public sealed class DeceiveReality : WatcherCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-
-        var insightCard = CombatState?.CreateCard<Safety>(Owner);
-        if (insightCard == null) return;
-        var card = await CardPileCmd.AddGeneratedCardToCombat(
-            insightCard,
-            PileType.Hand,
-            false,
-            CardPilePosition.Top
-        );
-        CardCmd.PreviewCardPileAdd(card);
+        await WatcherCmd.GiveCard<Safety>(Owner, PileType.Hand, CardPilePosition.Top);
     }
 }

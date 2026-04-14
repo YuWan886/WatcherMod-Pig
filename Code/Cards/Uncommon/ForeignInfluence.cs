@@ -7,11 +7,16 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Runs;
 using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Character;
+using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Uncommon;
+
+
+
 
 [Pool(typeof(WatcherCardPool))]
 public sealed class ForeignInfluence : WatcherCardModel
@@ -21,6 +26,7 @@ public sealed class ForeignInfluence : WatcherCardModel
         WithKeywords(CardKeyword.Exhaust);
     }
 
+   
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -28,11 +34,13 @@ public sealed class ForeignInfluence : WatcherCardModel
         var rng = Owner.RunState.Rng.CombatCardGeneration;
 
         // Build 3 distinct weighted-rarity attack cards from ALL pools
-        var attacksByRarity = CardFactory.FilterForCombat(ModelDb.AllCards)
+        var attacksByRarity = CardFactory
+            .FilterForCombat(ModelDb.AllCards)
+            .FilterForPlayerCount(Owner.RunState)
             .Where(c => c.Type == CardType.Attack)
             .GroupBy(c => c.Rarity)
             .ToDictionary(g => g.Key, g => g.ToList());
-
+        
         var weightedAttacks = new List<CardModel>();
         var seen = new HashSet<string>();
 

@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Abstract;
 using Watcher.Code.Cards.Token;
+using Watcher.Code.Commands;
 using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Powers;
@@ -23,17 +24,7 @@ public sealed class CollectPower : WatcherPowerModel
     {
         if (player != Owner.Player)
             return;
-        var insightCard = CombatState.CreateCard<Miracle>(player);
-        CardCmd.Upgrade(insightCard);
-        // Add to hand at top position
-        CardCmd.PreviewCardPileAdd(
-            await CardPileCmd.AddGeneratedCardToCombat(
-                insightCard,
-                PileType.Hand,
-                true,
-                CardPilePosition.Top
-            )
-        );
-        await PowerCmd.TickDownDuration(this);
+        await WatcherCmd.GiveCard<Miracle>(Owner.Player, PileType.Hand, CardPilePosition.Top, upgraded: true);
+        await PowerCmd.Decrement(this);
     }
 }

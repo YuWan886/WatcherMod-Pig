@@ -9,6 +9,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Rare;
 
@@ -26,15 +27,7 @@ public sealed class Alpha : WatcherCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (CombatState == null) return;
-        var insightCard = CombatState.CreateCard<Beta>(Owner);
-        var card = await CardPileCmd.AddGeneratedCardToCombat(
-            insightCard,
-            PileType.Draw,
-            true,
-            CardPilePosition.Random
-        );
-        CardCmd.PreviewCardPileAdd(card);
+        await WatcherCmd.GiveCard<Beta>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 
 

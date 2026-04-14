@@ -7,6 +7,7 @@ using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
 using Watcher.Code.Cards.Token;
 using Watcher.Code.Character;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Uncommon;
 
@@ -22,16 +23,7 @@ public sealed class CarveReality : WatcherCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
-
-        var insightCard = CombatState?.CreateCard<Smite>(Owner);
-        if (insightCard == null) return;
-        var card = await CardPileCmd.AddGeneratedCardToCombat(
-            insightCard,
-            PileType.Hand,
-            true,
-            CardPilePosition.Top
-        );
-        CardCmd.PreviewCardPileAdd(card);
+        await WatcherCmd.GiveCard<Smite>(Owner, PileType.Hand, CardPilePosition.Top);
     }
 
     protected override void OnUpgrade()

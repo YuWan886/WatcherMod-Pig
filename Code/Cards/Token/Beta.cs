@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using Watcher.Code.Abstract;
 using Watcher.Code.Cards.CardModels;
+using Watcher.Code.Commands;
 
 namespace Watcher.Code.Cards.Token;
 
@@ -20,14 +21,6 @@ public sealed class Beta : WatcherCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (CombatState == null) return;
-        var insightCard = CombatState.CreateCard<Omega>(Owner);
-        var card = await CardPileCmd.AddGeneratedCardToCombat(
-            insightCard,
-            PileType.Draw,
-            true,
-            CardPilePosition.Random
-        );
-        CardCmd.PreviewCardPileAdd(card);
+        await WatcherCmd.GiveCard<Omega>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 }
