@@ -26,7 +26,7 @@ public static class StanceCmd
 
     public static Task ExitStance(Creature creature, CardModel? cardSource)
     {
-        return Execute(creature, ModelDb.Power<NoStance>(), cardSource);
+        return Execute(creature, null, cardSource);
     }
 
     private static async Task Execute(Creature creature, StancePower? newStance, CardModel? cardSource)
