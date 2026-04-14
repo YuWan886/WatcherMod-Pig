@@ -31,7 +31,7 @@ public sealed class CollectPower : CustomPowerModel
             await CardPileCmd.AddGeneratedCardToCombat(
                 insightCard,
                 PileType.Hand,
-                false,
+                true,
                 CardPilePosition.Top
             )
         );

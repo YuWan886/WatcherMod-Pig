@@ -34,7 +34,7 @@ public sealed class BattleHymnPower : CustomPowerModel
             await CardPileCmd.AddGeneratedCardsToCombat(
                 insightCards,
                 PileType.Hand,
-                false,
+                true,
                 CardPilePosition.Top
             )
         );

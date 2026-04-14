@@ -44,7 +44,7 @@ public sealed class CarveReality() : WatcherCardModel(1, CardType.Attack, CardRa
                 await CardPileCmd.AddGeneratedCardToCombat(
                     insightCard,
                     PileType.Hand,
-                    false,
+                    true,
                     CardPilePosition.Top
                 )
             );
