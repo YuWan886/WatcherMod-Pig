@@ -17,7 +17,6 @@ public sealed class Omniscience : WatcherCardModel
         WithCostUpgradeBy(-1);
     }
 
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         // Select a card from your draw pile

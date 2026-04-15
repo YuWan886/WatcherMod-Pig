@@ -57,12 +57,13 @@ public class WatcherModel() : CustomSingletonModel(true, false)
         await WatcherHook.OnStanceChange(ctx, player, current!, ActiveStance[player]!);
     }
     
-    public override async Task BeforeCombatStart()
+    public override Task BeforeCombatStart()
     {
         var state = CombatManager.Instance.DebugOnlyGetState();
-        if (state == null) return;
+        if (state == null) return Task.CompletedTask;
         foreach (var player in state.Players)
             ActiveStance[player] = WatcherModelDb.WatcherStance<NoStance>();
+        return Task.CompletedTask;
     }
     public override bool ShouldReceiveCombatHooks => true;
 }

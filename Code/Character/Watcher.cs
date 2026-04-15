@@ -24,10 +24,17 @@ public class Watcher : CustomCharacterModel
     public override string CustomCharacterSelectIconPath => "res://Watcher/images/watcher/char_select_watcher.png";
 
 
+    /*
     public override CustomEnergyCounter? CustomEnergyCounter =>
         new CustomEnergyCounter(EnergyCounterPaths, new Color(0.4f, 0.1f, 0.9f), new Color(0.7f, 0.1f, 0.9f));
-
-    //public override string CustomEnergyCounterPath => "res://Watcher/scenes/watcher/watcher_energy_counter_empty.tscn";
+    private static string EnergyCounterPaths(int i)
+    {
+        return "res://Watcher/images/ui/combat/energy_counters/watcher/watcher_orb_layer_" + i + ".png";
+    }
+    */
+    
+    public override string CustomEnergyCounterPath => "res://Watcher/scenes/watcher/watcher_energy_counter.tscn";
+    public override Color EnergyLabelOutlineColor => new(0x552262FF);
 
     public override string CustomCharacterSelectLockedIconPath =>
         "res://Watcher/images/watcher/char_select_watcher_locked.png";
@@ -116,11 +123,7 @@ public class Watcher : CustomCharacterModel
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<WatcherRelicPool>();
     public override PotionPoolModel PotionPool => ModelDb.PotionPool<WatcherPotionPool>();
 
-    private static string EnergyCounterPaths(int i)
-    {
-        return "res://Watcher/images/ui/combat/energy_counters/watcher/watcher_orb_layer_" + i + ".png";
-    }
-
+  
 
     public override List<string> GetArchitectAttackVfx()
     {

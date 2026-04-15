@@ -11,9 +11,7 @@ namespace Watcher.Code.Cards.Uncommon;
 public sealed class Perseverance : WatcherCardModel
 {
     private const string IncreaseKey = "Increase";
-
-    private decimal _extraBlockFromRetains;
-
+    
     public Perseverance() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
         WithBlock(5, 2);
@@ -21,40 +19,16 @@ public sealed class Perseverance : WatcherCardModel
         WithKeywords(CardKeyword.Retain);
     }
 
-    private decimal ExtraBlockFromRetains
-    {
-        get => _extraBlockFromRetains;
-        set
-        {
-            AssertMutable();
-            _extraBlockFromRetains = value;
-        }
-    }
-
-    public override bool ShouldReceiveCombatHooks => true;
-
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
     }
 
-    public override async Task AfterCardRetained(CardModel card)
+    public override Task AfterCardRetained(CardModel card)
     {
-        if (card == this)
-        {
-            var increaseAmount = DynamicVars[IncreaseKey].BaseValue;
-
-            DynamicVars.Block.BaseValue += increaseAmount;
-            ExtraBlockFromRetains += increaseAmount;
-        }
-
-        await Task.CompletedTask;
+        if (card != this) return Task.CompletedTask;
+        DynamicVars.Block.UpgradeValueBy(DynamicVars[IncreaseKey].BaseValue);;
+        return Task.CompletedTask;
     }
-
-    protected override void AfterDowngraded()
-    {
-        base.AfterDowngraded();
-        DynamicVars.Block.BaseValue += ExtraBlockFromRetains;
-    }
+    
 }
