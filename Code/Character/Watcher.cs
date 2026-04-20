@@ -1,11 +1,10 @@
 ﻿using BaseLib.Abstracts;
+using BaseLib.Patches.UI;
 using Godot;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Relics;
 using Watcher.Code.Cards.Basic;
 using Watcher.Code.Core;
 using Watcher.Code.Extensions;
@@ -42,6 +41,7 @@ public class Watcher : CustomCharacterModel
     public override string CustomVisualPath => "res://Watcher/scenes/watcher/watcher.tscn";
     public override string CustomTrailPath => "res://Watcher/scenes/watcher/card_trail_watcher.tscn";
     public override string CustomIconPath => "res://Watcher/scenes/watcher/watcher_icon.tscn";
+    public override string CustomIconOutlineTexturePath => "res://Watcher/images/watcher/character_icon_watcher_outline.png";
     public override string CustomRestSiteAnimPath => "res://Watcher/scenes/watcher/watcher_rest_site.tscn";
     public override string CustomMerchantAnimPath => "res://Watcher/scenes/watcher/watcher_merchant.tscn";
 
@@ -69,11 +69,13 @@ public class Watcher : CustomCharacterModel
     //public override string CustomCastSfx => "res://";
     //public override string CustomDeathSfx => "res://";
     public override string CharacterSelectSfx => "res://Watcher/audio/watcher_select.ogg";
-
-    public string CustomYummyCookieBigIconPath => "watcher_cookie.png".BigRelicImagePath();
-    public string CustomYummyCookiePackedIconPath => "watcher_cookie.tres".TresRelicImagePath();
-    public string CustomYummyCookiePackedIconOutlinePath => "watcher_cookie_outline.tres".TresRelicImagePath();
-
+    
+    public override RelicIconData CustomYummyCookie => new(
+        "watcher_cookie.png".BigRelicImagePath(),
+        "watcher_cookie.tres".TresRelicImagePath(),
+        "watcher_cookie_outline.tres".TresRelicImagePath()
+        );
+    
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;
     protected override CharacterModel? UnlocksAfterRunAs => null;
@@ -138,52 +140,5 @@ public class Watcher : CustomCharacterModel
     public override CreatureAnimator SetupCustomAnimationStates(MegaSprite controller)
     {
         return SetupAnimationState(controller, "Idle", hitName: "Hit");
-    }
-}
-
-
-[HarmonyPatch(typeof(RelicModel), nameof(RelicModel.PackedIconPath), MethodType.Getter)]
-public class CustomYummyCookiePackedIconPathPatch
-{
-   
-
-    [HarmonyPrefix]
-    static bool Prefix(RelicModel __instance, ref string __result)
-    {
-        if (__instance is not YummyCookie cookie) return true;
-        var character = cookie.IsCanonical ? null : cookie.Owner?.Character;
-        if (character is not Watcher {CustomYummyCookiePackedIconPath: { } path}) return true;
-        __result = path;
-        return false;
-    }
-}
-
-[HarmonyPatch(typeof(RelicModel), "PackedIconOutlinePath", MethodType.Getter)]
-public class CustomYummyCookieOutlinePathPatch
-{
-
-    [HarmonyPrefix]
-    static bool Prefix(RelicModel __instance, ref string __result)
-    {
-        if (__instance is not YummyCookie cookie) return true;
-        var character = cookie.IsCanonical ? null : cookie.Owner?.Character;
-        if (character is not Watcher {CustomYummyCookiePackedIconOutlinePath: { } path}) return true;
-        __result = path;
-        return false;
-    }
-}
-
-[HarmonyPatch(typeof(RelicModel), "BigIconPath", MethodType.Getter)]
-public class CustomYummyCookieBigIconPathPatch
-{
-   
-    [HarmonyPrefix]
-    static bool Prefix(RelicModel __instance, ref string __result)
-    {
-        if (__instance is not YummyCookie cookie) return true;
-        var character = cookie.IsCanonical ? null : cookie.Owner?.Character;
-        if (character is not Watcher {CustomYummyCookieBigIconPath: { } path}) return true;
-        __result = path;
-        return false;
     }
 }

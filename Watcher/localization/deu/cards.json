@@ -103,7 +103,7 @@
   "WATCHER-LIKE_WATER.description": "Erhalte immer am Ende deines Zuges, falls du in [gold]Ruhe[/gold] bist, {LikeWaterPower:diff()} [gold]Block[/gold].",
   "WATCHER-MEDITATE.title": "Meditieren",
   "WATCHER-MEDITATE.description": "Nimm {Cards:diff()} {Cards:plural:Karte|Karten} vom Abwurfstapel auf die Hand und behalte {Cards:plural:sie|sie}.\nNimm [gold]Ruhe[/gold] an.\nBeende deinen Zug.",
-  "WATCHER-MEDITATE.selectionScreenPrompt": "Wähle {Amount:plural:eine Karte|[blue]{}[/blue] Karten} zum [gold]Behalten[/gold].",
+  "WATCHER-MEDITATE.selectionScreenPrompt": "Wähle {Amount:plural:eine Karte|[blue]{Amount}[/blue] Karten} zum [gold]Behalten[/gold].",
   "WATCHER-MENTAL_FORTRESS.title": "Mentale Festung",
   "WATCHER-MENTAL_FORTRESS.description": "Immer wenn du deine [gold]Haltung[/gold] änderst, erhalte {MentalFortressPower:diff()} [gold]Block[/gold].",
   "WATCHER-NIRVANA.title": "Nirvana",

@@ -44,14 +44,15 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
         if (_eyeSetupDone) return;
         _eyeSetupDone = true;
         GetTree().ProcessFrame -= SetupEye;
-
+        
+        _eyeBone = SpineBody?.GetSkeleton()?.FindBone("eye_anchor");
+        SpineBody?.ConnectWorldTransformsChanged(Callable.From<Variant>(OnEyeWorldTransformsChanged));
         _eyeNode = ((Node)SpineBody!.BoundObject).GetNodeOrNull<Node2D>("Eye");
         if (_eyeNode == null)
         {
             GD.PrintErr("[SNCreatureVisuals] Eye node not found!");
             return;
         }
-
         _eyeAnimPlayer = _eyeNode.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
         _eyeAnimPlayer?.Play("RESET");
     }

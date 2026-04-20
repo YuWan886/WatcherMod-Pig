@@ -20,7 +20,7 @@ public class MultiplayerCardUncommon : WatcherCardModel
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    public MultiplayerCardUncommon() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies)
+    public MultiplayerCardUncommon() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies)
     {
         WithPower<MultiplayerCardUncommonPower>(1);
         WithStanceTip<CalmStance>();

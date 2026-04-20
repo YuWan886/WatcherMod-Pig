@@ -14,10 +14,11 @@ public class MultiplayerCardRare : WatcherCardModel
     
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    public MultiplayerCardRare() : base(2, CardType.Skill, CardRarity.Rare, TargetType.AnyAlly)
+    public MultiplayerCardRare() : base(3, CardType.Skill, CardRarity.Rare, TargetType.AnyAlly)
     {
         WithStanceTip<DivinityStance>();
-        WithKeyword(CardKeyword.Exhaust, UpgradeType.Remove);
+        WithKeyword(CardKeyword.Ethereal, UpgradeType.Remove);
+        WithKeyword(CardKeyword.Exhaust);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)

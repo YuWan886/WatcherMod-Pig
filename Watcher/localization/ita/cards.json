@@ -103,7 +103,7 @@
   "WATCHER-LIKE_WATER.description": "Alla fine del tuo turno, se sei in [gold]Calma[/gold], ottieni {LikeWaterPower:diff()} [gold]Blocco[/gold].",
   "WATCHER-MEDITATE.title": "Medita",
   "WATCHER-MEDITATE.description": "Prendi {Cards:diff()} {Cards:plural:carta|carte} dal tuo cimitero e mettile in mano, [gold]Conservale[/gold].\nEntri in [gold]Calma[/gold].\nTermina il tuo turno.",
-  "WATCHER-MEDITATE.selectionScreenPrompt": "Scegli {Amount:plural:una carta|[blue]{}[/blue] carte} da [gold]Conservare[/gold].",
+  "WATCHER-MEDITATE.selectionScreenPrompt": "Scegli {Amount:plural:una carta|[blue]{Amount}[/blue] carte} da [gold]Conservare[/gold].",
   "WATCHER-MENTAL_FORTRESS.title": "Fortezza Mentale",
   "WATCHER-MENTAL_FORTRESS.description": "Ogni volta che cambi [gold]Posa[/gold], Ottieni {MentalFortressPower:diff()} [gold]Blocco[/gold].",
   "WATCHER-NIRVANA.title": "Nirvana",

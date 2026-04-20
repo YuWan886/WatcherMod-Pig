@@ -103,7 +103,7 @@
   "WATCHER-LIKE_WATER.description": "在你的回合结束时，如果你处于 [gold]平静[/gold]，获得 {LikeWaterPower:diff()} 点 [gold]格挡[/gold]。",
   "WATCHER-MEDITATE.title": "冥想",
   "WATCHER-MEDITATE.description": "将弃牌堆中的 {Cards:diff()} 张牌放入你的手牌，并将其 [gold]保留[/gold]。\n进入 [gold]平静[/gold]。\n结束你的回合。",
-  "WATCHER-MEDITATE.selectionScreenPrompt": "选择 {Amount:plural:一张牌|[blue]{}[/blue] 张牌} 以 [gold]保留[/gold]。",
+  "WATCHER-MEDITATE.selectionScreenPrompt": "选择 {Amount:plural:一张牌|[blue]{Amount}[/blue] 张牌} 以 [gold]保留[/gold]。",
   "WATCHER-MENTAL_FORTRESS.title": "心灵堡垒",
   "WATCHER-MENTAL_FORTRESS.description": "每当你转换 [gold]姿态[/gold] 时，获得 {MentalFortressPower:diff()} 点 [gold]格挡[/gold]。",
   "WATCHER-NIRVANA.title": "涅槃",

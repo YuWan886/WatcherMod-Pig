@@ -103,7 +103,7 @@
   "WATCHER-LIKE_WATER.description": "ターン終了時、[gold]平静[/gold]ならば{LikeWaterPower:diff()}[gold]ブロック[/gold]を得る。",
   "WATCHER-MEDITATE.title": "瞑想",
   "WATCHER-MEDITATE.description": "捨て札のカードを{Cards:diff()}枚手札に戻し、[gold]保留[/gold]する。\n[gold]平静[/gold]の[gold]スタンス[/gold]に入る。\nターンを終了する。",
-  "WATCHER-MEDITATE.selectionScreenPrompt": "[gold]保留[/gold]する{Amount:plural:カード|[blue]{}[/blue]枚のカード}を選択してください。",
+  "WATCHER-MEDITATE.selectionScreenPrompt": "[gold]保留[/gold]する{Amount:plural:カード|[blue]{Amount}[/blue]枚のカード}を選択してください。",
   "WATCHER-MENTAL_FORTRESS.title": "不動心",
   "WATCHER-MENTAL_FORTRESS.description": "[gold]スタンス[/gold]を変更するたび、{MentalFortressPower:diff()}[gold]ブロック[/gold]を得る。",
   "WATCHER-NIRVANA.title": "涅槃",
