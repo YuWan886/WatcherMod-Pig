@@ -18,10 +18,10 @@ public sealed class TalkToTheHand : WatcherCardModel
     }
 
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
-        await CommonActions.Apply<BlockReturnPower>(cardPlay.Target, this);
+        await CommonActions.CardAttack(this, cardPlay).Execute(ctx);
+        await CommonActions.Apply<BlockReturnPower>(ctx, cardPlay.Target, this);
     }
 }

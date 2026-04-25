@@ -42,7 +42,7 @@ public class DivinityStance : WatcherStanceModel
     }
 
     public override async Task BeforeSideTurnStart(PlayerChoiceContext ctx, CombatSide side,
-        CombatState combatState)
+        ICombatState combatState)
     {
         if (side != Owner.Creature.Side) return;
         await StanceCmd.ExitStance(ctx, Owner, null);

@@ -17,8 +17,8 @@ public sealed class MasterReality : WatcherCardModel
     }
 
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<MasterRealityPower>(this);
+        await CommonActions.ApplySelf<MasterRealityPower>(ctx, this);
     }
 }

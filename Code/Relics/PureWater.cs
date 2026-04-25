@@ -20,11 +20,11 @@ public sealed class PureWater : WatcherRelicModel
     public override async Task BeforeHandDraw(
         Player player,
         PlayerChoiceContext choiceContext,
-        CombatState combatState)
+        ICombatState combatState)
     {
         if (player != Owner || combatState.RoundNumber > 1) return;
         var miracle = combatState.CreateCard<Miracle>(Owner);
-        await CardPileCmd.AddGeneratedCardToCombat(miracle, PileType.Hand, true);
+        await CardPileCmd.AddGeneratedCardToCombat(miracle, PileType.Hand, player);
         Flash();
     }
 

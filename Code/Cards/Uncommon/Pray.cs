@@ -20,9 +20,9 @@ public sealed class Pray : WatcherCardModel
         WithTip(typeof(Insight));
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<MantraPower>(this);
+        await CommonActions.ApplySelf<MantraPower>(ctx, this);
         await WatcherCmd.GiveCard<Insight>(Owner, PileType.Draw, CardPilePosition.Random);
     }
 }

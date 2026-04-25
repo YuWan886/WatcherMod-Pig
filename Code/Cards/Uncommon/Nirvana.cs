@@ -20,9 +20,9 @@ public sealed class Nirvana : WatcherCardModel
         WithTip(WatcherKeywords.Scry);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-        await CommonActions.ApplySelf<NirvanaPower>(this);
+        await CommonActions.ApplySelf<NirvanaPower>(ctx, this);
     }
 }

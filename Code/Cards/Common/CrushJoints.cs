@@ -24,13 +24,13 @@ public sealed class CrushJoints : WatcherCardModel
             e.CardPlay.Card.Owner == Owner &&
             e.CardPlay.Card != this)?.CardPlay.Card.Type == CardType.Skill;
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         await CommonActions.CardAttack(this, cardPlay)
             .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
+            .Execute(ctx);
         if (!WasLastCardPlayedSkill) return;
-        await CommonActions.Apply<VulnerablePower>(cardPlay.Target, this);
+        await CommonActions.Apply<VulnerablePower>(ctx, cardPlay.Target, this);
     }
 }

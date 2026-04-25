@@ -17,12 +17,12 @@ public class DevotionPower : WatcherPowerModel
 
 
     public override async Task BeforeHandDrawLate(Player player, PlayerChoiceContext choiceContext,
-        CombatState combatState)
+        ICombatState combatState)
     {
         if (player != Owner.Player)
             return;
 
-        await PowerCmd.Apply<MantraPower>(player.Creature, Amount, player.Creature, ModelDb.Card<Devotion>());
+        await PowerCmd.Apply<MantraPower>(choiceContext, player.Creature, Amount, player.Creature, ModelDb.Card<Devotion>());
         Flash();
     }
 }

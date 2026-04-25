@@ -15,8 +15,8 @@ public sealed class LiveForever : WishableWatcherCard
         WithPower<PlatedArmorPower>(6, 2);
     }
 
-    public override async Task OnWish(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override async Task OnWish(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<PlatedArmorPower>(this);
+        await CommonActions.ApplySelf<PlatedArmorPower>(ctx, this);
     }
 }

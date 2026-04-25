@@ -18,10 +18,10 @@ public sealed class Fasting : WatcherCardModel
         WithPower<FastingPower>(1);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<StrengthPower>(this);
-        await CommonActions.ApplySelf<DexterityPower>(this);
-        await CommonActions.ApplySelf<FastingPower>(this);
+        await CommonActions.ApplySelf<StrengthPower>(ctx, this);
+        await CommonActions.ApplySelf<DexterityPower>(ctx, this);
+        await CommonActions.ApplySelf<FastingPower>(ctx, this);
     }
 }

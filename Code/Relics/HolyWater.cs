@@ -20,7 +20,7 @@ public sealed class HolyWater : WatcherRelicModel
     public override async Task BeforeHandDraw(
         Player player,
         PlayerChoiceContext choiceContext,
-        CombatState combatState)
+        ICombatState combatState)
     {
         if (player != Owner || combatState.RoundNumber > 1) return;
         var miracles =
@@ -30,7 +30,7 @@ public sealed class HolyWater : WatcherRelicModel
                 combatState.CreateCard<Miracle>(Owner),
                 combatState.CreateCard<Miracle>(Owner)
             };
-        await CardPileCmd.AddGeneratedCardsToCombat(miracles, PileType.Hand, true);
+        await CardPileCmd.AddGeneratedCardsToCombat(miracles, PileType.Hand, player);
         Flash();
     }
 }

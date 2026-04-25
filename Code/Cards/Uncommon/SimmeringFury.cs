@@ -19,9 +19,9 @@ public sealed class SimmeringFury : WatcherCardModel
         WithStanceTip<WrathStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<SimmeringRagePower>(this);
-        await CommonActions.ApplySelf<DrawCardsNextTurnPower>(this);
+        await CommonActions.ApplySelf<SimmeringRagePower>(ctx, this);
+        await CommonActions.ApplySelf<DrawCardsNextTurnPower>(ctx, this);
     }
 }

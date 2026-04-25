@@ -18,8 +18,8 @@ public sealed class Study : WatcherCardModel
         WithCostUpgradeBy(-1);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<StudyPower>(this);
+        await CommonActions.ApplySelf<StudyPower>(ctx, this);
     }
 }

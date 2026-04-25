@@ -17,9 +17,9 @@ public sealed class Swivel : WatcherCardModel
     }
 
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CommonActions.CardBlock(this, cardPlay);
-        await CommonActions.ApplySelf<FreeAttackPower>(this);
+        await CommonActions.ApplySelf<FreeAttackPower>(ctx, this);
     }
 }

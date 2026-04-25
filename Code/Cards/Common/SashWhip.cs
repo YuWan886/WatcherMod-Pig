@@ -34,10 +34,10 @@ public sealed class SashWhip : WatcherCardModel
         }
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash").Execute(choiceContext);
+        await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash").Execute(ctx);
         if (!WasLastCardPlayedAttack || cardPlay.Target == null) return;
-        await CommonActions.Apply<WeakPower>(cardPlay.Target, this);
+        await CommonActions.Apply<WeakPower>(ctx, cardPlay.Target, this);
     }
 }

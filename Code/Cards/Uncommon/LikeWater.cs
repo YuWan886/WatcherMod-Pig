@@ -20,8 +20,8 @@ public sealed class LikeWater : WatcherCardModel
     }
 
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<LikeWaterPower>(this);
+        await CommonActions.ApplySelf<LikeWaterPower>(ctx, this);
     }
 }

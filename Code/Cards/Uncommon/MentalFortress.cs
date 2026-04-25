@@ -17,8 +17,8 @@ public sealed class MentalFortress : WatcherCardModel
         WithTip(StaticHoverTip.Block);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<MentalFortressPower>(this);
+        await CommonActions.ApplySelf<MentalFortressPower>(ctx, this);
     }
 }

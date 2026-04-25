@@ -19,8 +19,8 @@ public sealed class WaveOfTheHand : WatcherCardModel
         WithTip(StaticHoverTip.Block);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<WaveOfTheHandPower>(this);
+        await CommonActions.ApplySelf<WaveOfTheHandPower>(ctx, this);
     }
 }

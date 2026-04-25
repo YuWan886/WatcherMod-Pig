@@ -1,5 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -23,7 +24,9 @@ public sealed class MantraPower : WatcherPowerModel
         WatcherHoverTipFactory.FromStance<DivinityStance>()
     ];
 
-    public override async Task AfterPowerAmountChanged(
+
+
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext ctx,
         PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         var player = Owner.Player;
@@ -37,8 +40,7 @@ public sealed class MantraPower : WatcherPowerModel
         if (triggers <= 0) return;
 
         var totalCost = triggers * 10m;
-        await PowerCmd.ModifyAmount(this, -totalCost, Owner, cardSource);
-        var ctx = new ThrowingPlayerChoiceContext();
+        await PowerCmd.ModifyAmount(ctx, this, -totalCost, Owner, cardSource);
         await StanceCmd.EnterDivinity(ctx, player, cardSource);
     }
 }

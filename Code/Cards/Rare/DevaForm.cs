@@ -16,8 +16,8 @@ public sealed class DevaForm : WatcherCardModel
         WithPower<DevaPower>(1);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<DevaPower>(this);
+        await CommonActions.ApplySelf<DevaPower>(ctx, this);
     }
 }

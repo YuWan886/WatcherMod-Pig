@@ -16,8 +16,8 @@ public sealed class WreathOfFlame : WatcherCardModel
     }
 
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<VigorPower>(this);
+        await CommonActions.ApplySelf<VigorPower>(ctx, this);
     }
 }

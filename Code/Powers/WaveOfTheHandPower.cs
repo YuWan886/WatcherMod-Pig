@@ -1,8 +1,10 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -14,7 +16,7 @@ public sealed class WaveOfTheHandPower : WatcherPowerModel
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-
+    
     public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props,
         CardModel? cardSource)
     {
@@ -24,8 +26,9 @@ public sealed class WaveOfTheHandPower : WatcherPowerModel
         var weakAmount = Amount; 
         if (weakAmount <= 0)
             return;
-
+        
         await PowerCmd.Apply<WeakPower>(
+            new ThrowingPlayerChoiceContext(),
             CombatState.HittableEnemies, 
             weakAmount,
             Owner, 

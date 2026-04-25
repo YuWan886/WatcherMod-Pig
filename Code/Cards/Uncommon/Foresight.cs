@@ -17,8 +17,8 @@ public sealed class Foresight : WatcherCardModel
         WithTip(WatcherKeywords.Scry);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<ForesightPower>(this);
+        await CommonActions.ApplySelf<ForesightPower>(ctx, this);
     }
 }

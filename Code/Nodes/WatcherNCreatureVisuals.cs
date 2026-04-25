@@ -13,9 +13,9 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
     private MegaBone? _eyeBone;
     private Node2D? _eyeNode;
     private bool _eyeSetupDone;
-    private AnimationNodeStateMachinePlayback _playback;
-    private CreatureAnimator _animator;
-    private CanvasItemMaterial _premultMat;
+    private AnimationNodeStateMachinePlayback? _playback;
+    private CreatureAnimator? _animator;
+    private CanvasItemMaterial? _premultMat;
     private Material? _oldMaterial;
 
     public override void _Ready()
@@ -70,12 +70,15 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
         {
             case "Idle":
             case "Hit":
+                if (_animator == null) return;
                 _animator.SetTrigger(trigger);
                 break;
             case "Attack":
+                if (_playback == null) return;
                 _playback.Travel(trigger);
                 break;
             case "Dead":
+                if (_playback == null) return;
                 SpineBody?.SetNormalMaterial(_oldMaterial);
                 _body.Material = null;
                 _playback.Travel(trigger);
@@ -89,7 +92,7 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
         [HarmonyPrefix]
         static bool MyAnimations(NCreature __instance, string trigger)
         {
-            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals) return true;
+            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals || __instance._spineAnimator == null) return true;
             hexVisuals._animator = __instance._spineAnimator;
             hexVisuals.OnAnimationTrigger(trigger);
             return false;
@@ -102,7 +105,7 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
         [HarmonyPrefix]
         static bool MyDeathAnimation(NCreature __instance)
         {
-            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals) return true;
+            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals || __instance._spineAnimator == null) return true;
             hexVisuals._animator = __instance._spineAnimator;
             hexVisuals.OnAnimationTrigger("Dead");
             return false;

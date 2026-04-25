@@ -14,7 +14,7 @@ public sealed class TeardropLocket : WatcherRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Uncommon;
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, ICombatState combatState)
     {
         if (player != Owner || combatState.RoundNumber > 1) return; 
         await StanceCmd.EnterCalm(ctx, Owner, null);

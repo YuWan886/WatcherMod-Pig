@@ -16,7 +16,7 @@ public sealed class SimmeringRagePower : WatcherPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, ICombatState combatState)
     {
         if (!player.Creature.HasPower<SimmeringRagePower>())
             return;

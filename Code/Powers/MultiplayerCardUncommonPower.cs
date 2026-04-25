@@ -21,7 +21,7 @@ public class MultiplayerCardUncommonPower : WatcherPowerModel
         WatcherHoverTipFactory.FromStance<CalmStance>()
     ];
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, ICombatState combatState)
     {
         if (player.Creature != Owner) return;
         if (player.IsInWatcherStance<CalmStance>())

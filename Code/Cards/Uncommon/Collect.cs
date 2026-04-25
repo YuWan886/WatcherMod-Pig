@@ -26,10 +26,10 @@ public sealed class Collect : WatcherCardModel
     
     protected override bool HasEnergyCostX => true;
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         var numOfXs = ResolveEnergyXValue();
         if (IsUpgraded) numOfXs++;
-        await CommonActions.ApplySelf<CollectPower>(this, numOfXs);
+        await CommonActions.ApplySelf<CollectPower>(ctx, this, numOfXs);
     }
 }

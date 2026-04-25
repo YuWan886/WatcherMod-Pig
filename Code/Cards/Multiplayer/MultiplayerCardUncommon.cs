@@ -31,7 +31,7 @@ public class MultiplayerCardUncommon : WatcherCardModel
     {
         if(CombatState ==null) return;
         var players = CombatState.PlayerCreatures.Where(c => c.IsAlive && c != Owner.Creature).ToList();
-        await CommonActions.Apply<MultiplayerCardUncommonPower>(players, this, true);
+        await CommonActions.Apply<MultiplayerCardUncommonPower>(ctx, players, this, true);
         foreach (var player in players.Select(e=>e.Player))
         {
             if (player == null) continue;

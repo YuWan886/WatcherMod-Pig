@@ -21,7 +21,7 @@ public class WatcherCmd
         var card = combatState.CreateCard(ModelDb.Card<T>(), player);
         if (upgraded)
             CardCmd.Upgrade(card);
-        var result = await CardPileCmd.AddGeneratedCardToCombat(card, pileType, true, pos);
+        var result = await CardPileCmd.AddGeneratedCardToCombat(card, pileType, player, pos);
         if (skipAnimation) return card;
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
         return card;
@@ -47,7 +47,7 @@ public class WatcherCmd
             cardsToGive.Add(card);
         }
 
-        var result = await CardPileCmd.AddGeneratedCardsToCombat(cardsToGive, pileType, true, pos);
+        var result = await CardPileCmd.AddGeneratedCardsToCombat(cardsToGive, pileType, player, pos);
         if (skipAnimation || pileType == PileType.Hand) return;
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
     }

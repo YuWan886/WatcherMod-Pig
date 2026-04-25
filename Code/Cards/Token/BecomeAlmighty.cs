@@ -15,9 +15,9 @@ public sealed class BecomeAlmighty : WishableWatcherCard
         WithPower<StrengthPower>(3, 1);
     }
 
-    public override async Task OnWish(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    public override async Task OnWish(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<StrengthPower>(this);
+        await CommonActions.ApplySelf<StrengthPower>(ctx, this);
     }
     
 }

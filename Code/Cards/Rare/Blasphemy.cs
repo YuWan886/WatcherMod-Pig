@@ -22,7 +22,7 @@ public sealed class Blasphemy : WatcherCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<BlasphemerPower>(this);
+        await CommonActions.ApplySelf<BlasphemerPower>(ctx, this);
         await StanceCmd.EnterDivinity(ctx, Owner, cardPlay.Card);
     }
 }

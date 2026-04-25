@@ -18,9 +18,9 @@ public sealed class Prostrate : WatcherCardModel
         WithStanceTip<DivinityStance>();
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<MantraPower>(this);
+        await CommonActions.ApplySelf<MantraPower>(ctx, this);
         await CommonActions.CardBlock(this, cardPlay);
     }
 }

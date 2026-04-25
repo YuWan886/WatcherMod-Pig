@@ -2,6 +2,7 @@
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Watcher.Code.Extensions;
@@ -11,7 +12,7 @@ namespace Watcher.Code.Powers;
 
 public class DualityPower : CustomTemporaryPowerModel
 {
-    protected override Func<Creature, decimal, Creature?, CardModel?, bool, Task> ApplyPowerFunc =>
+    protected override Func<PlayerChoiceContext, Creature, decimal, Creature?, CardModel?, bool, Task> ApplyPowerFunc =>
         PowerCmd.Apply<DexterityPower>;
 
     public override PowerModel InternallyAppliedPower => ModelDb.Power<DexterityPower>();

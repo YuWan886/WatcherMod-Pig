@@ -18,8 +18,8 @@ public sealed class Rushdown : WatcherCardModel
         WithCostUpgradeBy(-1);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<RushdownPower>(this);
+        await CommonActions.ApplySelf<RushdownPower>(ctx, this);
     }
 }

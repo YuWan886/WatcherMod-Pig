@@ -18,8 +18,8 @@ public sealed class BattleHymn : WatcherCardModel
         WithKeyword(CardKeyword.Innate, UpgradeType.Add);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<BattleHymnPower>(this);
+        await CommonActions.ApplySelf<BattleHymnPower>(ctx, this);
     }
 }

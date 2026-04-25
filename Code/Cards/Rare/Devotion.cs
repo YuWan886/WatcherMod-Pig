@@ -16,8 +16,8 @@ public sealed class Devotion : WatcherCardModel
         WithTip(typeof(MantraPower));
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<DevotionPower>(this);
+        await CommonActions.ApplySelf<DevotionPower>(ctx, this);
     }
 }

@@ -15,8 +15,8 @@ public sealed class Omega : WatcherCardModel
         WithPower<OmegaPower>(50, 10);
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        await CommonActions.ApplySelf<OmegaPower>(this);
+        await CommonActions.ApplySelf<OmegaPower>(ctx, this);
     }
 }
