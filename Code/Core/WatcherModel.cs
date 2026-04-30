@@ -1,0 +1,84 @@
+using YuWanCard.Core.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using Watcher.Code.Events;
+using Watcher.Code.Nodes;
+using Watcher.Code.Stances;
+
+namespace Watcher.Code.Core;
+
+public class WatcherModel() : YuWanSingletonModel()
+{
+    private static readonly SpireField<Player, WatcherStanceModel> ActiveStance =
+        new(WatcherModelDb.WatcherStance<NoStance>);
+    
+    
+    public static WatcherStanceModel GetStanceModel(Player player)
+    {
+        return ActiveStance[player] ?? WatcherModelDb.WatcherStance<NoStance>();
+    }
+
+    public static bool IsInStance<T>(Player player) where T : WatcherStanceModel
+    {
+        return ActiveStance[player] is T;
+    }
+
+    
+    public static async Task SetStance<T>(PlayerChoiceContext ctx, Player player, CardModel? source) where T : WatcherStanceModel
+    {
+        await SetStance(ctx, player, WatcherModelDb.WatcherStance<T>(), source);
+    }
+
+    public static async Task SetStance<T>(CombatState combatState, Player player, CardModel? source) where T : WatcherStanceModel
+    {
+        var ctx = CreateContext(combatState, source);
+        await SetStance(ctx, player, WatcherModelDb.WatcherStance<T>(), source);
+    }
+
+    private static PlayerChoiceContext CreateContext(CombatState combatState, CardModel? source)
+    {
+        var sourceModel = source as AbstractModel ?? ModelDb.Singleton<WatcherModel>();
+        return new HookPlayerChoiceContext(sourceModel,
+            MegaCrit.Sts2.Core.Context.LocalContext.NetId ?? throw new InvalidOperationException("NetId is not available."),
+            combatState,
+            GameActionType.Combat);
+    }
+
+    private static async Task SetStance(PlayerChoiceContext ctx, Player player, WatcherStanceModel newCanonical, CardModel? source)
+    {
+        var current = ActiveStance[player];
+        if (current?.GetType() == newCanonical.GetType()) return;
+
+        if (current != null)
+            await current.OnExitStance(ctx, player, source);
+
+        var mutable = newCanonical.ToMutable(player);
+        ActiveStance[player] = mutable;
+        await mutable.OnEnterStance(ctx, player, source);
+
+        var creatureNode = NCombatRoom.Instance?.GetCreatureNode(player.Creature);
+        var visuals = creatureNode?.Visuals as WatcherNCreatureVisuals;
+        visuals?.SetEyeStance(mutable switch
+        {
+            WrathStance => "wrath",
+            CalmStance => "calm",
+            DivinityStance => "divinity",
+            _ => "RESET"
+        });
+        await WatcherHook.OnStanceChange(ctx, player, current!, ActiveStance[player]!);
+    }
+    
+    public override Task BeforeCombatStart()
+    {
+        var state = CombatManager.Instance.DebugOnlyGetState();
+        if (state == null) return Task.CompletedTask;
+        foreach (var player in state.Players)
+            ActiveStance[player] = WatcherModelDb.WatcherStance<NoStance>();
+        return Task.CompletedTask;
+    }
+    public override bool ShouldReceiveCombatHooks => true;
+}

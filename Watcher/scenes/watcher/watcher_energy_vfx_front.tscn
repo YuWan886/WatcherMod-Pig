@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfmw8p4tmbtuj"]
+
+[ext_resource type="Script" uid="uid://iougidf0ttg7" path="res://Code/Nodes/WatcherNParticlesContainer.cs" id="1_ek0ca"]
+[ext_resource type="PackedScene" uid="uid://bfd3qmv8bbm3v" path="res://Watcher/scenes/watcher/vfx_common_specks.tscn" id="2_peqvm"]
+
+[node name="WatcherEnergyVfxFront" type="Node2D" node_paths=PackedStringArray("_particles")]
+script = ExtResource("1_ek0ca")
+_particles = [NodePath("vfx_common_specks")]
+
+[node name="vfx_common_specks" parent="." instance=ExtResource("2_peqvm")]
