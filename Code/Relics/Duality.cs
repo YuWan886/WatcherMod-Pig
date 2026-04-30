@@ -1,8 +1,6 @@
-﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Powers;
@@ -15,9 +13,9 @@ public sealed class Duality : WatcherRelicModel
     public override RelicRarity Rarity => RelicRarity.Uncommon;
 
 
-    public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
+    public override async Task AfterAttack(AttackCommand command)
     {
         if (command.Attacker != Owner.Creature) return;
-        await PowerCmd.Apply<DualityPower>(choiceContext, Owner.Creature, 1, Owner.Creature, null, true);
+        await PowerCmd.Apply<DualityPower>(Owner.Creature, 1, Owner.Creature, null, true);
     }
 }

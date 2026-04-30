@@ -1,9 +1,9 @@
-﻿using BaseLib.Abstracts;
+using YuWanCard.Core.Abstracts;
 using Godot;
 
 namespace Watcher.Code.Character;
 
-public sealed class WatcherCardPool : CustomCardPoolModel
+public sealed class WatcherCardPool : YuWanCardPoolModel
 {
     public override string Title => Watcher.CharacterId;
 

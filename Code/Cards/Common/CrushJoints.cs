@@ -1,4 +1,4 @@
-﻿using BaseLib.Utils;
+using YuWanCard.Core.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -31,6 +31,7 @@ public sealed class CrushJoints : WatcherCardModel
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
         if (!WasLastCardPlayedSkill) return;
-        await CommonActions.Apply<VulnerablePower>(ctx, cardPlay.Target, this);
+        var amount = DynamicVars["VulnerablePower"].BaseValue;
+        await CommonActions.Apply<VulnerablePower>(ctx, cardPlay.Target, this, amount);
     }
 }

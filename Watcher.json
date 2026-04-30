@@ -7,7 +7,7 @@
   "has_pck": true,
   "has_dll": true,
   "dependencies": [
-    "BaseLib"
+    "YuWanCard"
   ],
   "affects_gameplay": true
 }

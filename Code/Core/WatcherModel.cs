@@ -1,6 +1,6 @@
-﻿using BaseLib.Abstracts;
-using BaseLib.Utils;
+using YuWanCard.Core.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Entities.Multiplayer;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -11,7 +11,7 @@ using Watcher.Code.Stances;
 
 namespace Watcher.Code.Core;
 
-public class WatcherModel() : CustomSingletonModel(true, false)
+public class WatcherModel() : YuWanSingletonModel()
 {
     private static readonly SpireField<Player, WatcherStanceModel> ActiveStance =
         new(WatcherModelDb.WatcherStance<NoStance>);
@@ -31,6 +31,21 @@ public class WatcherModel() : CustomSingletonModel(true, false)
     public static async Task SetStance<T>(PlayerChoiceContext ctx, Player player, CardModel? source) where T : WatcherStanceModel
     {
         await SetStance(ctx, player, WatcherModelDb.WatcherStance<T>(), source);
+    }
+
+    public static async Task SetStance<T>(CombatState combatState, Player player, CardModel? source) where T : WatcherStanceModel
+    {
+        var ctx = CreateContext(combatState, source);
+        await SetStance(ctx, player, WatcherModelDb.WatcherStance<T>(), source);
+    }
+
+    private static PlayerChoiceContext CreateContext(CombatState combatState, CardModel? source)
+    {
+        var sourceModel = source as AbstractModel ?? ModelDb.Singleton<WatcherModel>();
+        return new HookPlayerChoiceContext(sourceModel,
+            MegaCrit.Sts2.Core.Context.LocalContext.NetId ?? throw new InvalidOperationException("NetId is not available."),
+            combatState,
+            GameActionType.Combat);
     }
 
     private static async Task SetStance(PlayerChoiceContext ctx, Player player, WatcherStanceModel newCanonical, CardModel? source)

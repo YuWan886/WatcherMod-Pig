@@ -1,4 +1,4 @@
-﻿using BaseLib.Utils;
+using YuWanCard.Core.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
@@ -10,9 +10,6 @@ using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Uncommon;
 
-
-
-
 [Pool(typeof(WatcherCardPool))]
 public sealed class ForeignInfluence : WatcherCardModel
 {
@@ -21,14 +18,11 @@ public sealed class ForeignInfluence : WatcherCardModel
         WithKeywords(CardKeyword.Exhaust);
     }
 
-   
-
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (Owner.Creature.CombatState == null) return;
         var rng = Owner.RunState.Rng.CombatCardGeneration;
 
-        // Build 3 distinct weighted-rarity attack cards from ALL pools
         var attacksByRarity = CardFactory
             .FilterForCombat(ModelDb.AllCards)
             .FilterForPlayerCount(Owner.RunState)
@@ -54,7 +48,6 @@ public sealed class ForeignInfluence : WatcherCardModel
             weightedAttacks.Add(Owner.Creature.CombatState.CreateCard(candidate, Owner));
         }
 
-        // Let player choose 1 of 3
         var chosenCard = await CardSelectCmd.FromChooseACardScreen(
             choiceContext,
             weightedAttacks,
@@ -69,7 +62,7 @@ public sealed class ForeignInfluence : WatcherCardModel
             await CardPileCmd.AddGeneratedCardToCombat(
                 chosenCard,
                 PileType.Hand,
-                Owner
+                true
             );
         }
     }

@@ -1,42 +1,36 @@
-﻿using BaseLib.Utils;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
+using Watcher.Code.Core;
 using Watcher.Code.Powers;
-using Watcher.Code.Stances;
 
 namespace Watcher.Code.Cards.Rare;
 
 [Pool(typeof(WatcherCardPool))]
-public sealed class Brilliance : WatcherCardModel
+public class Brilliance : WatcherCardModel
 {
-    public Brilliance() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+    public Brilliance() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
     {
-        WithCalculatedDamage(12, MantraGainedThisCombat, ValueProp.Move, 4);
+        WithCalculatedDamage(ValueProp.Move, BrillianceDamage, baseVal: 12, extraVal: 1, baseUpgrade: 4);
         WithTip(typeof(MantraPower));
-        WithStanceTip<DivinityStance>();
     }
 
-    public override bool ShouldReceiveCombatHooks => true;
-
-    private static decimal MantraGainedThisCombat(CardModel card, Creature? creature)
+    private static decimal BrillianceDamage(CardModel card, Creature? target)
     {
-        var mantraGained = 0;
-        foreach (var e in CombatManager.Instance.History.Entries.OfType<PowerReceivedEntry>())
-            if (e is { Power: MantraPower, Applier: not null } && e.Applier.Player == card.Owner)
-                mantraGained += (int)e.Amount;
-        return mantraGained;
+        var player = card.Owner;
+        if (player == null) return 0;
+        var mantra = player.Creature.GetPower<MantraPower>();
+        return mantra?.Amount ?? 0;
     }
 
-    protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
+    protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CommonActions.CardAttack(this, play).WithHitFx("vfx/vfx_attack_slash").Execute(context);
+        await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
     }
 }

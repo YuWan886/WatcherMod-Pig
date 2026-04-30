@@ -1,14 +1,14 @@
-﻿using BaseLib.Abstracts;
-using BaseLib.Extensions;
+using YuWanCard.Core.Abstracts;
+using YuWanCard.Core.Extensions;
 using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Abstract;
 
-public abstract class WatcherPotionModel : CustomPotionModel
+public abstract class WatcherPotionModel : YuWanPotionModel
 {
-    public override string CustomPackedImagePath =>
+    public override string? CustomPackedImagePath =>
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.tres".PackedPotionImagePath();
 
-    public override string CustomPackedOutlinePath =>
+    public override string? CustomPackedOutlinePath =>
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.tres".PackedPotionImagePath();
 }

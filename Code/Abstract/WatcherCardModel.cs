@@ -1,7 +1,7 @@
-﻿using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using YuWanCard.Core.Abstracts;
+using YuWanCard.Core.Extensions;
+using YuWanCard.Core.Utils;
 using Watcher.Code.Core;
 using Watcher.Code.Extensions;
 using Watcher.Code.Stances;
@@ -14,12 +14,16 @@ public abstract class WatcherCardModel(
     CardRarity rarity,
     TargetType targetType,
     bool shouldShowInCardLibrary = true)
-    : ConstructedCardModel(canonicalEnergyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    : YuWanCardModel(canonicalEnergyCost, type, rarity, targetType, shouldShowInCardLibrary)
 {
-    public sealed override string CustomPortraitPath =>
-        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
-
-
+    public sealed override string? CustomPortraitPath
+    {
+        get
+        {
+            var entry = Id.Entry.RemovePrefix();
+            return $"{entry.ToLowerInvariant()}.png".CardImagePath();
+        }
+    }
 
     public WatcherCardModel WithStanceTip<T>() where T : WatcherStanceModel
     {

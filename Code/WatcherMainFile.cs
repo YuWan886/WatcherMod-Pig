@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Events;
+using YuWanCard.Core.Registration;
 using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
 namespace Watcher.Code;
@@ -13,7 +14,7 @@ namespace Watcher.Code;
 [ModInitializer(nameof(Initialize))]
 public partial class WatcherMainFile : Node
 {
-    public const string ModId = "Watcher"; //At the moment, this is used only for the Logger and harmony names.
+    public const string ModId = "Watcher";
 
     public static Logger Logger { get; } =
         new(ModId, LogType.Generic);
@@ -25,6 +26,10 @@ public partial class WatcherMainFile : Node
         var assembly = Assembly.GetExecutingAssembly();
         ScriptManagerBridge.LookupScriptsInAssembly(assembly);
         harmony.PatchAll();
+        
+        ContentRegistry.RegisterAll(assembly);
+        
+        Logger.Info("Watcher mod initialized");
     }
 }
 

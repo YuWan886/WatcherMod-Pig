@@ -1,4 +1,4 @@
-﻿using BaseLib.Utils;
+using YuWanCard.Core.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using Watcher.Code.Abstract;
@@ -22,6 +22,7 @@ public sealed class TalkToTheHand : WatcherCardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         await CommonActions.CardAttack(this, cardPlay).Execute(ctx);
-        await CommonActions.Apply<BlockReturnPower>(ctx, cardPlay.Target, this);
+        var amount = DynamicVars["BlockReturnPower"].BaseValue;
+        await CommonActions.Apply<BlockReturnPower>(ctx, cardPlay.Target, this, amount);
     }
 }

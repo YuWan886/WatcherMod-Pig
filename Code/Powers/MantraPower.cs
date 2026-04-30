@@ -2,7 +2,6 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Abstract;
@@ -26,8 +25,7 @@ public sealed class MantraPower : WatcherPowerModel
 
 
 
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext ctx,
-        PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+    public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
     {
         var player = Owner.Player;
         if (power is not MantraPower || amount <= 0 || applier != Owner || player == null)
@@ -40,7 +38,8 @@ public sealed class MantraPower : WatcherPowerModel
         if (triggers <= 0) return;
 
         var totalCost = triggers * 10m;
-        await PowerCmd.ModifyAmount(ctx, this, -totalCost, Owner, cardSource);
-        await StanceCmd.EnterDivinity(ctx, player, cardSource);
+        await PowerCmd.ModifyAmount(this, -totalCost, Owner, cardSource);
+        var combatState = Owner.CombatState ?? throw new InvalidOperationException("CombatState is not available.");
+        await StanceCmd.EnterDivinity(combatState, player, cardSource);
     }
 }

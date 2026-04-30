@@ -1,4 +1,4 @@
-﻿<Project Sdk="Godot.NET.Sdk/4.5.1">
+<Project Sdk="Godot.NET.Sdk/4.5.1" InitialTargets="CheckDependencyPaths">
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>true</ImplicitUsings>
@@ -41,9 +41,9 @@
 
     <!-- Windows -->
     <PropertyGroup Condition="'$(IsWindows)' == 'true'">
-        <GodotPath Condition="'$(GodotPath)' == ''">C:\Users\lamal\Desktop\Programmieren\sts2mods\MegaDot\MegaDot_v4.5.1-stable_mono_win64.exe</GodotPath>
+        <GodotPath Condition="'$(GodotPath)' == ''">D:\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64.exe</GodotPath>
         <!-- If on Windows and Slay the Spire 2 is not installed in your default steam library, adjust the following.-->
-        <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">D:/SteamLibrary/steamapps</SteamLibraryPath>
+        <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">F:/steam/steamapps</SteamLibraryPath>
 
         <!-- The below should not need to be changed. -->
         <Sts2Path Condition="'$(Sts2Path)' == ''">$(SteamLibraryPath)/common/Slay the Spire 2</Sts2Path>
@@ -76,9 +76,18 @@
     </PropertyGroup>
 
     <PropertyGroup>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    </PropertyGroup>
+
+    <PropertyGroup>
         <!-- Diasble architecture mismatch warning; mods are ideally built for all platforms (MSIL)
              while your local StS2 version will be for your specific platform. -->
-        <NoWarn>$(NoWarn);MSB3270</NoWarn>
+        <NoWarn>$(NoWarn);MSB3270;CS0436;CS9057;STS001;STS003</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <NoWarn>$(NoWarn);NU1608</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>
@@ -95,14 +104,13 @@
             <Private>false</Private>
         </Reference>
 
-        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.1.0" PrivateAssets="All" />
-        <!--Reference Include="BaseLib">
-            <HintPath>C:\Users\lamal\Desktop\Programmieren\sts2mods\BaseLib-StS2\publish\BaseLib.dll</HintPath>
-            <Private>false</Private>
-        </Reference-->
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.0.9"/>
+        <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All"/>
         <AdditionalFiles Include="Watcher/localization/**/*.json"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="others\Sts2-YuWanCard-main\YuWanCard.csproj"/>
     </ItemGroup>
     <ItemGroup> <!--Allows access to originally private/protected members but may (unlikely to) cause errors.-->
         <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
@@ -112,8 +120,10 @@
     <ItemGroup>
         <Compile Remove="Watcher/**"/>
         <Compile Remove="shaders/**"/>
+        <Compile Remove="others/**"/>
         <EmbeddedResource Remove="Watcher/**"/>
         <EmbeddedResource Remove="shaders/**"/>
+        <EmbeddedResource Remove="others/**"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -129,6 +139,10 @@
     </ItemGroup>
 
 
+    <Target Name="CheckDependencyPaths">
+        <Error Text="Slay the Spire 2 data not found at path '$(Sts2DataDir)'" Condition="'$(Sts2DataDir)' == '' or !Exists('$(Sts2DataDir)')" />
+    </Target>
+
     <Target Name="CopyToModsFolderOnBuild" AfterTargets="PostBuildEvent">
         <Message Text="Copying .dll and manifest to mods folder." Importance="high"/>
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"/>
@@ -136,12 +150,16 @@
         <Copy SourceFiles="$(TargetDir)$(TargetName).pdb"
               DestinationFolder="$(ModsPath)$(MSBuildProjectName)/"
               Condition="Exists('$(TargetDir)$(TargetName).pdb')"/>
+    </Target>
 
-        <Message Text="Copying BaseLib to mods folder." Importance="high"/>
-        <ItemGroup>
-            <BaseLibFiles Include="$(NuGetPackageRoot)alchyr.sts2.baselib/**/lib/**/BaseLib.dll;$(NuGetPackageRoot)alchyr.sts2.baselib/**/Content/BaseLib.pck;$(NuGetPackageRoot)alchyr.sts2.baselib/**/Content/BaseLib.json;"/>
-        </ItemGroup>
-        <Copy SourceFiles="@(BaseLibFiles)" DestinationFolder="$(ModsPath)BaseLib/"/>
+    <Target Name="CopyQuickPck" AfterTargets="PackPck" Condition="Exists('$(PckPackerOutputPath)') And '$(PckPackerSkipped)' != 'true'">
+        <Message Text="Copying quick .pck to mods folder." Importance="high"/>
+        <Copy SourceFiles="$(PckPackerOutputPath)" DestinationFolder="$(ModsPath)/$(MSBuildProjectName)"/>
+    </Target>
+
+    <Target Name="NeedGodotForPublish" BeforeTargets="Publish">
+        <Error Text="Godot path must be set up before publishing; Godot not found at path '$(GodotPath)'. Check the GodotPath property in the project file."
+               Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')" />
     </Target>
 
     <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
@@ -149,7 +167,7 @@
 
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;"
               EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1"
-              ContinueOnError="WarnAndContinue"/>
+              IgnoreExitCode="true" />
     </Target>
 
     <Target Name="GodotPublishSkipped" AfterTargets="Publish" Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')">

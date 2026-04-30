@@ -1,4 +1,4 @@
-﻿using BaseLib.Patches.Content;
+using YuWanCard.Core.Patches.Content;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
 
