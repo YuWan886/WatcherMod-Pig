@@ -1,3 +1,4 @@
+using System;
 using System.Reflection;
 using Godot;
 using Godot.Bridge;
@@ -21,14 +22,21 @@ public partial class WatcherMainFile : Node
 
     public static void Initialize()
     {
-        WatcherSubscriber.Subscribe();
+        try { WatcherSubscriber.Subscribe(); }
+        catch (Exception ex) { Logger.Warn($"Subscribe failed (may be mobile): {ex.Message}"); }
+
         Harmony harmony = new(ModId);
         var assembly = Assembly.GetExecutingAssembly();
-        ScriptManagerBridge.LookupScriptsInAssembly(assembly);
-        harmony.PatchAll();
-        
-        ContentRegistry.RegisterAll(assembly);
-        
+
+        try { ScriptManagerBridge.LookupScriptsInAssembly(assembly); }
+        catch (Exception ex) { Logger.Warn($"LookupScriptsInAssembly failed (may be mobile): {ex.Message}"); }
+
+        try { harmony.PatchAll(assembly); }
+        catch (Exception ex) { Logger.Warn($"PatchAll failed (may be mobile): {ex.Message}"); }
+
+        try { ContentRegistry.RegisterAll(assembly); }
+        catch (Exception ex) { Logger.Warn($"RegisterAll failed (may be mobile): {ex.Message}"); }
+
         Logger.Info("Watcher mod initialized");
     }
 }
