@@ -7,7 +7,7 @@ public static class StringExtensions
     {
         return Path.Join(WatcherMainFile.ModId, "images", "card_portraits", path);
     }
-    
+
     public static string PowerImagePath(this string path)
     {
         return Path.Join(WatcherMainFile.ModId, "images", "powers", path);

@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Abstract;
 using Watcher.Code.Events;
@@ -13,11 +14,15 @@ public sealed class MentalFortressPower : WatcherPowerModel, IOnStanceChange
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    
-    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
+
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.Block)];
+
+    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
+        WatcherStanceModel newStance)
     {
         if (player.Creature != Owner) return;
-        
+
         await CreatureCmd.GainBlock(
             Owner,
             Amount,

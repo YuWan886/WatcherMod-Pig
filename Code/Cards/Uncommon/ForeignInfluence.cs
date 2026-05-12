@@ -10,9 +10,6 @@ using Watcher.Code.Extensions;
 
 namespace Watcher.Code.Cards.Uncommon;
 
-
-
-
 [Pool(typeof(WatcherCardPool))]
 public sealed class ForeignInfluence : WatcherCardModel
 {
@@ -21,7 +18,6 @@ public sealed class ForeignInfluence : WatcherCardModel
         WithKeywords(CardKeyword.Exhaust);
     }
 
-   
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -35,7 +31,7 @@ public sealed class ForeignInfluence : WatcherCardModel
             .Where(c => c.Type == CardType.Attack)
             .GroupBy(c => c.Rarity)
             .ToDictionary(g => g.Key, g => g.ToList());
-        
+
         var weightedAttacks = new List<CardModel>();
         var seen = new HashSet<string>();
 

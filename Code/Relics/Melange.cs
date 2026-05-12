@@ -2,9 +2,11 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
+using Watcher.Code.Keywords;
 
 namespace Watcher.Code.Relics;
 
@@ -12,6 +14,12 @@ namespace Watcher.Code.Relics;
 public sealed class Melange : WatcherRelicModel
 {
     public override RelicRarity Rarity => RelicRarity.Shop;
+
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromKeyword(WatcherKeywords.Scry)
+    ];
 
     public override async Task AfterShuffle(PlayerChoiceContext choiceContext, Player shuffler)
     {

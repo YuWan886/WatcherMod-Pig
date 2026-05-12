@@ -33,13 +33,10 @@ public sealed class Omniscience : WatcherCardModel
             Owner,
             prefs
         )).FirstOrDefault();
-
-
         if (card == null) return;
+        var dupe = card.CreateDupe();
         await CardCmd.AutoPlay(choiceContext, card, null);
-        if (card.Type == CardType.Power) card.HasBeenRemovedFromState = false;
-        await CardCmd.AutoPlay(choiceContext, card, null);
+        await CardCmd.AutoPlay(choiceContext, dupe, null);
         if (card.Type != CardType.Power) await CardCmd.Exhaust(choiceContext, card);
-        
     }
 }

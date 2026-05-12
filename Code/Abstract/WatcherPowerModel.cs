@@ -6,7 +6,8 @@ namespace Watcher.Code.Abstract;
 
 public abstract class WatcherPowerModel : CustomPowerModel
 {
-    public sealed override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
-    public sealed override string CustomBigIconPath => CustomPackedIconPath;
+    public sealed override string CustomPackedIconPath =>
+        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
 
+    public sealed override string CustomBigIconPath => CustomPackedIconPath;
 }

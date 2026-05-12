@@ -11,5 +11,4 @@ public abstract class WatcherRelicModel : CustomRelicModel
 
     protected override string PackedIconOutlinePath =>
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}_outline.tres".TresRelicImagePath();
-
 }

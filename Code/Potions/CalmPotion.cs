@@ -21,7 +21,7 @@ public class CalmPotion : WatcherPotionModel
 
     public override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        WatcherHoverTipFactory.FromStance<CalmStance>(),
+        WatcherHoverTipFactory.FromStance<CalmStance>()
     ];
 
     protected override async Task OnUse(PlayerChoiceContext ctx, Creature? target)

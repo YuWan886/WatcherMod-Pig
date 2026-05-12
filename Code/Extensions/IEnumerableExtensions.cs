@@ -10,8 +10,8 @@ public static class EnumerableExtensions
         this IEnumerable<CardModel> options,
         IRunState runState)
     {
-        return runState.Players.Count > 1 ? 
-            options.Where(c => c.MultiplayerConstraint != CardMultiplayerConstraint.SingleplayerOnly) : 
-            options.Where(c => c.MultiplayerConstraint != CardMultiplayerConstraint.MultiplayerOnly);
+        return runState.Players.Count > 1
+            ? options.Where(c => c.MultiplayerConstraint != CardMultiplayerConstraint.SingleplayerOnly)
+            : options.Where(c => c.MultiplayerConstraint != CardMultiplayerConstraint.MultiplayerOnly);
     }
 }

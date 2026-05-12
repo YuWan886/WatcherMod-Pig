@@ -18,7 +18,7 @@ public sealed class AncientCard2 : WatcherCardModel
         WithKeywords(CardKeyword.Exhaust);
         WithCostUpgradeBy(-1);
     }
-    
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);

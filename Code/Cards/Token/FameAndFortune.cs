@@ -24,5 +24,4 @@ public sealed class FameAndFortune : WishableWatcherCard
         VfxCmd.PlayOnCreature(Owner.Creature, "vfx/vfx_coin_explosion_regular");
         await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
     }
-    
 }

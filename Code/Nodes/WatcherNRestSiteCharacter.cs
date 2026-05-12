@@ -11,10 +11,6 @@ public partial class WatcherNRestSiteCharacter : NRestSiteCharacter
         base._Ready();
         var isFlipped = _characterIndex % 2 == 1;
         var node = GetNode<TextureRect>("SpineSprite");
-        if (isFlipped)
-        {
-            node.FlipH = true;
-        }
-        
+        if (isFlipped) node.FlipH = true;
     }
 }

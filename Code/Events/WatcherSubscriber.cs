@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Modding;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Core;
@@ -14,7 +13,7 @@ public class WatcherSubscriber
         ModHelper.SubscribeForCombatStateHooks(WatcherMainFile.ModId, CollectModels2);
     }
 
-    
+
     public static IEnumerable<AbstractModel> CollectModels2(CombatState combatState)
     {
         return combatState.Players

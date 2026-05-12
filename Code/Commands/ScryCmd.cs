@@ -36,5 +36,4 @@ public static class ScryCmd
         foreach (var card in cardsToDiscard) await CardCmd.Discard(choiceContext, card);
         await WatcherHook.OnScryed(choiceContext, player, amount, cardsToDiscard.Count);
     }
-    
 }

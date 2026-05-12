@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.CommonUi;
 using Watcher.Code.Abstract;
 using Watcher.Code.Cards.Token;
@@ -13,10 +14,14 @@ public class StudyPower : WatcherPowerModel
 {
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
-    
+
+
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromCard<Insight>()];
+
     public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
         if (Owner.Player == null || Owner.Player?.Creature.Side != side) return;
-        await WatcherCmd.GiveCards<Insight>(Owner.Player, Amount, PileType.Draw, CardPilePosition.Random, animationStyle: CardPreviewStyle.MessyLayout);
+        await WatcherCmd.GiveCards<Insight>(Owner.Player, Amount, PileType.Draw, CardPilePosition.Random,
+            animationStyle: CardPreviewStyle.MessyLayout);
     }
 }

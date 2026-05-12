@@ -23,7 +23,7 @@ public class Ambrosia : WatcherPotionModel
 
     public override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        WatcherHoverTipFactory.FromStance<DivinityStance>(),
+        WatcherHoverTipFactory.FromStance<DivinityStance>()
     ];
 
     protected override async Task OnUse(PlayerChoiceContext ctx, Creature? target)

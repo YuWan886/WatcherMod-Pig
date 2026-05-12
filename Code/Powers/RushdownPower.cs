@@ -2,7 +2,9 @@
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using Watcher.Code.Abstract;
+using Watcher.Code.Core;
 using Watcher.Code.Events;
 using Watcher.Code.Stances;
 
@@ -13,9 +15,10 @@ public sealed class RushdownPower : WatcherPowerModel, IOnStanceChange
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
-    
+    protected override IEnumerable<IHoverTip> ExtraHoverTips => [WatcherHoverTipFactory.FromStance<WrathStance>()];
 
-    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
+    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
+        WatcherStanceModel newStance)
     {
         if (player.Creature != Owner || newStance is not WrathStance) return;
         await CardPileCmd.Draw(ctx, Amount, player);

@@ -1,6 +1,5 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -21,9 +20,9 @@ public sealed class MantraPower : WatcherPowerModel
 
     protected override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        WatcherHoverTipFactory.FromStance<DivinityStance>()
+        WatcherHoverTipFactory.FromStance<DivinityStance>(),
+        HoverTipFactory.FromPower<MantraPower>()
     ];
-
 
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext ctx,

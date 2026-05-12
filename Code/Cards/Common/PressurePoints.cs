@@ -36,7 +36,7 @@ public sealed class PressurePoints : WatcherCardModel
                 ctx,
                 enemy,
                 damage,
-                ValueProp.Unpowered | ValueProp.Unblockable,
+                ValueProp.Move | ValueProp.Unpowered | ValueProp.Unblockable,
                 this);
         }
     }

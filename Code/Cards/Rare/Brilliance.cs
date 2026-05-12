@@ -4,7 +4,6 @@ using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Abstract;
@@ -27,13 +26,9 @@ public sealed class Brilliance : WatcherCardModel
     public override bool ShouldReceiveCombatHooks => true;
 
     private static decimal MantraGainedThisCombat(CardModel card, Creature? creature)
-    {
-        var mantraGained = 0;
-        foreach (var e in CombatManager.Instance.History.Entries.OfType<PowerReceivedEntry>())
-            if (e is { Power: MantraPower, Applier: not null } && e.Applier.Player == card.Owner)
-                mantraGained += (int)e.Amount;
-        return mantraGained;
-    }
+        => CombatManager.Instance.History.Entries.OfType<PowerReceivedEntry>()
+            .Where(e => e is { Power: MantraPower, Applier: not null } && e.Applier.Player == card.Owner)
+            .Sum(e => e.Amount);
 
     protected override async Task OnPlay(PlayerChoiceContext context, CardPlay play)
     {

@@ -15,7 +15,7 @@ public sealed class AncientCard : WatcherCardModel
         WithKeyword(CardKeyword.Ethereal, UpgradeType.Remove);
         WithPower<AncientCardPower>(50);
     }
-    
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         await CommonActions.ApplySelf<AncientCardPower>(ctx, this);

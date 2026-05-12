@@ -15,7 +15,8 @@ public sealed class MasterRealityPower : WatcherPowerModel
 
     public override Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
-        if (card.Owner.Creature != Owner || !card.Owner.Creature.HasPower<MasterRealityPower>()) return Task.CompletedTask;
+        if (card.Owner.Creature != Owner || !card.Owner.Creature.HasPower<MasterRealityPower>())
+            return Task.CompletedTask;
         if (card is { IsUpgradable: true, IsUpgraded: false }) CardCmd.Upgrade(card);
         return Task.CompletedTask;
     }

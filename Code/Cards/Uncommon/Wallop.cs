@@ -1,10 +1,9 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
@@ -26,20 +25,16 @@ public sealed class Wallop : WatcherCardModel
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
     }
 
-    public override async Task AfterDamageGiven(
-        PlayerChoiceContext choiceContext,
-        Creature? dealer,
-        DamageResult result,
-        ValueProp props,
-        Creature target,
-        CardModel? cardSource)
+    public override async Task AfterAttack(PlayerChoiceContext ctx, AttackCommand command)
     {
-        if (dealer == Owner.Creature && cardSource == this && result.UnblockedDamage > 0)
-            await CreatureCmd.GainBlock(
-                Owner.Creature,
-                result.UnblockedDamage,
-                ValueProp.Move,
-                null
-            );
+        if (command.ModelSource != this || command.Attacker != Owner.Creature) return;
+        var sum = command.Results.SelectMany(e => e).Sum(damageResult => damageResult.UnblockedDamage);
+        if (sum == 0) return;
+        await CreatureCmd.GainBlock(
+            Owner.Creature,
+            sum,
+            ValueProp.Move,
+            null
+        );
     }
 }

@@ -10,6 +10,8 @@ public class WatcherHoverTipFactory
         return FromStance(WatcherModelDb.WatcherStance<T>());
     }
 
-    public static IHoverTip FromStance(WatcherStanceModel model) => model.DumbHoverTip;
-
+    public static IHoverTip FromStance(WatcherStanceModel model)
+    {
+        return model.DumbHoverTip;
+    }
 }

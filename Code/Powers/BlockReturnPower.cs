@@ -1,42 +1,50 @@
-﻿using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using BaseLib.Patches.Localization;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.ValueProps;
 using Watcher.Code.Abstract;
 
 namespace Watcher.Code.Powers;
 
-public sealed class BlockReturnPower : WatcherPowerModel
+public sealed class BlockReturnPower : WatcherPowerModel, IAddDumbVariablesToPowerDescription
 {
     public override PowerType Type => PowerType.Debuff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override bool ShouldPowerBeRemovedAfterOwnerDeath()
+    public override PowerInstanceType InstanceType => PowerInstanceType.InstancedPerApplier;
+
+
+    private bool _applierIsAttacking;
+    public override Task BeforeAttack(AttackCommand command)
     {
-        return false;
+        if (command.Attacker == Applier)
+            _applierIsAttacking = true;
+        return Task.CompletedTask;
     }
 
-    public override bool ShouldPowerBeRemovedOnDeath(PowerModel power)
+ 
+    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
     {
-        return power is not BlockReturnPower;
+        if (Applier == null || wasRemovalPrevented || !_applierIsAttacking || creature != Owner) return;
+        await CreatureCmd.GainBlock(Applier, Amount, ValueProp.Unpowered, null);
     }
 
-
-    public override async Task AfterDamageReceived(
-        PlayerChoiceContext choiceContext,
-        Creature target,
-        DamageResult result,
-        ValueProp props,
-        Creature? dealer,
-        CardModel? cardSource)
+    public override async Task AfterAttack(PlayerChoiceContext choiceContext, AttackCommand command)
     {
-        if (target != Owner || dealer == null || dealer == Owner)
-            return;
-        if (cardSource is not { Type: CardType.Attack }) return;
-        await CreatureCmd.GainBlock(dealer, Amount, ValueProp.Unpowered, null);
+        if (Applier == null || command.Attacker != Applier) return;
+        _applierIsAttacking = false;
+        if (command.Results.SelectMany(s => s).All(e => e.Receiver != Owner)) return;
+        await CreatureCmd.GainBlock(Applier, Amount, ValueProp.Unpowered, null);
+    }
+
+    public void AddDumbVariablesToPowerDescription(LocString description)
+    {
+        description.Add("IsApplierYou", LocalContext.IsMe(Applier));
     }
 }

@@ -20,7 +20,6 @@ public abstract class WatcherCardModel(
         $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
 
 
-
     public WatcherCardModel WithStanceTip<T>() where T : WatcherStanceModel
     {
         WithTip(new TooltipSource(_ => WatcherHoverTipFactory.FromStance<T>()));

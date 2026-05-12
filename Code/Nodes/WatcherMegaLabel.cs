@@ -6,5 +6,4 @@ namespace Watcher.Code.Nodes;
 [GlobalClass]
 public partial class WatcherMegaLabel : MegaLabel
 {
-    
 }

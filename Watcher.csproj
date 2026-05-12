@@ -11,9 +11,9 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <AssemblyVersion>1.4.3.0</AssemblyVersion>
-        <FileVersion>1.4.3.0</FileVersion>
-        <Version>1.4.3</Version>
+        <AssemblyVersion>1.4.5.0</AssemblyVersion>
+        <FileVersion>1.4.5.0</FileVersion>
+        <Version>1.4.5</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -44,7 +44,6 @@
         <GodotPath Condition="'$(GodotPath)' == ''">C:\Users\lamal\Desktop\Programmieren\sts2mods\MegaDot\MegaDot_v4.5.1-stable_mono_win64.exe</GodotPath>
         <!-- If on Windows and Slay the Spire 2 is not installed in your default steam library, adjust the following.-->
         <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">D:/SteamLibrary/steamapps</SteamLibraryPath>
-
         <!-- The below should not need to be changed. -->
         <Sts2Path Condition="'$(Sts2Path)' == ''">$(SteamLibraryPath)/common/Slay the Spire 2</Sts2Path>
         <ModsPath Condition="'$(ModsPath)' == ''">$(Sts2Path)/mods/</ModsPath>
@@ -95,7 +94,7 @@
             <Private>false</Private>
         </Reference>
 
-        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.1.0" PrivateAssets="All" />
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.1.2" PrivateAssets="All"/>
         <!--Reference Include="BaseLib">
             <HintPath>C:\Users\lamal\Desktop\Programmieren\sts2mods\BaseLib-StS2\publish\BaseLib.dll</HintPath>
             <Private>false</Private>
@@ -105,7 +104,7 @@
         <AdditionalFiles Include="Watcher/localization/**/*.json"/>
     </ItemGroup>
     <ItemGroup> <!--Allows access to originally private/protected members but may (unlikely to) cause errors.-->
-        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
+        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
 
@@ -125,7 +124,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include=".editorconfig" />
+        <Content Include=".editorconfig"/>
     </ItemGroup>
 
 

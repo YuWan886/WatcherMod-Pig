@@ -11,15 +11,14 @@ namespace Watcher.Code.Cards.Multiplayer;
 [Pool(typeof(WatcherCardPool))]
 public class MultiplayerCardRare : WatcherCardModel
 {
-    
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
     public MultiplayerCardRare() : base(3, CardType.Skill, CardRarity.Rare, TargetType.AnyAlly)
     {
         WithStanceTip<DivinityStance>();
         WithKeyword(CardKeyword.Ethereal, UpgradeType.Remove);
         WithKeyword(CardKeyword.Exhaust);
     }
+
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {

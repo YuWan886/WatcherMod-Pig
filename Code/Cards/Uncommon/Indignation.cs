@@ -24,13 +24,8 @@ public sealed class Indignation : WatcherCardModel
         if (CombatState == null) return;
         var isInWrath = Owner.IsInWatcherStance<WrathStance>();
         if (isInWrath)
-        {
             await CommonActions.Apply<VulnerablePower>(ctx, CombatState.HittableEnemies, this);
-        }
         else
-        {
             await StanceCmd.EnterWrath(ctx, Owner, cardPlay.Card);
-        }
-           
     }
 }

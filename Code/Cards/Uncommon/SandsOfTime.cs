@@ -1,5 +1,6 @@
 ﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Abstract;
@@ -23,14 +24,12 @@ public sealed class SandsOfTime : WatcherCardModel
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
     }
 
-    public override async Task AfterCardRetained(CardModel card)
+    public override async Task AfterFlush(PlayerChoiceContext choiceContext, Player player,
+        IReadOnlyCollection<CardModel> flushedCards,
+        IReadOnlyCollection<CardModel> retainedCards)
     {
-        if (card == this)
-        {
-            var currentCost = EnergyCost.GetWithModifiers(CostModifiers.Local);
-            if (currentCost > 0) EnergyCost.SetThisCombat(currentCost - 1);
-        }
-
-        await Task.CompletedTask;
+        if (!retainedCards.Contains(this)) return;
+        var currentCost = EnergyCost.GetWithModifiers(CostModifiers.Local);
+        if (currentCost > 0) EnergyCost.SetThisCombat(currentCost - 1);
     }
 }

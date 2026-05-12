@@ -14,6 +14,7 @@ public sealed class DevaForm : WatcherCardModel
     {
         WithKeyword(CardKeyword.Ethereal, UpgradeType.Remove);
         WithPower<DevaPower>(1);
+        WithEnergy(1);
     }
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
