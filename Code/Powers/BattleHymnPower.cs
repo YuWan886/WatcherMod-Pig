@@ -14,12 +14,10 @@ public sealed class BattleHymnPower : WatcherPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext,
-        ICombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
         if (Owner.Player != player) return;
-        await WatcherCmd.GiveCards<Smite>(Owner.Player, Amount, PileType.Hand, CardPilePosition.Top,
-            skipAnimation: true);
+        await WatcherCmd.GiveCards<Smite>(Owner.Player, Amount, PileType.Hand, CardPilePosition.Top, skipAnimation: true);
         Flash();
     }
 }

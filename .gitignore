@@ -30,3 +30,5 @@ shaders
 themes
 addons
 /.run
+others/
+.vscode/

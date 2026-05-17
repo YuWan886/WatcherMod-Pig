@@ -21,18 +21,7 @@ public class PressurePoints : WatcherCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
-        await CommonActions.Apply<MarkPower>(ctx, cardPlay.Target, this);
-        var enemies = cardPlay.Target.CombatState!.Enemies.ToList();
-        foreach (var enemy in enemies)
-        {
-            var damage = Calc(enemy);
-            if (damage <= 0) continue;
-            await CreatureCmd.Damage(
-                ctx,
-                enemy,
-                damage,
-                ValueProp.Move | ValueProp.Unpowered | ValueProp.Unblockable,
-                this);
-        }
+        var amount = DynamicVars["MarkPower"].BaseValue;
+        await PowerCmd.Apply<MarkPower>(cardPlay.Target, amount, cardPlay.Card.Owner.Creature, this);
     }
 }

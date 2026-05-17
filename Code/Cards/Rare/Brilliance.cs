@@ -21,12 +21,13 @@ public class Brilliance : WatcherCardModel
         WithTip(typeof(MantraPower));
     }
 
-    public override bool ShouldReceiveCombatHooks => true;
-
-    private static decimal MantraGainedThisCombat(CardModel card, Creature? creature)
-        => CombatManager.Instance.History.Entries.OfType<PowerReceivedEntry>()
-            .Where(e => e is { Power: MantraPower, Applier: not null } && e.Applier.Player == card.Owner)
-            .Sum(e => e.Amount);
+    private static decimal BrillianceDamage(CardModel card, Creature? target)
+    {
+        var player = card.Owner;
+        if (player == null) return 0;
+        var mantra = player.Creature.GetPower<MantraPower>();
+        return mantra?.Amount ?? 0;
+    }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {

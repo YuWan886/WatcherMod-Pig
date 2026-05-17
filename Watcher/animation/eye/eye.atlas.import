@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://bihuy132rt255"
+path="res://.godot/imported/eye.atlas-213f9a27d43ba466477446babd6180a8.spatlas"
+
+[deps]
+
+source_file="res://Watcher/animation/eye/eye.atlas"
+dest_files=["res://.godot/imported/eye.atlas-213f9a27d43ba466477446babd6180a8.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

@@ -1,7 +1,6 @@
 using YuWanCard.Core.Utils;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Abstract;
@@ -13,7 +12,6 @@ namespace Watcher.Code.Cards.Uncommon;
 public sealed class WindmillStrike : WatcherCardModel
 {
     private const string RetainedIncreaseKey = "RetainIncrease";
-
     public WindmillStrike() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
     {
         WithTags(CardTag.Strike);
@@ -21,7 +19,7 @@ public sealed class WindmillStrike : WatcherCardModel
         WithVar(RetainedIncreaseKey, 4, 1);
         WithKeywords(CardKeyword.Retain);
     }
-
+    
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Target == null) return;
@@ -32,11 +30,9 @@ public sealed class WindmillStrike : WatcherCardModel
             .Execute(choiceContext);
     }
 
-    public override Task AfterFlush(PlayerChoiceContext choiceContext, Player player,
-        IReadOnlyCollection<CardModel> flushedCards,
-        IReadOnlyCollection<CardModel> retainedCards)
+    public override Task AfterCardRetained(CardModel card)
     {
-        if (!retainedCards.Contains(this)) return Task.CompletedTask;
+        if (card != this) return Task.CompletedTask;
         DynamicVars.Damage.UpgradeValueBy(DynamicVars[RetainedIncreaseKey].BaseValue);
         return Task.CompletedTask;
     }

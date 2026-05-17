@@ -13,9 +13,7 @@ public sealed class BlasphemerPower : WatcherPowerModel
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext,
-        ICombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
     {
         if (player != Owner.Player)
             return;

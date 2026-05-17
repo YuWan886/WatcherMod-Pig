@@ -34,8 +34,18 @@ public static class StanceCmd
         return WatcherModel.SetStance<DivinityStance>(ctx, player, cardSource);
     }
 
+    public static Task EnterDivinity(CombatState combatState, Player player, CardModel? cardSource)
+    {
+        return WatcherModel.SetStance<DivinityStance>(combatState, player, cardSource);
+    }
+
     public static Task ExitStance(PlayerChoiceContext ctx, Player player, CardModel? cardSource)
     {
         return WatcherModel.SetStance<NoStance>(ctx, player, cardSource);
+    }
+    
+    public static Task ExitStance(CombatState combatState, Player player, CardModel? cardSource)
+    {
+        return WatcherModel.SetStance<NoStance>(combatState, player, cardSource);
     }
 }

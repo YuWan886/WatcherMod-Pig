@@ -29,7 +29,7 @@ public sealed class LessonLearned : WatcherCardModel
         var shouldTriggerFatal = cardPlay.Target.Powers.All(p => p.ShouldOwnerDeathTriggerFatal());
         var attackCommand = await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (!shouldTriggerFatal || !attackCommand.Results.Any(r => r.Any(g => g.WasTargetKilled)))
+        if (!shouldTriggerFatal || !attackCommand.Results.Any(r => r.WasTargetKilled))
             return;
         var upgradableCards = PileType.Deck.GetPile(Owner).Cards.Where(c => c.IsUpgradable).ToList();
         if (upgradableCards.Count > 0)

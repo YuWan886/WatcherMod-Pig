@@ -1,9 +1,7 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Watcher.Code.Abstract;
@@ -15,27 +13,22 @@ public sealed class EstablishmentPower : WatcherPowerModel
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-    [
-        HoverTipFactory.FromKeyword(CardKeyword.Retain)
-    ];
-
-
-    public override Task AfterFlush(PlayerChoiceContext choiceContext, Player player,
-        IReadOnlyCollection<CardModel> flushedCards,
-        IReadOnlyCollection<CardModel> retainedCards)
+    public override async Task AfterCardRetained(CardModel card)
     {
-        if (player.Creature != Owner) return Task.CompletedTask;
-        foreach (var card in retainedCards)
-            card.EnergyCost.AddThisCombat(-Amount);
-        return Task.CompletedTask;
+        if (card.Owner.Creature != Owner) return;
+        card.EnergyCost.AddThisCombat(-Amount);
+        await Task.CompletedTask;
     }
+
 
     public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
     {
         if (side != Owner.Side || Owner.Player == null) return;
         if (Owner.GetPower<RetainHandPower>() == null) return;
-        foreach (var card in PileType.Hand.GetPile(Owner.Player).Cards) card.EnergyCost.AddThisCombat(-Amount);
+        foreach (var card in PileType.Hand.GetPile(Owner.Player).Cards)
+        {
+            card.EnergyCost.AddThisCombat(-Amount);
+        }
         await Task.CompletedTask;
     }
 }

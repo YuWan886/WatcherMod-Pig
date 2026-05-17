@@ -1,6 +1,5 @@
 using YuWanCard.Core.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using Watcher.Code.Abstract;
@@ -12,7 +11,7 @@ namespace Watcher.Code.Cards.Uncommon;
 public sealed class Perseverance : WatcherCardModel
 {
     private const string IncreaseKey = "Increase";
-
+    
     public Perseverance() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
     {
         WithBlock(5, 2);
@@ -25,12 +24,11 @@ public sealed class Perseverance : WatcherCardModel
         await CommonActions.CardBlock(this, cardPlay);
     }
 
-    public override Task AfterFlush(PlayerChoiceContext choiceContext, Player player,
-        IReadOnlyCollection<CardModel> flushedCards,
-        IReadOnlyCollection<CardModel> retainedCards)
+    public override Task AfterCardRetained(CardModel card)
     {
-        if (!retainedCards.Contains(this)) return Task.CompletedTask;
-        DynamicVars.Block.UpgradeValueBy(DynamicVars[IncreaseKey].BaseValue);
+        if (card != this) return Task.CompletedTask;
+        DynamicVars.Block.UpgradeValueBy(DynamicVars[IncreaseKey].BaseValue);;
         return Task.CompletedTask;
     }
+    
 }
