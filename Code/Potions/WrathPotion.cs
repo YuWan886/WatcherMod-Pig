@@ -21,7 +21,7 @@ public class WrathPotion : WatcherPotionModel
 
     public override IEnumerable<IHoverTip> ExtraHoverTips =>
     [
-        WatcherHoverTipFactory.FromStance<WrathStance>(),
+        WatcherHoverTipFactory.FromStance<WrathStance>()
     ];
 
     protected override async Task OnUse(PlayerChoiceContext ctx, Creature? target)

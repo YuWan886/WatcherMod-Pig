@@ -6,5 +6,4 @@ namespace Watcher.Code.Events;
 public interface IOnScryed
 {
     Task OnScryed(PlayerChoiceContext ctx, Player player, int scryAmount, int discardAmount);
-
 }

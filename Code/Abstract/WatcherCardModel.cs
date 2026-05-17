@@ -16,14 +16,9 @@ public abstract class WatcherCardModel(
     bool shouldShowInCardLibrary = true)
     : YuWanCardModel(canonicalEnergyCost, type, rarity, targetType, shouldShowInCardLibrary)
 {
-    public sealed override string? CustomPortraitPath
-    {
-        get
-        {
-            var entry = Id.Entry.RemovePrefix();
-            return $"{entry.ToLowerInvariant()}.png".CardImagePath();
-        }
-    }
+    public sealed override string CustomPortraitPath =>
+        $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".CardImagePath();
+
 
     public WatcherCardModel WithStanceTip<T>() where T : WatcherStanceModel
     {

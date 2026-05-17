@@ -23,7 +23,7 @@ public sealed class Collect : WatcherCardModel
             return HoverTipFactory.FromCard(beam);
         }));
     }
-    
+
     protected override bool HasEnergyCostX => true;
 
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)

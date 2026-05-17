@@ -6,7 +6,7 @@ public static class StringExtensions
     {
         return $"res://{WatcherMainFile.ModId}/images/card_portraits/{path}";
     }
-    
+
     public static string PowerImagePath(this string path)
     {
         return $"res://{WatcherMainFile.ModId}/images/powers/{path}";

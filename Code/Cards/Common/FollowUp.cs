@@ -13,6 +13,7 @@ public sealed class FollowUp : WatcherCardModel
     public FollowUp() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
     {
         WithDamage(7, 4);
+        WithEnergy(1);
     }
 
     protected override bool ShouldGlowGoldInHand => WasLastCardPlayedAttack;

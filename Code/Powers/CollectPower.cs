@@ -16,11 +16,13 @@ public sealed class CollectPower : WatcherPowerModel
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext,
+        ICombatState combatState)
     {
         if (player != Owner.Player)
             return;
-        await WatcherCmd.GiveCard<Miracle>(Owner.Player, PileType.Hand, CardPilePosition.Top, upgraded: true, skipAnimation: true);
+        await WatcherCmd.GiveCard<Miracle>(Owner.Player, PileType.Hand, CardPilePosition.Top, upgraded: true,
+            skipAnimation: true);
         await PowerCmd.Decrement(this);
     }
 }

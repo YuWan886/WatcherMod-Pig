@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Powers;
@@ -15,7 +16,13 @@ public sealed class Damaru : WatcherRelicModel
     public override RelicRarity Rarity => RelicRarity.Common;
 
 
-    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+    protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+    [
+        HoverTipFactory.FromPower<MantraPower>()
+    ];
+
+    public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext,
+        ICombatState combatState)
     {
         if (player != Owner) return;
         await PowerCmd.Apply<MantraPower>(Owner.Creature, 1, Owner.Creature, null);

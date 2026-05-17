@@ -20,16 +20,16 @@ public sealed class Eruption : WatcherCardModel, ITranscendenceCard
         WithCostUpgradeBy(-1);
     }
 
+    public CardModel GetTranscendenceTransformedCard()
+    {
+        return ModelDb.Card<AncientCard2>();
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
         await CommonActions.CardAttack(this, cardPlay).WithHitFx("vfx/vfx_attack_slash")
             .Execute(ctx);
         await StanceCmd.EnterWrath(ctx, Owner, cardPlay.Card);
-    }
-
-    public CardModel GetTranscendenceTransformedCard()
-    {
-        return ModelDb.Card<AncientCard2>();
     }
 }

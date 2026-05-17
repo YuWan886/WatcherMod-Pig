@@ -21,26 +21,36 @@ public class WatcherHook
             ctx.PopModel(abstractModel);
         }
     }
-    
-    private static TResult Aggregate<T, TResult>(CombatState combatState, TResult seed,
+
+    private static TResult Aggregate<T, TResult>(ICombatState combatState, TResult seed,
         Func<T, TResult, TResult> action)
-        where T : class => 
-        combatState.IterateHookListeners().OfType<T>()
+        where T : class
+    {
+        return combatState.IterateHookListeners().OfType<T>()
             .Aggregate(seed, (current, model) => action(model, current));
+    }
 
 
-
-    public static Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
-        => Dispatch<IOnStanceChange>(ctx, player, m => m.OnStanceChange(ctx, player, oldStance, newStance));
+    public static Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
+        WatcherStanceModel newStance)
+    {
+        return Dispatch<IOnStanceChange>(ctx, player, m => m.OnStanceChange(ctx, player, oldStance, newStance));
+    }
 
     public static Task OnScryed(PlayerChoiceContext ctx, Player player, int amount, int discardedAmount)
-        => Dispatch<IOnScryed>(ctx, player, m => m.OnScryed(ctx, player, amount, discardedAmount));
-    
-    public static decimal ModifyCalmEnergyGain(CombatState cs, Player player, int baseAmount) =>
-        Aggregate<IModifyCalmEnergyGain, int>(cs, baseAmount,
-            (m, current) => m.ModifyCalmEnergyGain(player, current));
+    {
+        return Dispatch<IOnScryed>(ctx, player, m => m.OnScryed(ctx, player, amount, discardedAmount));
+    }
 
-    public static decimal ModifyWrathDamage(CombatState cs, Player player, decimal baseMultiplier) =>
-        Aggregate<IModifyWrathDamage, decimal>(cs, baseMultiplier,
+    public static decimal ModifyCalmEnergyGain(ICombatState cs, Player player, int baseAmount)
+    {
+        return Aggregate<IModifyCalmEnergyGain, int>(cs, baseAmount,
+            (m, current) => m.ModifyCalmEnergyGain(player, current));
+    }
+
+    public static decimal ModifyWrathDamage(ICombatState cs, Player player, decimal baseMultiplier)
+    {
+        return Aggregate<IModifyWrathDamage, decimal>(cs, baseMultiplier,
             (m, current) => m.ModifyWrathDamage(player, current));
+    }
 }

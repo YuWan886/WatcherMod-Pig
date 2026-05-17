@@ -11,9 +11,9 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <AssemblyVersion>1.4.3.0</AssemblyVersion>
-        <FileVersion>1.4.3.0</FileVersion>
-        <Version>1.4.3-pig</Version>
+        <AssemblyVersion>1.4.5.0</AssemblyVersion>
+        <FileVersion>1.4.5.0</FileVersion>
+        <Version>1.4.5</Version>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -43,8 +43,7 @@
     <PropertyGroup Condition="'$(IsWindows)' == 'true'">
         <GodotPath Condition="'$(GodotPath)' == ''">D:\Godot_v4.5.1-stable_mono_win64\Godot_v4.5.1-stable_mono_win64.exe</GodotPath>
         <!-- If on Windows and Slay the Spire 2 is not installed in your default steam library, adjust the following.-->
-        <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">F:/steam/steamapps</SteamLibraryPath>
-
+        <SteamLibraryPath Condition="'$(SteamLibraryPath)' == ''">D:/SteamLibrary/steamapps</SteamLibraryPath>
         <!-- The below should not need to be changed. -->
         <Sts2Path Condition="'$(Sts2Path)' == ''">$(SteamLibraryPath)/common/Slay the Spire 2</Sts2Path>
         <ModsPath Condition="'$(ModsPath)' == ''">$(Sts2Path)/mods/</ModsPath>
@@ -104,6 +103,11 @@
             <Private>false</Private>
         </Reference>
 
+        <PackageReference Include="Alchyr.Sts2.BaseLib" Version="3.1.3" PrivateAssets="All"/>
+        <!--Reference Include="BaseLib">
+            <HintPath>C:\Users\lamal\Desktop\Programmieren\sts2mods\BaseLib-StS2\publish\BaseLib.dll</HintPath>
+            <Private>false</Private>
+        </Reference-->
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All"/>
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="0.0.9"/>
         <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All"/>
@@ -113,7 +117,7 @@
         <ProjectReference Include="others\Sts2-YuWanCard-main\YuWanCard.csproj"/>
     </ItemGroup>
     <ItemGroup> <!--Allows access to originally private/protected members but may (unlikely to) cause errors.-->
-        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false" />
+        <Publicize Include="sts2" IncludeVirtualMembers="false" IncludeCompilerGeneratedMembers="false"/>
     </ItemGroup>
 
 
@@ -135,7 +139,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include=".editorconfig" />
+        <Content Include=".editorconfig"/>
     </ItemGroup>
 
 

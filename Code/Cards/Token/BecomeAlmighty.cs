@@ -19,5 +19,4 @@ public sealed class BecomeAlmighty : WishableWatcherCard
     {
         await CommonActions.ApplySelf<StrengthPower>(ctx, this);
     }
-    
 }

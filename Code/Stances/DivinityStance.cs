@@ -14,10 +14,11 @@ namespace Watcher.Code.Stances;
 public class DivinityStance : WatcherStanceModel
 {
     public override bool ShouldReceiveCombatHooks => true;
+
     protected override StanceVfxConfig VfxConfig => new(
-        AuraScenePath: "res://Watcher/scenes/watcher_mod/vfx/divinity_aura.tscn",
-        BodyTint: new Color(1.1f, 0.7f, 1.4f),
-        EnterSfxPath: "res://Watcher/audio/divinity_enter.ogg",
+        "res://Watcher/scenes/watcher_mod/vfx/divinity_aura.tscn",
+        new Color(1.1f, 0.7f, 1.4f),
+        "res://Watcher/audio/divinity_enter.ogg",
         AmbienceLoopPath: "res://Watcher/audio/divinity_loop.ogg",
         ScreenFlashColor: new Color(0.8f, 0.3f, 1f),
         ScreenShakeStrength: ShakeStrength.Strong
@@ -26,7 +27,7 @@ public class DivinityStance : WatcherStanceModel
     public override Task OnEnterStance(PlayerChoiceContext ctx, Player player, CardModel? source)
     {
         player.PlayerCombatState!.GainEnergy(3);
-        return base.OnEnterStance(ctx,player,source);
+        return base.OnEnterStance(ctx, player, source);
     }
 
     public override decimal ModifyDamageMultiplicative(

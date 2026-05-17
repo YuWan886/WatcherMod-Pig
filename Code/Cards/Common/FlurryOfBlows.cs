@@ -18,16 +18,17 @@ public sealed class FlurryOfBlows : WatcherCardModel, IOnStanceChange
         WithDamage(4, 2);
     }
 
+    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
+        WatcherStanceModel newStance)
+    {
+        if (newStance.Owner != Owner || Pile?.Type != PileType.Discard) return;
+        await CardPileCmd.Add(this, PileType.Hand);
+    }
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CommonActions.CardAttack(this, cardPlay)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-    }
-
-    public async Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance)
-    {
-        if (newStance.Owner != Owner || Pile?.Type != PileType.Discard) return;
-        await CardPileCmd.Add(this, PileType.Hand);
     }
 }

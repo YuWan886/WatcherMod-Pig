@@ -26,7 +26,7 @@ public class WatcherCmd
         CardCmd.PreviewCardPileAdd(result, animationTime, animationStyle);
         return card;
     }
-    
+
     public static async Task GiveCards<T>(Player player,
         int amount,
         PileType pileType,

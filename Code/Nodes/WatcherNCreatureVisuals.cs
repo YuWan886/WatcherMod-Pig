@@ -9,14 +9,14 @@ namespace Watcher.Code.Nodes;
 [GlobalClass]
 public partial class WatcherNCreatureVisuals : NCreatureVisuals
 {
+    private CreatureAnimator? _animator;
     private AnimationPlayer? _eyeAnimPlayer;
     private MegaBone? _eyeBone;
     private Node2D? _eyeNode;
     private bool _eyeSetupDone;
-    private AnimationNodeStateMachinePlayback? _playback;
-    private CreatureAnimator? _animator;
-    private CanvasItemMaterial? _premultMat;
     private Material? _oldMaterial;
+    private AnimationNodeStateMachinePlayback? _playback;
+    private CanvasItemMaterial? _premultMat;
 
     public override void _Ready()
     {
@@ -28,7 +28,7 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
         };
         SpineBody?.SetNormalMaterial(_premultMat);
         _body.Material = _premultMat;
-      
+
         GetTree().ProcessFrame += SetupEye;
         var animTree = GetNode<AnimationTree>("%AnimationTree");
         animTree.Active = true;
@@ -86,14 +86,15 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
                 break;
         }
     }
-    
+
     [HarmonyPatch(typeof(NCreature), nameof(NCreature.SetAnimationTrigger))]
-    static class HexaghostAnimationPatch
+    private static class HexaghostAnimationPatch
     {
         [HarmonyPrefix]
-        static bool MyAnimations(NCreature __instance, string trigger)
+        private static bool MyAnimations(NCreature __instance, string trigger)
         {
-            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals || __instance._spineAnimator == null) return true;
+            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals ||
+                __instance._spineAnimator == null) return true;
             hexVisuals._animator = __instance._spineAnimator;
             hexVisuals.OnAnimationTrigger(trigger);
             return false;
@@ -101,16 +102,16 @@ public partial class WatcherNCreatureVisuals : NCreatureVisuals
     }
 
     [HarmonyPatch(typeof(NCreature), nameof(NCreature.StartDeathAnim))]
-    static class HexaghostDeathAnimPatch
+    private static class HexaghostDeathAnimPatch
     {
         [HarmonyPrefix]
-        static bool MyDeathAnimation(NCreature __instance)
+        private static bool MyDeathAnimation(NCreature __instance)
         {
-            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals || __instance._spineAnimator == null) return true;
+            if (__instance.Visuals is not WatcherNCreatureVisuals hexVisuals ||
+                __instance._spineAnimator == null) return true;
             hexVisuals._animator = __instance._spineAnimator;
             hexVisuals.OnAnimationTrigger("Dead");
             return false;
         }
     }
 }
-

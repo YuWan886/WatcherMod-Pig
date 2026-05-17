@@ -12,11 +12,7 @@ public partial class WatcherNParticlesContainer : NParticlesContainer
         if (_particles != null && _particles.Count != 0) return;
         _particles = [];
         foreach (var child in GetChildren())
-        {
             if (child is GpuParticles2D particles)
-            {
                 _particles.Add(particles);
-            }
-        }
     }
 }

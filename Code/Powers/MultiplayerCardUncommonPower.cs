@@ -24,12 +24,7 @@ public class MultiplayerCardUncommonPower : WatcherPowerModel
     public override async Task BeforeHandDraw(Player player, PlayerChoiceContext ctx, CombatState combatState)
     {
         if (player.Creature != Owner) return;
-        if (player.IsInWatcherStance<CalmStance>())
-        {
-            await StanceCmd.ExitStance(ctx, player, null);
-        }
+        if (player.IsInWatcherStance<CalmStance>()) await StanceCmd.ExitStance(ctx, player, null);
         RemoveInternal();
     }
-    
-
 }

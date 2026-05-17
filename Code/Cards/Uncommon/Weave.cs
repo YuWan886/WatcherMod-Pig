@@ -34,6 +34,4 @@ public sealed class Weave : WatcherCardModel, IOnScryed
         if (cardPlay.Target == null) return;
         await CommonActions.CardAttack(this, cardPlay).Execute(choiceContext);
     }
-
-   
 }

@@ -1,12 +1,6 @@
-using YuWanCard.Core.Extensions;
-using YuWanCard.Core.Utils;
-using MegaCrit.Sts2.Core.Commands;
+﻿using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using Watcher.Code.Abstract;
 using Watcher.Code.Character;
 using Watcher.Code.Commands;
@@ -18,8 +12,6 @@ namespace Watcher.Code.Cards.Multiplayer;
 [Pool(typeof(WatcherCardPool))]
 public class MultiplayerCardUncommon : WatcherCardModel
 {
-    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-
     public MultiplayerCardUncommon() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.AllAllies)
     {
         WithPower<MultiplayerCardUncommonPower>(1);
@@ -27,16 +19,17 @@ public class MultiplayerCardUncommon : WatcherCardModel
         WithKeyword(CardKeyword.Exhaust, UpgradeType.Remove);
     }
 
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
+
     protected override async Task OnPlay(PlayerChoiceContext ctx, CardPlay cardPlay)
     {
-        if(CombatState ==null) return;
+        if (CombatState == null) return;
         var players = CombatState.PlayerCreatures.Where(c => c.IsAlive && c != Owner.Creature).ToList();
         await CommonActions.Apply<MultiplayerCardUncommonPower>(ctx, players, this, true);
-        foreach (var player in players.Select(e=>e.Player))
+        foreach (var player in players.Select(e => e.Player))
         {
             if (player == null) continue;
             await StanceCmd.EnterCalm(ctx, player, this);
         }
-        
     }
 }

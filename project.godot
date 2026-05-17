@@ -15,6 +15,10 @@ run/main_scene="uid://bq8au1jr08s6c"
 config/features=PackedStringArray("4.5", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[debug]
+
+settings/gdscript/always_track_call_stacks=true
+
 [display]
 
 window/size/viewport_width=1920

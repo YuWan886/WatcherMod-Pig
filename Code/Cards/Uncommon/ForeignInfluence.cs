@@ -18,6 +18,7 @@ public sealed class ForeignInfluence : WatcherCardModel
         WithKeywords(CardKeyword.Exhaust);
     }
 
+
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (Owner.Creature.CombatState == null) return;
@@ -29,7 +30,7 @@ public sealed class ForeignInfluence : WatcherCardModel
             .Where(c => c.Type == CardType.Attack)
             .GroupBy(c => c.Rarity)
             .ToDictionary(g => g.Key, g => g.ToList());
-        
+
         var weightedAttacks = new List<CardModel>();
         var seen = new HashSet<string>();
 

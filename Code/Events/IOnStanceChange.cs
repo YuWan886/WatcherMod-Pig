@@ -6,5 +6,6 @@ namespace Watcher.Code.Events;
 
 public interface IOnStanceChange
 {
-    Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance, WatcherStanceModel newStance);
+    Task OnStanceChange(PlayerChoiceContext ctx, Player player, WatcherStanceModel oldStance,
+        WatcherStanceModel newStance);
 }

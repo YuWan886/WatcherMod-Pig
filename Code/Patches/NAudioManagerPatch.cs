@@ -1,6 +1,7 @@
 ﻿using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.TestSupport;
 
 namespace Watcher.Code.Patches;
@@ -16,10 +17,14 @@ internal class NAudioManagerPatch
         if (!path.StartsWith("res://")) return true;
         var audioStream = GD.Load<AudioStream>(path);
         if (audioStream is null) return true;
+
+        var settings = SaveManager.Instance.SettingsSave;
+        // Todo check if this is right sound before release
         AudioStreamPlayer2D audioPlayer = new()
         {
             Bus = "SFX",
-            VolumeDb = Mathf.LinearToDb(volume * 7),
+            VolumeDb = 1,
+            VolumeLinear = settings.VolumeSfx * settings.VolumeMaster,
             Stream = GD.Load<AudioStream>(path)
         };
         __instance.GetTree().Root.AddChild(audioPlayer);

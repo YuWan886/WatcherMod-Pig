@@ -23,6 +23,7 @@ public sealed class SpiritShield : WatcherCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.IntValue * Calc(Owner), DynamicVars.Block.Props, cardPlay);
+        await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.IntValue * Calc(Owner), DynamicVars.Block.Props,
+            cardPlay);
     }
 }

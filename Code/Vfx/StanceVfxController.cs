@@ -87,14 +87,17 @@ public class StanceVfxController(StanceVfxConfig cfg)
         foreach (var child in _vfxInstance.GetChildren())
             switch (child)
             {
-                case WrathGlowSparkSpawner sparks:   sparks.StopSpawning();  break;
-                case CalmFrostStreakSpawner streaks:  streaks.StopSpawning(); break;
-                case DivinityEyeSpawner eyes:         eyes.StopSpawning();   break;
+                case WrathGlowSparkSpawner sparks: sparks.StopSpawning(); break;
+                case CalmFrostStreakSpawner streaks: streaks.StopSpawning(); break;
+                case DivinityEyeSpawner eyes: eyes.StopSpawning(); break;
                 case AuraBlobEmitter blob:
                     foreach (var cpu in blob.GetChildren().OfType<CpuParticles2D>())
                         cpu.Emitting = false;
                     var timer = blob.GetTree().CreateTimer(2.5f);
-                    timer.Timeout += () => { if (GodotObject.IsInstanceValid(blob)) blob.QueueFree(); };
+                    timer.Timeout += () =>
+                    {
+                        if (GodotObject.IsInstanceValid(blob)) blob.QueueFree();
+                    };
                     break;
             }
 
