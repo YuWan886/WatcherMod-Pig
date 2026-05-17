@@ -17,7 +17,7 @@ public sealed class CrushJoints : WatcherCardModel
         WithPower<VulnerablePower>(1, 1);
     }
 
-    protected override bool ShouldGlowGoldInternal => WasLastCardPlayedSkill;
+    protected override bool ShouldGlowGoldInHand => WasLastCardPlayedSkill;
 
     private bool WasLastCardPlayedSkill => CombatManager.Instance.History.CardPlaysStarted
         .LastOrDefault(e =>

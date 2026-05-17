@@ -16,7 +16,7 @@ public sealed class Sanctity : WatcherCardModel
         WithCards(2);
     }
 
-    protected override bool ShouldGlowGoldInternal => WasLastCardPlayedSkill;
+    protected override bool ShouldGlowGoldInHand => WasLastCardPlayedSkill;
 
     private bool WasLastCardPlayedSkill
     {

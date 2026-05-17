@@ -15,7 +15,7 @@ public sealed class FollowUp : WatcherCardModel
         WithDamage(7, 4);
     }
 
-    protected override bool ShouldGlowGoldInternal => WasLastCardPlayedAttack;
+    protected override bool ShouldGlowGoldInHand => WasLastCardPlayedAttack;
 
     private bool WasLastCardPlayedAttack
     {
